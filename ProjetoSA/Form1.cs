@@ -1,4 +1,7 @@
 namespace ProjetoSA;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 public partial class Formprinciapl : Form {
     public Formprinciapl() {
@@ -41,7 +44,7 @@ public partial class Formprinciapl : Form {
         //Label do insira detalhes
         Label InsiraDetalhes = new Label();
         InsiraDetalhes.Text = "Insira alguns Detalhes e comece sua jornada";
-        InsiraDetalhes.Left = 600;
+        InsiraDetalhes.Left = 590;
         InsiraDetalhes.Top = 300;
         InsiraDetalhes.AutoSize = true;
         InsiraDetalhes.Font = new Font("Arial", 10, FontStyle.Bold);
@@ -52,13 +55,30 @@ public partial class Formprinciapl : Form {
         //COntinuacao do insira detalhes
         Label Conosco = new Label();
         Conosco.Text = "conosco.";
-        Conosco.Left = 720;
+        Conosco.Left = 710;
         Conosco.Top = 315;
         Conosco.AutoSize = true;
         Conosco.Font = new Font("Arial", 10, FontStyle.Bold);
         Conosco.ForeColor = Color.White;
         Conosco.BackColor = Color.Transparent;
         this.Controls.Add(Conosco);
-
+        
+        //Botao do Registrar
+        Button BotaoRegistrar = new Button();
+        BotaoRegistrar.Text = "REGISTRAR";
+        BotaoRegistrar.AutoSize = true;
+        BotaoRegistrar.Left = 650;
+        BotaoRegistrar.Top = 350;
+        BotaoRegistrar.Font = new Font("Arial",20,FontStyle.Bold);
+        BotaoRegistrar.ForeColor = Color.White;
+        BotaoRegistrar.BackColor = Color.FromArgb(0, 171, 155);
+        BotaoRegistrar.FlatStyle = FlatStyle.Flat; //tira a borda azul quando o mouse passa por cima
+        BotaoRegistrar.FlatAppearance.BorderSize = 0; //tira a bora azul quando o mouse passa por cima
+        BotaoRegistrar.Click += (sender, e) => { }; //quando clicam no botao o ponteiro manda para a funcao
+        this.Controls.Add(BotaoRegistrar);
+        
+        
+        
     }
+    
 }
