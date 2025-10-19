@@ -196,6 +196,10 @@ public partial class Formprinciapl : Form {
         botaoConfirmar.FlatAppearance.BorderSize = 1;
         botaoConfirmar.Click += (sender, e) => {
             
+            // Pega os dados dos campos
+            string novoUsuario = campoNovoUsuario.Text;
+            string novaSenha = campoNovaSenha.Text;
+            
             // VERIFICA SE O CAMPO de usuario ESTÁ VAZIO
             if (string.IsNullOrWhiteSpace(campoNovoUsuario.Text)) {
                 MessageBox.Show("Por favor, preencha o campo Usuário!");
@@ -207,8 +211,7 @@ public partial class Formprinciapl : Form {
                 MessageBox.Show("Por favor, preencha o campo Senha!");
                 return; // Para a execução do clique aqui
             }
-
-
+            
             if (campoNovoUsuario.TextLength < 4) {
                 
                 MessageBox.Show("O seu usuario deve ter pelo menos 4 caracteres!");
@@ -222,13 +225,34 @@ public partial class Formprinciapl : Form {
                 return; // Para a execução
                 
             }
-            if (campoNovaSenha.Text == campoConfirmarSenha.Text) {
-                MessageBox.Show("Usuário registrado com sucesso!");
-                PainelRegistro.Visible = false;
-                PainelLogin.Visible = true;
-            }
-            else {
+            if (novaSenha != campoConfirmarSenha.Text) {
                 MessageBox.Show("As senhas não conferem!");
+                return;
+            }
+            string resultado = LeitorPlanilha.AdicionarUsuario(novoUsuario, novaSenha);
+            
+            switch (resultado) {
+                case "SUCESSO":
+                    MessageBox.Show("Usuário registrado com sucesso!");
+                    
+                    // Limpa os campos
+                    campoNovoUsuario.Text = "";
+                    campoNovaSenha.Text = "";
+                    campoConfirmarSenha.Text = "";
+                    
+                    // Volta para a tela de login
+                    PainelRegistro.Visible = false;
+                    PainelLogin.Visible = true;
+                    break;
+                
+                case "USUARIO_EXISTE":
+                    MessageBox.Show("Este nome de usuário já existe. Por favor, escolha outro.");
+                    break;
+                
+                case "ERRO_ARQUIVO":
+                    // A classe LeitorPlanilha já exibiu o MessageBox com o erro detalhado.
+                    // Não precisa fazer nada aqui.
+                    break;
             }
         };
         
