@@ -13,16 +13,16 @@ public partial class Formprinciapl : Form {
         this.Width = 1000;
         this.Height = 700;
         
-        //Limito o tamnho da tela
+            //Limito o tamnho da tela
         this.Size = new System.Drawing.Size(1000,700);
 
-        //impede o redimensionamento
+            //impede o redimensionamento
         this.FormBorderStyle = FormBorderStyle.FixedSingle;
 
-        //impede o usuario de maximar a tela
+            //impede o usuario de maximar a tela
         this.MaximizeBox = false;
 
-        //Centraliza a janela na tela
+            //Centraliza a janela na tela
         this.StartPosition = FormStartPosition.CenterScreen;
 
         this.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoDeTela.png");
@@ -30,7 +30,7 @@ public partial class Formprinciapl : Form {
         
         //INICIO DO CODIGO
         
-        //LAbel falando Bem Vindo
+            //LAbel falando Bem Vindo
         Label TextoOlaAmigo = new Label();
         TextoOlaAmigo.Text = "Olá, Amigo!";
         TextoOlaAmigo.Left = 650; //Define a posicao horizontal(vulgo X) do label dentro do forms
@@ -41,7 +41,7 @@ public partial class Formprinciapl : Form {
         TextoOlaAmigo.BackColor = Color.Transparent; //Deixa o fundo transparente
         this.Controls.Add(TextoOlaAmigo); // obviamente adiciona o label
 
-        //Label do insira detalhes
+            //Label do insira detalhes
         Label InsiraDetalhes = new Label();
         InsiraDetalhes.Text = "Insira alguns Detalhes e comece sua jornada";
         InsiraDetalhes.Left = 590;
@@ -52,7 +52,7 @@ public partial class Formprinciapl : Form {
         InsiraDetalhes.BackColor = Color.Transparent;
         this.Controls.Add(InsiraDetalhes);
         
-        //COntinuacao do insira detalhes
+            //COntinuacao do insira detalhes
         Label Conosco = new Label();
         Conosco.Text = "conosco.";
         Conosco.Left = 710;
@@ -63,7 +63,7 @@ public partial class Formprinciapl : Form {
         Conosco.BackColor = Color.Transparent;
         this.Controls.Add(Conosco);
         
-        //Botao do Registrar
+            //Botao do Registrar
         Button BotaoRegistrar = new Button();
         BotaoRegistrar.Text = "REGISTRAR";
         BotaoRegistrar.AutoSize = true;
@@ -74,11 +74,40 @@ public partial class Formprinciapl : Form {
         BotaoRegistrar.BackColor = Color.FromArgb(0, 171, 155);
         BotaoRegistrar.FlatStyle = FlatStyle.Flat; //tira a borda azul quando o mouse passa por cima
         BotaoRegistrar.FlatAppearance.BorderSize = 0; //tira a bora azul quando o mouse passa por cima
+        BotaoRegistrar.FlatAppearance.BorderColor = Color.White;
+        BotaoRegistrar.FlatAppearance.BorderSize = 1;
         BotaoRegistrar.Click += (sender, e) => { }; //quando clicam no botao o ponteiro manda para a funcao
         this.Controls.Add(BotaoRegistrar);
+
+            //Entrar no sistema
+        Label Entrar_NoSistema = new Label();
+        Entrar_NoSistema.Text = "ENTRAR NO SISTEMA";
+        Entrar_NoSistema.Left = 70;
+        Entrar_NoSistema.Top = 200;
+        Entrar_NoSistema.AutoSize = true;
+        Entrar_NoSistema.Font = new Font("Arial",24,FontStyle.Bold);
+        Entrar_NoSistema.ForeColor =  Color.FromArgb(0, 171, 155);
+        Entrar_NoSistema.BackColor = Color.Transparent;
+        this.Controls.Add(Entrar_NoSistema);
         
+        //Campo de texto
+        TextBox CampoUsuario = new TextBox();
+        CampoUsuario.Name = "campousuario";
+        CampoUsuario.Location = new Point(120, 280);
+        CampoUsuario.Size = new Size(250, 30);
+        CampoUsuario.Font = new Font("Arial", 20);
+        CampoUsuario.PlaceholderText = "Usuário";
+        CampoUsuario.TextAlign = HorizontalAlignment.Center;
+        this.Controls.Add(CampoUsuario);
         
-        
+        //campodetexto senha
+        TextBox CampoSenha = new TextBox();
+        CampoSenha.Name = "camposenha";
+        CampoSenha.Location = new Point(120, 330);
+        CampoSenha.Size = new Size(250, 30);
+        CampoSenha.Font = new Font("Arial", 20);
+        CampoSenha.PlaceholderText = "Senha";
+        CampoSenha.TextAlign = HorizontalAlignment.Center;
+        this.Controls.Add(CampoSenha);
     }
-    
 }
