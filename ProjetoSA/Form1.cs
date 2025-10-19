@@ -96,7 +96,7 @@ public partial class Formprinciapl : Form {
             
         TextBox CampoUsuario = new TextBox();
         CampoUsuario.Name = "campousuario";
-        CampoUsuario.Location = new Point(120, 280);
+        CampoUsuario.Location = new Point(120, 250);
         CampoUsuario.Size = new Size(250, 30);
         CampoUsuario.Font = new Font("Arial", 20);
         CampoUsuario.PlaceholderText = "Usuário";
@@ -105,7 +105,7 @@ public partial class Formprinciapl : Form {
             
         TextBox CampoSenha = new TextBox();
         CampoSenha.Name = "camposenha";
-        CampoSenha.Location = new Point(120, 330);
+        CampoSenha.Location = new Point(120, 300);
         CampoSenha.Size = new Size(250, 30);
         CampoSenha.Font = new Font("Arial", 20);
         CampoSenha.PlaceholderText = "Senha";
@@ -114,7 +114,7 @@ public partial class Formprinciapl : Form {
             
         Button BotaoEsqueceuSenha = new Button();
         BotaoEsqueceuSenha.Text = "Esqueceu sua senha?";
-        BotaoEsqueceuSenha.Location = new Point(160, 380);
+        BotaoEsqueceuSenha.Location = new Point(160, 340);
         BotaoEsqueceuSenha.AutoSize = true;
         BotaoEsqueceuSenha.Font = new Font("Arial", 10, FontStyle.Bold);
         BotaoEsqueceuSenha.ForeColor = Color.FromArgb(0, 171, 155);
@@ -127,7 +127,7 @@ public partial class Formprinciapl : Form {
         Button BotaoEntrar = new Button();
         BotaoEntrar.Text = "ENTRAR";
         BotaoEntrar.AutoSize = true;
-        BotaoEntrar.Location = new Point(175, 410);
+        BotaoEntrar.Location = new Point(175, 370);
         BotaoEntrar.Font = new Font("Arial", 20, FontStyle.Bold);
         BotaoEntrar.ForeColor = Color.FromArgb(0, 171, 155);
         BotaoEntrar.FlatStyle = FlatStyle.Flat;
@@ -195,6 +195,33 @@ public partial class Formprinciapl : Form {
         botaoConfirmar.FlatStyle = FlatStyle.Flat;
         botaoConfirmar.FlatAppearance.BorderSize = 1;
         botaoConfirmar.Click += (sender, e) => {
+            
+            // VERIFICA SE O CAMPO de usuario ESTÁ VAZIO
+            if (string.IsNullOrWhiteSpace(campoNovoUsuario.Text)) {
+                MessageBox.Show("Por favor, preencha o campo Usuário!");
+                return; // Para a execução do clique aqui
+            }
+
+            //VERIFICA SE O CAMPO DE SENHA ESTÁ VAZIO
+            if (string.IsNullOrWhiteSpace(campoNovaSenha.Text)) {
+                MessageBox.Show("Por favor, preencha o campo Senha!");
+                return; // Para a execução do clique aqui
+            }
+
+
+            if (campoNovoUsuario.TextLength < 4) {
+                
+                MessageBox.Show("O seu usuario deve ter pelo menos 4 caracteres!");
+                return; // Para a execução
+                
+            }
+            
+            if (campoNovaSenha.TextLength < 8) {
+                
+                MessageBox.Show("A senha deve ter pelo menos 8 caracteres!");
+                return; // Para a execução
+                
+            }
             if (campoNovaSenha.Text == campoConfirmarSenha.Text) {
                 MessageBox.Show("Usuário registrado com sucesso!");
                 PainelRegistro.Visible = false;
