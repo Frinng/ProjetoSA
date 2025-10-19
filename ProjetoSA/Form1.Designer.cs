@@ -1,6 +1,6 @@
 ﻿namespace ProjetoSA;
 
-partial class Form1
+partial class Formprinciapl
 {
     /// <summary>
     ///  Required designer variable.
