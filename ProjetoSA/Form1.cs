@@ -3,20 +3,22 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 
-public partial class Formprinciapl : Form {
+public partial class Formprinciapl : Form
+{
 
     public Panel PainelRegistro;
     public Panel PainelLogin;
+    public Panel Temp;
     
     public  Formprinciapl() {
             InitializeComponent();
             this.DoubleBuffered = true;
             
             this.Text = "Menu Principal";
-            this.Width = 1000;
-            this.Height = 700;
+            this.Width = 900;
+            this.Height = 600;
             
-            this.Size = new System.Drawing.Size(1000,700);
+            this.Size = new System.Drawing.Size(1200,675);
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -35,22 +37,22 @@ public partial class Formprinciapl : Form {
         PainelLogin.Name = "PainelLogin";
         PainelLogin.Size = this.ClientSize;
         PainelLogin.Location = new Point(0, 0);
-        PainelLogin.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoDeTela.png");
+        PainelLogin.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\ImagemLogin.png");
         PainelLogin.BackgroundImageLayout = ImageLayout.Stretch;
         PainelLogin.Visible = true;
         
         Label TextoOlaAmigo = new Label();
         TextoOlaAmigo.Text = "Olá, Amigo!";
-        TextoOlaAmigo.Location = new Point(650, 200);
+        TextoOlaAmigo.Location = new Point(790, 200);
         TextoOlaAmigo.AutoSize = true;
-        TextoOlaAmigo.Font = new Font("Arial",24, FontStyle.Bold);
+        TextoOlaAmigo.Font = new Font("Arial",20, FontStyle.Bold);
         TextoOlaAmigo.ForeColor = Color.White;
         TextoOlaAmigo.BackColor = Color.Transparent; 
         PainelLogin.Controls.Add(TextoOlaAmigo); 
 
         Label InsiraDetalhes = new Label();
         InsiraDetalhes.Text = "Insira alguns Detalhes e comece sua jornada";
-        InsiraDetalhes.Location = new Point(590,240);
+        InsiraDetalhes.Location = new Point(724,230);
         InsiraDetalhes.AutoSize = true;
         InsiraDetalhes.Font = new Font("Arial", 10, FontStyle.Bold);
         InsiraDetalhes.ForeColor = Color.White;
@@ -59,7 +61,7 @@ public partial class Formprinciapl : Form {
             
         Label Conosco = new Label();
         Conosco.Text = "conosco.";
-        Conosco.Location = new Point(710, 260);
+        Conosco.Location = new Point(835, 245);
         Conosco.AutoSize = true;
         Conosco.Font = new Font("Arial", 10, FontStyle.Bold);
         Conosco.ForeColor = Color.White;
@@ -69,7 +71,7 @@ public partial class Formprinciapl : Form {
         Button BotaoRegistrar = new Button();
         BotaoRegistrar.Text = "REGISTRAR";
         BotaoRegistrar.AutoSize = true;
-        BotaoRegistrar.Location = new Point(650, 290);
+        BotaoRegistrar.Location = new Point(780, 270);
         BotaoRegistrar.Font = new Font("Arial",20,FontStyle.Bold);
         BotaoRegistrar.ForeColor = Color.White;
         BotaoRegistrar.BackColor = Color.FromArgb(0, 171, 155);
@@ -86,17 +88,16 @@ public partial class Formprinciapl : Form {
 
         Label Entrar_NoSistema = new Label();
         Entrar_NoSistema.Text = "ENTRAR NO SISTEMA";
-        Entrar_NoSistema.Left = 70;
-        Entrar_NoSistema.Top = 200;
+        Entrar_NoSistema.Location = new Point(130,200);
         Entrar_NoSistema.AutoSize = true;
-        Entrar_NoSistema.Font = new Font("Arial",24,FontStyle.Bold);
+        Entrar_NoSistema.Font = new Font("Arial",20,FontStyle.Bold);
         Entrar_NoSistema.ForeColor =  Color.FromArgb(0, 171, 155);
         Entrar_NoSistema.BackColor = Color.Transparent;
         PainelLogin.Controls.Add(Entrar_NoSistema);
             
         TextBox CampoUsuario = new TextBox();
         CampoUsuario.Name = "campousuario";
-        CampoUsuario.Location = new Point(120, 250);
+        CampoUsuario.Location = new Point(160, 240);
         CampoUsuario.Size = new Size(250, 30);
         CampoUsuario.Font = new Font("Arial", 20);
         CampoUsuario.PlaceholderText = "Usuário";
@@ -105,7 +106,7 @@ public partial class Formprinciapl : Form {
             
         TextBox CampoSenha = new TextBox();
         CampoSenha.Name = "camposenha";
-        CampoSenha.Location = new Point(120, 300);
+        CampoSenha.Location = new Point(160, 285);
         CampoSenha.Size = new Size(250, 30);
         CampoSenha.Font = new Font("Arial", 20);
         CampoSenha.PlaceholderText = "Senha";
@@ -113,8 +114,8 @@ public partial class Formprinciapl : Form {
         PainelLogin.Controls.Add(CampoSenha);
             
         Button BotaoEsqueceuSenha = new Button();
-        BotaoEsqueceuSenha.Text = "Esqueceu sua senha?";
-        BotaoEsqueceuSenha.Location = new Point(160, 340);
+        BotaoEsqueceuSenha.Text = "Esqueceusuasenha?";
+        BotaoEsqueceuSenha.Location = new Point(205, 320);
         BotaoEsqueceuSenha.AutoSize = true;
         BotaoEsqueceuSenha.Font = new Font("Arial", 10, FontStyle.Bold);
         BotaoEsqueceuSenha.ForeColor = Color.FromArgb(0, 171, 155);
@@ -127,14 +128,32 @@ public partial class Formprinciapl : Form {
         Button BotaoEntrar = new Button();
         BotaoEntrar.Text = "ENTRAR";
         BotaoEntrar.AutoSize = true;
-        BotaoEntrar.Location = new Point(175, 370);
+        BotaoEntrar.Location = new Point(215, 350);
         BotaoEntrar.Font = new Font("Arial", 20, FontStyle.Bold);
         BotaoEntrar.ForeColor = Color.FromArgb(0, 171, 155);
         BotaoEntrar.FlatStyle = FlatStyle.Flat;
         BotaoEntrar.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
         BotaoEntrar.BackColor = Color.White;
         BotaoEntrar.FlatAppearance.BorderSize = 1;
-        BotaoEntrar.Click += (sender, e) => { };
+        BotaoEntrar.Click += (sender, e) => {
+
+            string usuario = CampoSenha.Text;
+            string senha = CampoSenha.Text;
+            
+            if (string.IsNullOrWhiteSpace(CampoUsuario.Text)) {
+                MessageBox.Show("Por favor, Digite seu Usuário!");
+                return; // Para a execução do clique aqui
+            }
+
+            //VERIFICA SE O CAMPO DE SENHA ESTÁ VAZIO
+            if (string.IsNullOrWhiteSpace(CampoSenha.Text)) {
+                MessageBox.Show("Por favor, Digite sua Senha!");
+                return; // Para a execução do clique aqui
+            }
+            
+            
+            
+        };
         PainelLogin.Controls.Add(BotaoEntrar);
         
         // CORREÇÃO: Adicione o PainelLogin ao Form
@@ -147,7 +166,9 @@ public partial class Formprinciapl : Form {
         PainelRegistro.Name = "PainelRegistro";
         PainelRegistro.Size = this.ClientSize;
         PainelRegistro.Location = new Point(0, 0);
-        PainelRegistro.BackColor = Color.FromArgb(0, 171, 155);
+        PainelRegistro.Location = new Point(0, 0);
+        PainelRegistro.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+        PainelRegistro.BackgroundImageLayout = ImageLayout.Stretch;
         
         // CORREÇÃO: O painel de registro deve começar invisível.
         PainelRegistro.Visible = false;
@@ -158,7 +179,7 @@ public partial class Formprinciapl : Form {
         labelTituloRegistro.Font = new Font("Arial", 28, FontStyle.Bold);
         labelTituloRegistro.AutoSize = true;
         labelTituloRegistro.BackColor = Color.Transparent;
-        labelTituloRegistro.ForeColor = Color.White;
+        labelTituloRegistro.ForeColor = Color.FromArgb(0, 171, 155);
         PainelRegistro.Controls.Add(labelTituloRegistro); 
 
         TextBox campoNovoUsuario = new TextBox();
@@ -190,8 +211,8 @@ public partial class Formprinciapl : Form {
         botaoConfirmar.Location = new Point(350, 370);
         botaoConfirmar.Size = new Size(300, 50);
         botaoConfirmar.Font = new Font("Arial", 16, FontStyle.Bold);
-        botaoConfirmar.BackColor = Color.FromArgb(0, 171, 155);
-        botaoConfirmar.ForeColor = Color.White;
+        botaoConfirmar.BackColor = Color.White;
+        botaoConfirmar.ForeColor = Color.FromArgb(0, 171, 155);
         botaoConfirmar.FlatStyle = FlatStyle.Flat;
         botaoConfirmar.FlatAppearance.BorderSize = 1;
         botaoConfirmar.Click += (sender, e) => {
@@ -266,8 +287,8 @@ public partial class Formprinciapl : Form {
         botaoVoltar.AutoSize = true;
         botaoVoltar.FlatStyle = FlatStyle.Flat;
         botaoVoltar.FlatAppearance.BorderSize = 0;
-        botaoVoltar.BackColor = Color.FromArgb(0, 171, 155);
-        botaoVoltar.ForeColor = Color.White;
+        botaoVoltar.BackColor = Color.White;
+        botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
         botaoVoltar.Click += (sender, e) => {
             PainelRegistro.Visible = false;
             PainelLogin.Visible = true;
@@ -277,8 +298,10 @@ public partial class Formprinciapl : Form {
         this.Controls.Add(PainelRegistro);
         
         PainelRegistro.BringToFront(); 
+        
+    }
 
-        // CORREÇÃO: Alterne a visibilidade, não recrie o painel.
+    public void MenuTemp() {
         
     }
 }
