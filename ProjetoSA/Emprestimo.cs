@@ -28,14 +28,11 @@ namespace ProjetoSA
                 // Pula o cabeçalho (Skip(1)) e lê apenas as linhas usadas
                 foreach (var linha in Planilha.RowsUsed().Skip(1)) {
                     
-                    // --- CORREÇÃO DE LEITURA ---
-                    // Tenta ler o Item. Se falhar, 'item' será 0.
                     int item;
                     linha.Cell(1).TryGetValue(out item);
 
                     string descri = linha.Cell(2).GetValue<string>();
-
-                    // Tenta ler a Quantidade. Se falhar (célula vazia), 'quantidade' será 0.
+                    
                     int quantidade;
                     if (!linha.Cell(3).TryGetValue(out quantidade)) {
                         quantidade = 0;
@@ -45,15 +42,11 @@ namespace ProjetoSA
                     string estado = linha.Cell(5).GetValue<string>();
                     string local = linha.Cell(6).GetValue<string>();
                     string codigo = linha.Cell(7).GetValue<string>();
-                    // --- FIM DA CORREÇÃO ---
 
 
-                    // --- FILTRO DE DISPONÍVEIS ---
-                    // Só adiciona a linha na tabela se a quantidade for maior que 0
                     if (quantidade > 0) {
                         tabela.Rows.Add(item, descri, quantidade, marca, estado, local, codigo);
                     }
-                    // --- FIM DO FILTRO ---
                 }
             }
 
