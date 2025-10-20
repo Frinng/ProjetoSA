@@ -404,10 +404,56 @@ public partial class Formprinciapl : Form {
         MEmprestimoPrinc.BackgroundImageLayout = ImageLayout.Stretch;
         MEmprestimoPrinc.Visible = false;
         
+        Button BotaoPegarEmprestimo = new Button();
+        BotaoPegarEmprestimo.Text = "ENTRAR";
+        BotaoPegarEmprestimo.AutoSize = true;
+        BotaoPegarEmprestimo.Location = new Point(410, 180);
+        BotaoPegarEmprestimo.Font = new Font("Arial", 20, FontStyle.Bold);
+        BotaoPegarEmprestimo.ForeColor = Color.FromArgb(0, 171, 155);
+        BotaoPegarEmprestimo.FlatStyle = FlatStyle.Flat;
+        BotaoPegarEmprestimo.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
+        BotaoPegarEmprestimo.BackColor = Color.White;
+        BotaoPegarEmprestimo.FlatAppearance.BorderSize = 1;
+        BotaoPegarEmprestimo.Click += (sender, e) => {
+            tabelaEstoque.DataSource = MostrarPlanilha.LerPlanilhas();
+            Temp.Visible = false;
+            VerPlanilha.Visible = true;
+        };
+        MEmprestimoPrinc.Controls.Add(BotaoPegarEmprestimo);
+        
+        Button BotaoDevolverEmprestimo = new Button();
+        BotaoPegarEmprestimo.Text = "ENTRAR";
+        BotaoPegarEmprestimo.AutoSize = true;
+        BotaoPegarEmprestimo.Location = new Point(410, 240);
+        BotaoPegarEmprestimo.Font = new Font("Arial", 20, FontStyle.Bold);
+        BotaoPegarEmprestimo.ForeColor = Color.FromArgb(0, 171, 155);
+        BotaoPegarEmprestimo.FlatStyle = FlatStyle.Flat;
+        BotaoPegarEmprestimo.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
+        BotaoPegarEmprestimo.BackColor = Color.White;
+        BotaoPegarEmprestimo.FlatAppearance.BorderSize = 1;
+        BotaoPegarEmprestimo.Click += (sender, e) => {
+            tabelaEstoque.DataSource = MostrarPlanilha.LerPlanilhas();
+            Temp.Visible = false;
+            VerPlanilha.Visible = true;
+        };
+        MEmprestimoPrinc.Controls.Add(BotaoPegarEmprestimo);
         
         
         
-        
+        Button botaoVoltar = new Button();
+        botaoVoltar.Text = "Voltar";
+        botaoVoltar.Location = new Point(20, 20);
+        botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+        botaoVoltar.AutoSize = true;
+        botaoVoltar.FlatStyle = FlatStyle.Flat;
+        botaoVoltar.FlatAppearance.BorderSize = 0;
+        botaoVoltar.BackColor = Color.White;
+        botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
+        botaoVoltar.Click += (sender, e) => {
+            
+        };
+        MEmprestimoPrinc.Controls.Add(botaoVoltar);
+        this.Controls.Add(VerPlanilha);
     }
     
 }
