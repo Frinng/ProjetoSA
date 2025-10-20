@@ -430,7 +430,6 @@ public partial class Formprinciapl : Form {
         MEmprestimoPrinc.Visible = false;
         
         
-        
         Label labelMenuEmp = new Label();
         labelMenuEmp.Text = "Menu De Emprestimo";
         labelMenuEmp.Location = new Point(370, 100);
@@ -443,7 +442,7 @@ public partial class Formprinciapl : Form {
         //Botao de mostrar ferramentas disponiveis
         Button MostrarFerramentas = new Button();
         MostrarFerramentas.Text = "Ferramentas";
-        MostrarFerramentas.Size = new Size(240, 30);
+        MostrarFerramentas.Size = new Size(240, 40);
         MostrarFerramentas.Location = new Point(460, 160);
         MostrarFerramentas.Font = new Font("Arial", 20, FontStyle.Bold);
         MostrarFerramentas.ForeColor = Color.FromArgb(0, 171, 155);
@@ -465,8 +464,8 @@ public partial class Formprinciapl : Form {
         //botao de pegar emprestado
         Button BotaoPegarEmprestimo = new Button();
         BotaoPegarEmprestimo.Text = "PEGAR";
-        BotaoPegarEmprestimo.Size = new Size(240, 30);
-        BotaoPegarEmprestimo.Location = new Point(460, 200);
+        BotaoPegarEmprestimo.Size = new Size(240, 40);
+        BotaoPegarEmprestimo.Location = new Point(460, 210);
         BotaoPegarEmprestimo.Font = new Font("Arial", 20, FontStyle.Bold);
         BotaoPegarEmprestimo.ForeColor = Color.FromArgb(0, 171, 155);
         BotaoPegarEmprestimo.FlatStyle = FlatStyle.Flat;
@@ -485,7 +484,7 @@ public partial class Formprinciapl : Form {
         //botao de devolver ferramenta
         Button BotaoDevolverEmprestimo = new Button();
         BotaoDevolverEmprestimo.Text = "DEVOLVER";
-        BotaoDevolverEmprestimo.Size = new Size(240, 30);
+        BotaoDevolverEmprestimo.Size = new Size(240, 40);
         BotaoDevolverEmprestimo.Location = new Point(460, 260);
         BotaoDevolverEmprestimo.Font = new Font("Arial", 20, FontStyle.Bold);
         BotaoDevolverEmprestimo.ForeColor = Color.FromArgb(0, 171, 155);
