@@ -7,7 +7,7 @@ public partial class Formprinciapl : Form {
 
     public Panel PainelRegistro;
     public Panel PainelLogin;
-    public Panel Temp;
+    public Panel ADM;
     public Panel VerPlanilha;
     private DataGridView tabelaEstoque;
     public Panel Menuprincipal;
@@ -32,13 +32,14 @@ public partial class Formprinciapl : Form {
 
         CriarPainelLogin();
         CriarPainelRegistro();
-        MenuTemp();
+        MenuADM();
         Ver_Planilha();
+        Menu_EmprestimoPrinci();
         this.Controls.Add(PainelLogin);
         this.Controls.Add(PainelRegistro);
-        this.Controls.Add(Temp);
+        this.Controls.Add(ADM);
         this.Controls.Add(VerPlanilha);
-
+        this.Controls.Add(MEmprestimoPrinc);
         PainelLogin.BringToFront();
     }
 
@@ -122,18 +123,6 @@ public partial class Formprinciapl : Form {
         CampoSenha.UseSystemPasswordChar = true;
         PainelLogin.Controls.Add(CampoSenha);
 
-        Button BotaoEsqueceuSenha = new Button();
-        BotaoEsqueceuSenha.Text = "Esqueceusuasenha?";
-        BotaoEsqueceuSenha.Location = new Point(205, 320);
-        BotaoEsqueceuSenha.AutoSize = true;
-        BotaoEsqueceuSenha.Font = new Font("Arial", 10, FontStyle.Bold);
-        BotaoEsqueceuSenha.ForeColor = Color.FromArgb(0, 171, 155);
-        BotaoEsqueceuSenha.BackColor = Color.White;
-        BotaoEsqueceuSenha.FlatStyle = FlatStyle.Flat;
-        BotaoEsqueceuSenha.FlatAppearance.BorderColor = Color.White;
-        BotaoEsqueceuSenha.Click += (sender, e) => { };
-        PainelLogin.Controls.Add(BotaoEsqueceuSenha);
-
         Button BotaoEntrar = new Button();
         BotaoEntrar.Text = "ENTRAR";
         BotaoEntrar.AutoSize = true;
@@ -164,7 +153,9 @@ public partial class Formprinciapl : Form {
                 case "SUCESSO":
                     MessageBox.Show("Login realizado com sucesso!");
                     PainelLogin.Visible = false;
-                    Temp.Visible = true;
+                    
+                    
+                    
                     break;
 
                 case "ADMIN":
@@ -172,7 +163,7 @@ public partial class Formprinciapl : Form {
                     CampoSenha.Clear();
                     MessageBox.Show("Bem-vindo, Administrador!");
                     PainelLogin.Visible = false;
-                    Temp.Visible = true;
+                    ADM.Visible = true;
                     break;
 
                 case "FALHA":
@@ -313,19 +304,30 @@ public partial class Formprinciapl : Form {
 
     }
     
-    public void MenuTemp() {
-        Temp = new Panel();
-        Temp.Name = "Temporario";
-        Temp.Size = this.ClientSize;
-        Temp.Location = new Point(0, 0);
-        Temp.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
-        Temp.BackgroundImageLayout = ImageLayout.Stretch;
-        Temp.Visible = false;
+    public void MenuADM() {
+        ADM = new Panel();
+        ADM.Name = "Temporario";
+        ADM.Size = this.ClientSize;
+        ADM.Location = new Point(0, 0);
+        ADM.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+        ADM.BackgroundImageLayout = ImageLayout.Stretch;
+        ADM.Visible = false;
 
+        
+        Label labelMenuADM = new Label();
+        labelMenuADM.Text = "Menu Principal";
+        labelMenuADM.Location = new Point(450, 100);
+        labelMenuADM.Font = new Font("Arial", 28, FontStyle.Bold);
+        labelMenuADM.AutoSize = true;
+        labelMenuADM.BackColor = Color.Transparent;
+        labelMenuADM.ForeColor = Color.FromArgb(0, 171, 155);
+        ADM.Controls.Add(labelMenuADM);
+        
+        
         Button BotaoEntrar = new Button();
-        BotaoEntrar.Text = "ENTRAR";
-        BotaoEntrar.AutoSize = true;
-        BotaoEntrar.Location = new Point(215, 350);
+        BotaoEntrar.Text = "Ver Estoque";
+        BotaoEntrar.Size = new Size(230, 40);
+        BotaoEntrar.Location = new Point(480, 180);
         BotaoEntrar.Font = new Font("Arial", 20, FontStyle.Bold);
         BotaoEntrar.ForeColor = Color.FromArgb(0, 171, 155);
         BotaoEntrar.FlatStyle = FlatStyle.Flat;
@@ -334,10 +336,29 @@ public partial class Formprinciapl : Form {
         BotaoEntrar.FlatAppearance.BorderSize = 1;
         BotaoEntrar.Click += (sender, e) => {
             tabelaEstoque.DataSource = MostrarPlanilha.LerPlanilhas();
-            Temp.Visible = false;
+            ADM.Visible = false;
             VerPlanilha.Visible = true;
         };
-        Temp.Controls.Add(BotaoEntrar);
+        ADM.Controls.Add(BotaoEntrar);
+        
+        
+        Button BotaoMenuFerra = new Button();
+        BotaoMenuFerra.Text = "Emprestimo";
+        BotaoMenuFerra.Size = new Size(230, 40);
+        BotaoMenuFerra.Location = new Point(480, 240);
+        BotaoMenuFerra.Font = new Font("Arial", 20, FontStyle.Bold);
+        BotaoMenuFerra.ForeColor = Color.FromArgb(0, 171, 155);
+        BotaoMenuFerra.FlatStyle = FlatStyle.Flat;
+        BotaoMenuFerra.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
+        BotaoMenuFerra.BackColor = Color.White;
+        BotaoMenuFerra.FlatAppearance.BorderSize = 1;
+        BotaoMenuFerra.Click += (sender, e) => {
+            ADM.Visible = false;
+            MEmprestimoPrinc.Visible = true;
+        };
+        ADM.Controls.Add(BotaoMenuFerra);
+        
+        
 
         Button botaoVoltar = new Button();
         botaoVoltar.Text = "Voltar";
@@ -349,10 +370,10 @@ public partial class Formprinciapl : Form {
         botaoVoltar.BackColor = Color.White;
         botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
         botaoVoltar.Click += (sender, e) => {
-            Temp.Visible = false;
+            ADM.Visible = false;
             PainelLogin.Visible = true;
         };
-        Temp.Controls.Add(botaoVoltar);
+        ADM.Controls.Add(botaoVoltar);
     }
 
     public void Ver_Planilha() {
@@ -391,7 +412,7 @@ public partial class Formprinciapl : Form {
         botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
         botaoVoltar.Click += (sender, e) => {
             VerPlanilha.Visible = false;
-            PainelLogin.Visible = true;
+            ADM.Visible = true;
         };
         VerPlanilha.Controls.Add(botaoVoltar);
         this.Controls.Add(VerPlanilha);
@@ -421,7 +442,7 @@ public partial class Formprinciapl : Form {
         MostrarFerramentas.FlatAppearance.BorderSize = 1;
         MostrarFerramentas.Click += (sender, e) => {
             tabelaFerramentas.DataSource = Emprestimo.LerPlanilhas();
-            Temp.Visible = false;
+            
             VerPlanilha.Visible = true;
         };
         MEmprestimoPrinc.Controls.Add(MostrarFerramentas);
@@ -443,7 +464,7 @@ public partial class Formprinciapl : Form {
         BotaoPegarEmprestimo.FlatAppearance.BorderSize = 1;
         BotaoPegarEmprestimo.Click += (sender, e) => {
             
-            Temp.Visible = false;
+            
             VerPlanilha.Visible = true;
         };
         MEmprestimoPrinc.Controls.Add(BotaoPegarEmprestimo);
@@ -462,7 +483,7 @@ public partial class Formprinciapl : Form {
         BotaoPegarEmprestimo.FlatAppearance.BorderSize = 1;
         BotaoPegarEmprestimo.Click += (sender, e) => {
             tabelaEstoque.DataSource = MostrarPlanilha.LerPlanilhas();
-            Temp.Visible = false;
+            
             VerPlanilha.Visible = true;
         };
         MEmprestimoPrinc.Controls.Add(BotaoPegarEmprestimo);
@@ -480,7 +501,7 @@ public partial class Formprinciapl : Form {
             
         };
         MEmprestimoPrinc.Controls.Add(botaoVoltar);
-        this.Controls.Add(VerPlanilha);
+        this.Controls.Add(MEmprestimoPrinc);
     }
 
     public void VerFerramentas() {
