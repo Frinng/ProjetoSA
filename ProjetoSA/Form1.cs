@@ -3,8 +3,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 
-public partial class Formprinciapl : Form
-{
+public partial class Formprinciapl : Form {
+    
+    
 
     public Panel PainelRegistro;
     public Panel PainelLogin;
@@ -162,6 +163,9 @@ public partial class Formprinciapl : Form
                     break;
 
                 case "ADMIN":
+                    CampoUsuario.Clear();
+                    CampoSenha.Clear();
+                    
                     MessageBox.Show("Bem-vindo, Administrador!");
                     PainelLogin.Visible = false;
                     MenuTemp();
@@ -325,7 +329,8 @@ public partial class Formprinciapl : Form
     }
 
     public void MenuTemp() {
-
+        
+        
         Temp = new Panel();
         Temp.Name = "Temporario";
         Temp.Size = this.ClientSize;
@@ -334,7 +339,20 @@ public partial class Formprinciapl : Form
         Temp.BackgroundImageLayout = ImageLayout.Stretch;
         Temp.Visible = false;
         
-        
+        Button botaoVoltar = new Button();
+        botaoVoltar.Text = "Voltar";
+        botaoVoltar.Location = new Point(20, 20); 
+        botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+        botaoVoltar.AutoSize = true;
+        botaoVoltar.FlatStyle = FlatStyle.Flat;
+        botaoVoltar.FlatAppearance.BorderSize = 0;
+        botaoVoltar.BackColor = Color.White;
+        botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
+        botaoVoltar.Click += (sender, e) => {
+            Temp.Visible = false;
+            PainelLogin.Visible = true;
+        };
+        Temp.Controls.Add(botaoVoltar);
 
     }
 }

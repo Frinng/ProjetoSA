@@ -20,10 +20,11 @@ public class ValidadorLogin {
                     string senhaPlanilha = ws.Cell(i, 2).GetString();
 
                     if (nomePlanilha == usuario && senhaPlanilha == senha) {
-                        if (usuario.Equals("ADMIN", StringComparison.OrdinalIgnoreCase))
+                        if (usuario.Equals("ADMIN", StringComparison.OrdinalIgnoreCase) && senha.Length < 5) {
                             return "ADMIN";
-                        else
+                        }else {
                             return "SUCESSO";
+                        }
                     }
                 }
             }
