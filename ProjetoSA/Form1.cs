@@ -10,6 +10,8 @@ public partial class Formprinciapl : Form {
     public Panel Temp;
     public Panel VerPlanilha;
     private DataGridView tabelaEstoque;
+    public Panel Menuprincipal;
+    public Panel Adicionar_item;
 
     public Formprinciapl() {
         InitializeComponent();
@@ -184,6 +186,7 @@ public partial class Formprinciapl : Form {
     }
 
     public void CriarPainelRegistro() {
+        
         PainelRegistro = new Panel();
         PainelRegistro.Name = "PainelRegistro";
         PainelRegistro.Size = this.ClientSize;
@@ -302,7 +305,12 @@ public partial class Formprinciapl : Form {
         this.Controls.Add(PainelRegistro);
         PainelRegistro.BringToFront();
     }
+    
+    public void MenuPrincipal() {
+        
 
+    }
+    
     public void MenuTemp() {
         Temp = new Panel();
         Temp.Name = "Temporario";
@@ -386,4 +394,7 @@ public partial class Formprinciapl : Form {
         VerPlanilha.Controls.Add(botaoVoltar);
         this.Controls.Add(VerPlanilha);
     }
+
+    
+    
 }
