@@ -19,16 +19,33 @@ public static class MostrarPlanilha {
         tabela.Columns.Add("Localização");
 
         using (var LivroDeTrabalho = new XLWorkbook(CaminhoDoEstoque)) {
-            var Planilha = LivroDeTrabalho.Worksheet(1);
+            
+            // CORREÇÃO 1: Voltei para a Planilha 1, que é a de Estoque.
+            var Planilha = LivroDeTrabalho.Worksheet(1); 
 
             foreach (var linha in Planilha.RowsUsed().Skip(1)) {
-                int item = linha.Cell(1).GetValue<int>();
+                
+                // CORREÇÃO 2: Leitura segura para evitar erros
+                int item;
+                linha.Cell(1).TryGetValue(out item); // Se falhar, item = 0
+
                 string descri = linha.Cell(2).GetValue<string>();
-                int quantidade = linha.Cell(3).GetValue<int>();
+
+                int quantidade;
+                if (!linha.Cell(3).TryGetValue(out quantidade)) // Tenta ler a quantidade
+                {
+                    quantidade = 0; // Define 0 se a célula estiver vazia
+                }
+
                 string marca = linha.Cell(4).GetValue<string>();
                 string local = linha.Cell(5).GetValue<string>();
 
-                tabela.Rows.Add(item, descri, quantidade, marca, local);
+                
+                // ADAPTADO: Filtra para mostrar apenas disponíveis (Quantidade > 0)
+                if (quantidade > 0)
+                {
+                    tabela.Rows.Add(item, descri, quantidade, marca, local);
+                }
             }
         }
 

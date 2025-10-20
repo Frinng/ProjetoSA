@@ -35,6 +35,8 @@ public partial class Formprinciapl : Form {
         MenuADM();
         Ver_Planilha();
         Menu_EmprestimoPrinci();
+        VerFerramentas();
+        this.Controls.Add(VerFerramentasDisponiveis);
         this.Controls.Add(PainelLogin);
         this.Controls.Add(PainelRegistro);
         this.Controls.Add(ADM);
@@ -428,12 +430,21 @@ public partial class Formprinciapl : Form {
         MEmprestimoPrinc.Visible = false;
         
         
+        
+        Label labelMenuEmp = new Label();
+        labelMenuEmp.Text = "Menu De Emprestimo";
+        labelMenuEmp.Location = new Point(370, 100);
+        labelMenuEmp.Font = new Font("Arial", 28, FontStyle.Bold);
+        labelMenuEmp.AutoSize = true;
+        labelMenuEmp.BackColor = Color.Transparent;
+        labelMenuEmp.ForeColor = Color.FromArgb(0, 171, 155);
+        MEmprestimoPrinc.Controls.Add(labelMenuEmp);
+        
         //Botao de mostrar ferramentas disponiveis
-        //botao de pegar emprestado
         Button MostrarFerramentas = new Button();
-        MostrarFerramentas.Text = "Ferramentas Disponiveis";
-        MostrarFerramentas.AutoSize = true;
-        MostrarFerramentas.Location = new Point(410, 180);
+        MostrarFerramentas.Text = "Ferramentas";
+        MostrarFerramentas.Size = new Size(240, 30);
+        MostrarFerramentas.Location = new Point(460, 160);
         MostrarFerramentas.Font = new Font("Arial", 20, FontStyle.Bold);
         MostrarFerramentas.ForeColor = Color.FromArgb(0, 171, 155);
         MostrarFerramentas.FlatStyle = FlatStyle.Flat;
@@ -443,19 +454,19 @@ public partial class Formprinciapl : Form {
         MostrarFerramentas.Click += (sender, e) => {
             tabelaFerramentas.DataSource = Emprestimo.LerPlanilhas();
             
-            VerPlanilha.Visible = true;
+            // VerPlanilha.Visible = true; // <-- ISSO ESTÁ ERRADO
+            
+            // CORREÇÃO:
+            VerFerramentasDisponiveis.Visible = true; // Mostra o painel correto
+            MEmprestimoPrinc.Visible = false; // Esconde o menu atual
         };
         MEmprestimoPrinc.Controls.Add(MostrarFerramentas);
         
-        
-        
-        
-        
         //botao de pegar emprestado
         Button BotaoPegarEmprestimo = new Button();
-        BotaoPegarEmprestimo.Text = "PEGAR EMPRESTADO";
-        BotaoPegarEmprestimo.AutoSize = true;
-        BotaoPegarEmprestimo.Location = new Point(410, 180);
+        BotaoPegarEmprestimo.Text = "PEGAR";
+        BotaoPegarEmprestimo.Size = new Size(240, 30);
+        BotaoPegarEmprestimo.Location = new Point(460, 200);
         BotaoPegarEmprestimo.Font = new Font("Arial", 20, FontStyle.Bold);
         BotaoPegarEmprestimo.ForeColor = Color.FromArgb(0, 171, 155);
         BotaoPegarEmprestimo.FlatStyle = FlatStyle.Flat;
@@ -463,6 +474,7 @@ public partial class Formprinciapl : Form {
         BotaoPegarEmprestimo.BackColor = Color.White;
         BotaoPegarEmprestimo.FlatAppearance.BorderSize = 1;
         BotaoPegarEmprestimo.Click += (sender, e) => {
+            
             
             
             VerPlanilha.Visible = true;
@@ -472,21 +484,21 @@ public partial class Formprinciapl : Form {
         
         //botao de devolver ferramenta
         Button BotaoDevolverEmprestimo = new Button();
-        BotaoPegarEmprestimo.Text = "DEVOLVER FERRAMENTA";
-        BotaoPegarEmprestimo.AutoSize = true;
-        BotaoPegarEmprestimo.Location = new Point(410, 240);
-        BotaoPegarEmprestimo.Font = new Font("Arial", 20, FontStyle.Bold);
-        BotaoPegarEmprestimo.ForeColor = Color.FromArgb(0, 171, 155);
-        BotaoPegarEmprestimo.FlatStyle = FlatStyle.Flat;
-        BotaoPegarEmprestimo.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
-        BotaoPegarEmprestimo.BackColor = Color.White;
-        BotaoPegarEmprestimo.FlatAppearance.BorderSize = 1;
-        BotaoPegarEmprestimo.Click += (sender, e) => {
+        BotaoDevolverEmprestimo.Text = "DEVOLVER";
+        BotaoDevolverEmprestimo.Size = new Size(240, 30);
+        BotaoDevolverEmprestimo.Location = new Point(460, 260);
+        BotaoDevolverEmprestimo.Font = new Font("Arial", 20, FontStyle.Bold);
+        BotaoDevolverEmprestimo.ForeColor = Color.FromArgb(0, 171, 155);
+        BotaoDevolverEmprestimo.FlatStyle = FlatStyle.Flat;
+        BotaoDevolverEmprestimo.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
+        BotaoDevolverEmprestimo.BackColor = Color.White;
+        BotaoDevolverEmprestimo.FlatAppearance.BorderSize = 1;
+        BotaoDevolverEmprestimo.Click += (sender, e) => {
             tabelaEstoque.DataSource = MostrarPlanilha.LerPlanilhas();
             
             VerPlanilha.Visible = true;
         };
-        MEmprestimoPrinc.Controls.Add(BotaoPegarEmprestimo);
+        MEmprestimoPrinc.Controls.Add(BotaoDevolverEmprestimo);
         
         Button botaoVoltar = new Button();
         botaoVoltar.Text = "Voltar";
@@ -498,6 +510,9 @@ public partial class Formprinciapl : Form {
         botaoVoltar.BackColor = Color.White;
         botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
         botaoVoltar.Click += (sender, e) => {
+            MEmprestimoPrinc.Visible = false;
+            ADM.Visible = true;
+            
             
         };
         MEmprestimoPrinc.Controls.Add(botaoVoltar);
@@ -549,7 +564,7 @@ public partial class Formprinciapl : Form {
         botaoVoltar.Click += (sender, e) =>
         {
             VerFerramentasDisponiveis.Visible = false;
-            PainelLogin.Visible = true;
+            MEmprestimoPrinc.Visible = true;
         };
 
         VerFerramentasDisponiveis.Controls.Add(botaoVoltar);
