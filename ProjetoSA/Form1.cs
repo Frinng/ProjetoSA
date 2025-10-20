@@ -11,7 +11,7 @@ public partial class Formprinciapl : Form {
     public Panel VerPlanilha;
     private DataGridView tabelaEstoque;
     public Panel Menuprincipal;
-    public Panel Adicionar_item;
+    public Panel MEmprestimoPrinc;
 
     public Formprinciapl() {
         InitializeComponent();
@@ -395,6 +395,19 @@ public partial class Formprinciapl : Form {
         this.Controls.Add(VerPlanilha);
     }
 
-    
+    public void Menu_EmprestimoPrinci() {
+        MEmprestimoPrinc = new Panel();
+        MEmprestimoPrinc.Name = "Temporario";
+        MEmprestimoPrinc.Size = this.ClientSize;
+        MEmprestimoPrinc.Location = new Point(0, 0);
+        MEmprestimoPrinc.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+        MEmprestimoPrinc.BackgroundImageLayout = ImageLayout.Stretch;
+        MEmprestimoPrinc.Visible = false;
+        
+        
+        
+        
+        
+    }
     
 }
