@@ -12,6 +12,8 @@ public partial class Formprinciapl : Form {
     private DataGridView tabelaEstoque;
     public Panel Menuprincipal;
     public Panel MEmprestimoPrinc;
+    public Panel VerFerramentasDisponiveis;
+    private DataGridView tabelaFerramentas;
 
     public Formprinciapl() {
         InitializeComponent();
@@ -404,8 +406,33 @@ public partial class Formprinciapl : Form {
         MEmprestimoPrinc.BackgroundImageLayout = ImageLayout.Stretch;
         MEmprestimoPrinc.Visible = false;
         
+        
+        //Botao de mostrar ferramentas disponiveis
+        //botao de pegar emprestado
+        Button MostrarFerramentas = new Button();
+        MostrarFerramentas.Text = "Ferramentas Disponiveis";
+        MostrarFerramentas.AutoSize = true;
+        MostrarFerramentas.Location = new Point(410, 180);
+        MostrarFerramentas.Font = new Font("Arial", 20, FontStyle.Bold);
+        MostrarFerramentas.ForeColor = Color.FromArgb(0, 171, 155);
+        MostrarFerramentas.FlatStyle = FlatStyle.Flat;
+        MostrarFerramentas.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
+        MostrarFerramentas.BackColor = Color.White;
+        MostrarFerramentas.FlatAppearance.BorderSize = 1;
+        MostrarFerramentas.Click += (sender, e) => {
+            tabelaFerramentas.DataSource = Emprestimo.LerPlanilhas();
+            Temp.Visible = false;
+            VerPlanilha.Visible = true;
+        };
+        MEmprestimoPrinc.Controls.Add(MostrarFerramentas);
+        
+        
+        
+        
+        
+        //botao de pegar emprestado
         Button BotaoPegarEmprestimo = new Button();
-        BotaoPegarEmprestimo.Text = "ENTRAR";
+        BotaoPegarEmprestimo.Text = "PEGAR EMPRESTADO";
         BotaoPegarEmprestimo.AutoSize = true;
         BotaoPegarEmprestimo.Location = new Point(410, 180);
         BotaoPegarEmprestimo.Font = new Font("Arial", 20, FontStyle.Bold);
@@ -415,14 +442,16 @@ public partial class Formprinciapl : Form {
         BotaoPegarEmprestimo.BackColor = Color.White;
         BotaoPegarEmprestimo.FlatAppearance.BorderSize = 1;
         BotaoPegarEmprestimo.Click += (sender, e) => {
-            tabelaEstoque.DataSource = MostrarPlanilha.LerPlanilhas();
+            
             Temp.Visible = false;
             VerPlanilha.Visible = true;
         };
         MEmprestimoPrinc.Controls.Add(BotaoPegarEmprestimo);
         
+        
+        //botao de devolver ferramenta
         Button BotaoDevolverEmprestimo = new Button();
-        BotaoPegarEmprestimo.Text = "ENTRAR";
+        BotaoPegarEmprestimo.Text = "DEVOLVER FERRAMENTA";
         BotaoPegarEmprestimo.AutoSize = true;
         BotaoPegarEmprestimo.Location = new Point(410, 240);
         BotaoPegarEmprestimo.Font = new Font("Arial", 20, FontStyle.Bold);
@@ -438,8 +467,6 @@ public partial class Formprinciapl : Form {
         };
         MEmprestimoPrinc.Controls.Add(BotaoPegarEmprestimo);
         
-        
-        
         Button botaoVoltar = new Button();
         botaoVoltar.Text = "Voltar";
         botaoVoltar.Location = new Point(20, 20);
@@ -454,6 +481,62 @@ public partial class Formprinciapl : Form {
         };
         MEmprestimoPrinc.Controls.Add(botaoVoltar);
         this.Controls.Add(VerPlanilha);
+    }
+
+    public void VerFerramentas() {
+        
+        // Criando o painel
+        VerFerramentasDisponiveis = new Panel();
+        VerFerramentasDisponiveis.Size = this.ClientSize;
+        VerFerramentasDisponiveis.Location = new Point(0, 0);
+        VerFerramentasDisponiveis.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+        VerFerramentasDisponiveis.BackgroundImageLayout = ImageLayout.Stretch;
+        VerFerramentasDisponiveis.Visible = false;
+
+        // Criando o DataGridView
+        tabelaFerramentas = new DataGridView();
+        tabelaFerramentas.Location = new Point(20, 70);
+        tabelaFerramentas.Size = new Size(this.ClientSize.Width - 40, this.ClientSize.Height - 90);
+        tabelaFerramentas.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+        tabelaFerramentas.ReadOnly = true;
+        tabelaFerramentas.BackgroundColor = Color.White;
+        tabelaFerramentas.ForeColor = Color.FromArgb(0, 171, 155);
+        tabelaFerramentas.DefaultCellStyle.BackColor = Color.White;
+        tabelaFerramentas.DefaultCellStyle.ForeColor = Color.FromArgb(0, 171, 155);
+        tabelaFerramentas.DefaultCellStyle.Font = new Font("Arial", 12);
+        tabelaFerramentas.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10, FontStyle.Bold);
+        tabelaFerramentas.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
+        tabelaFerramentas.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(0, 171, 155);
+        tabelaFerramentas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        tabelaFerramentas.EnableHeadersVisualStyles = false;
+
+        // Carregar os dados da planilha
+        tabelaFerramentas.DataSource = Emprestimo.LerPlanilhas();
+
+        VerFerramentasDisponiveis.Controls.Add(tabelaFerramentas);
+
+        // Criando o botão Voltar
+        Button botaoVoltar = new Button();
+        botaoVoltar.Text = "Voltar";
+        botaoVoltar.Location = new Point(20, 20);
+        botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+        botaoVoltar.AutoSize = true;
+        botaoVoltar.FlatStyle = FlatStyle.Flat;
+        botaoVoltar.FlatAppearance.BorderSize = 0;
+        botaoVoltar.BackColor = Color.White;
+        botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
+        botaoVoltar.Click += (sender, e) =>
+        {
+            VerFerramentasDisponiveis.Visible = false;
+            PainelLogin.Visible = true;
+        };
+
+        VerFerramentasDisponiveis.Controls.Add(botaoVoltar);
+
+        // Adicionando o painel ao Form
+        this.Controls.Add(VerFerramentasDisponiveis);
+
+        
     }
     
 }
