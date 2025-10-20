@@ -4,37 +4,41 @@ using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 
 public partial class Formprinciapl : Form {
-    
-    
 
     public Panel PainelRegistro;
     public Panel PainelLogin;
     public Panel Temp;
     public Panel VerPlanilha;
-    
-    public  Formprinciapl() {
-            InitializeComponent();
-            this.DoubleBuffered = true;
-            
-            this.Text = "Menu Principal";
-            this.Width = 900;
-            this.Height = 600;
-            
-            this.Size = new System.Drawing.Size(1200,675);
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.StartPosition = FormStartPosition.CenterScreen;
+    private DataGridView tabelaEstoque;
 
-            this.BackColor = Color.White;
-            
-            // CORREÇÃO: Chame ambos os métodos de criação UMA VEZ.
-            CriarPainelLogin();
-            CriarPainelRegistro();
-            
+    public Formprinciapl() {
+        InitializeComponent();
+        this.DoubleBuffered = true;
+
+        this.Text = "Menu Principal";
+        this.Width = 900;
+        this.Height = 600;
+
+        this.Size = new System.Drawing.Size(1200, 675);
+        this.FormBorderStyle = FormBorderStyle.FixedSingle;
+        this.MaximizeBox = false;
+        this.StartPosition = FormStartPosition.CenterScreen;
+
+        this.BackColor = Color.White;
+
+        CriarPainelLogin();
+        CriarPainelRegistro();
+        MenuTemp();
+        Ver_Planilha();
+        this.Controls.Add(PainelLogin);
+        this.Controls.Add(PainelRegistro);
+        this.Controls.Add(Temp);
+        this.Controls.Add(VerPlanilha);
+
+        PainelLogin.BringToFront();
     }
 
     public void CriarPainelLogin() {
-        
         PainelLogin = new Panel();
         PainelLogin.Name = "PainelLogin";
         PainelLogin.Size = this.ClientSize;
@@ -42,25 +46,25 @@ public partial class Formprinciapl : Form {
         PainelLogin.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\ImagemLogin.png");
         PainelLogin.BackgroundImageLayout = ImageLayout.Stretch;
         PainelLogin.Visible = true;
-        
+
         Label TextoOlaAmigo = new Label();
         TextoOlaAmigo.Text = "Olá, Amigo!";
         TextoOlaAmigo.Location = new Point(810, 200);
         TextoOlaAmigo.AutoSize = true;
-        TextoOlaAmigo.Font = new Font("Arial",20, FontStyle.Bold);
+        TextoOlaAmigo.Font = new Font("Arial", 20, FontStyle.Bold);
         TextoOlaAmigo.ForeColor = Color.White;
-        TextoOlaAmigo.BackColor = Color.Transparent; 
-        PainelLogin.Controls.Add(TextoOlaAmigo); 
+        TextoOlaAmigo.BackColor = Color.Transparent;
+        PainelLogin.Controls.Add(TextoOlaAmigo);
 
         Label InsiraDetalhes = new Label();
         InsiraDetalhes.Text = "Insira alguns Detalhes e comece sua jornada";
-        InsiraDetalhes.Location = new Point(735,230);
+        InsiraDetalhes.Location = new Point(735, 230);
         InsiraDetalhes.AutoSize = true;
         InsiraDetalhes.Font = new Font("Arial", 10, FontStyle.Bold);
         InsiraDetalhes.ForeColor = Color.White;
         InsiraDetalhes.BackColor = Color.Transparent;
         PainelLogin.Controls.Add(InsiraDetalhes);
-            
+
         Label Conosco = new Label();
         Conosco.Text = "conosco.";
         Conosco.Location = new Point(855, 245);
@@ -69,34 +73,32 @@ public partial class Formprinciapl : Form {
         Conosco.ForeColor = Color.White;
         Conosco.BackColor = Color.Transparent;
         PainelLogin.Controls.Add(Conosco);
-            
+
         Button BotaoRegistrar = new Button();
         BotaoRegistrar.Text = "REGISTRAR";
         BotaoRegistrar.AutoSize = true;
         BotaoRegistrar.Location = new Point(795, 270);
-        BotaoRegistrar.Font = new Font("Arial",20,FontStyle.Bold);
+        BotaoRegistrar.Font = new Font("Arial", 20, FontStyle.Bold);
         BotaoRegistrar.ForeColor = Color.White;
         BotaoRegistrar.BackColor = Color.FromArgb(0, 171, 155);
-        BotaoRegistrar.FlatStyle = FlatStyle.Flat; 
+        BotaoRegistrar.FlatStyle = FlatStyle.Flat;
         BotaoRegistrar.FlatAppearance.BorderColor = Color.White;
         BotaoRegistrar.FlatAppearance.BorderSize = 1;
-        
-        // CORREÇÃO: Alterne a visibilidade, não recrie o painel.
-        BotaoRegistrar.Click += (sender, e) => { 
+        BotaoRegistrar.Click += (sender, e) => {
             PainelLogin.Visible = false;
             PainelRegistro.Visible = true;
-        }; 
+        };
         PainelLogin.Controls.Add(BotaoRegistrar);
 
         Label Entrar_NoSistema = new Label();
         Entrar_NoSistema.Text = "ENTRAR NO SISTEMA";
-        Entrar_NoSistema.Location = new Point(130,200);
+        Entrar_NoSistema.Location = new Point(130, 200);
         Entrar_NoSistema.AutoSize = true;
-        Entrar_NoSistema.Font = new Font("Arial",20,FontStyle.Bold);
-        Entrar_NoSistema.ForeColor =  Color.FromArgb(0, 171, 155);
+        Entrar_NoSistema.Font = new Font("Arial", 20, FontStyle.Bold);
+        Entrar_NoSistema.ForeColor = Color.FromArgb(0, 171, 155);
         Entrar_NoSistema.BackColor = Color.Transparent;
         PainelLogin.Controls.Add(Entrar_NoSistema);
-            
+
         TextBox CampoUsuario = new TextBox();
         CampoUsuario.Name = "campousuario";
         CampoUsuario.Location = new Point(160, 240);
@@ -105,7 +107,7 @@ public partial class Formprinciapl : Form {
         CampoUsuario.PlaceholderText = "Usuário";
         CampoUsuario.TextAlign = HorizontalAlignment.Center;
         PainelLogin.Controls.Add(CampoUsuario);
-            
+
         TextBox CampoSenha = new TextBox();
         CampoSenha.Name = "camposenha";
         CampoSenha.Location = new Point(160, 285);
@@ -115,7 +117,7 @@ public partial class Formprinciapl : Form {
         CampoSenha.TextAlign = HorizontalAlignment.Center;
         CampoSenha.UseSystemPasswordChar = true;
         PainelLogin.Controls.Add(CampoSenha);
-            
+
         Button BotaoEsqueceuSenha = new Button();
         BotaoEsqueceuSenha.Text = "Esqueceusuasenha?";
         BotaoEsqueceuSenha.Location = new Point(205, 320);
@@ -139,7 +141,6 @@ public partial class Formprinciapl : Form {
         BotaoEntrar.BackColor = Color.White;
         BotaoEntrar.FlatAppearance.BorderSize = 1;
         BotaoEntrar.Click += (sender, e) => {
-
             string usuario = CampoUsuario.Text;
             string senha = CampoSenha.Text;
 
@@ -159,20 +160,15 @@ public partial class Formprinciapl : Form {
                 case "SUCESSO":
                     MessageBox.Show("Login realizado com sucesso!");
                     PainelLogin.Visible = false;
-                    MenuTemp();
                     Temp.Visible = true;
-                    this.Controls.Add(Temp);
                     break;
 
                 case "ADMIN":
                     CampoUsuario.Clear();
                     CampoSenha.Clear();
-                    
                     MessageBox.Show("Bem-vindo, Administrador!");
                     PainelLogin.Visible = false;
-                    MenuTemp();
                     Temp.Visible = true;
-                    this.Controls.Add(Temp);
                     break;
 
                 case "FALHA":
@@ -182,24 +178,18 @@ public partial class Formprinciapl : Form {
                 case "ERRO":
                     break;
             }
-            
         };
         PainelLogin.Controls.Add(BotaoEntrar);
-        
-        // CORREÇÃO: Adicione o PainelLogin ao Form
         this.Controls.Add(PainelLogin);
     }
-    
-    public void CriarPainelRegistro() {
 
+    public void CriarPainelRegistro() {
         PainelRegistro = new Panel();
         PainelRegistro.Name = "PainelRegistro";
         PainelRegistro.Size = this.ClientSize;
         PainelRegistro.Location = new Point(0, 0);
         PainelRegistro.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
         PainelRegistro.BackgroundImageLayout = ImageLayout.Stretch;
-        
-        // CORREÇÃO: O painel de registro deve começar invisível.
         PainelRegistro.Visible = false;
 
         Label labelTituloRegistro = new Label();
@@ -209,7 +199,7 @@ public partial class Formprinciapl : Form {
         labelTituloRegistro.AutoSize = true;
         labelTituloRegistro.BackColor = Color.Transparent;
         labelTituloRegistro.ForeColor = Color.FromArgb(0, 171, 155);
-        PainelRegistro.Controls.Add(labelTituloRegistro); 
+        PainelRegistro.Controls.Add(labelTituloRegistro);
 
         TextBox campoNovoUsuario = new TextBox();
         campoNovoUsuario.Location = new Point(410, 180);
@@ -225,7 +215,7 @@ public partial class Formprinciapl : Form {
         campoNovaSenha.Font = new Font("Arial", 20);
         campoNovaSenha.PlaceholderText = "Digite sua senha";
         campoNovaSenha.TextAlign = HorizontalAlignment.Center;
-        PainelRegistro.Controls.Add(campoNovaSenha); 
+        PainelRegistro.Controls.Add(campoNovaSenha);
 
         TextBox campoConfirmarSenha = new TextBox();
         campoConfirmarSenha.Location = new Point(410, 300);
@@ -234,7 +224,7 @@ public partial class Formprinciapl : Form {
         campoConfirmarSenha.PlaceholderText = "Confirme sua senha";
         campoConfirmarSenha.TextAlign = HorizontalAlignment.Center;
         PainelRegistro.Controls.Add(campoConfirmarSenha);
-        
+
         Button botaoConfirmar = new Button();
         botaoConfirmar.Text = "CONFIRMAR REGISTRO";
         botaoConfirmar.Location = new Point(410, 370);
@@ -245,73 +235,59 @@ public partial class Formprinciapl : Form {
         botaoConfirmar.FlatStyle = FlatStyle.Flat;
         botaoConfirmar.FlatAppearance.BorderSize = 1;
         botaoConfirmar.Click += (sender, e) => {
-            
-            // Pega os dados dos campos
             string novoUsuario = campoNovoUsuario.Text;
             string novaSenha = campoNovaSenha.Text;
-            
-            // VERIFICA SE O CAMPO de usuario ESTÁ VAZIO
+
             if (string.IsNullOrWhiteSpace(campoNovoUsuario.Text)) {
                 MessageBox.Show("Por favor, preencha o campo Usuário!");
-                return; // Para a execução do clique aqui
+                return;
             }
 
-            //VERIFICA SE O CAMPO DE SENHA ESTÁ VAZIO
             if (string.IsNullOrWhiteSpace(campoNovaSenha.Text)) {
                 MessageBox.Show("Por favor, preencha o campo Senha!");
-                return; // Para a execução do clique aqui
+                return;
             }
-            
+
             if (campoNovoUsuario.TextLength < 4) {
-                
                 MessageBox.Show("O seu usuario deve ter pelo menos 4 caracteres!");
-                return; // Para a execução
-                
+                return;
             }
-            
+
             if (campoNovaSenha.TextLength < 8) {
-                
                 MessageBox.Show("A senha deve ter pelo menos 8 caracteres!");
-                return; // Para a execução
-                
+                return;
             }
+
             if (novaSenha != campoConfirmarSenha.Text) {
                 MessageBox.Show("As senhas não conferem!");
                 return;
             }
+
             string resultado = LeitorPlanilha.AdicionarUsuario(novoUsuario, novaSenha);
-            
+
             switch (resultado) {
                 case "SUCESSO":
                     MessageBox.Show("Usuário registrado com sucesso!");
-                    
-                    // Limpa os campos
                     campoNovoUsuario.Text = "";
                     campoNovaSenha.Text = "";
                     campoConfirmarSenha.Text = "";
-                    
-                    // Volta para a tela de login
                     PainelRegistro.Visible = false;
                     PainelLogin.Visible = true;
                     break;
-                
+
                 case "USUARIO_EXISTE":
                     MessageBox.Show("Este nome de usuário já existe. Por favor, escolha outro.");
                     break;
-                
+
                 case "ERRO_ARQUIVO":
-                    // A classe LeitorPlanilha já exibiu o MessageBox com o erro detalhado.
-                    // Não precisa fazer nada aqui.
                     break;
             }
         };
-        
-        
-        PainelRegistro.Controls.Add(botaoConfirmar); 
-        
+        PainelRegistro.Controls.Add(botaoConfirmar);
+
         Button botaoVoltar = new Button();
         botaoVoltar.Text = "Voltar";
-        botaoVoltar.Location = new Point(20, 20); 
+        botaoVoltar.Location = new Point(20, 20);
         botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
         botaoVoltar.AutoSize = true;
         botaoVoltar.FlatStyle = FlatStyle.Flat;
@@ -323,16 +299,11 @@ public partial class Formprinciapl : Form {
             PainelLogin.Visible = true;
         };
         PainelRegistro.Controls.Add(botaoVoltar);
-        
         this.Controls.Add(PainelRegistro);
-        
-        PainelRegistro.BringToFront(); 
-        
+        PainelRegistro.BringToFront();
     }
 
     public void MenuTemp() {
-        
-        
         Temp = new Panel();
         Temp.Name = "Temporario";
         Temp.Size = this.ClientSize;
@@ -340,10 +311,27 @@ public partial class Formprinciapl : Form {
         Temp.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
         Temp.BackgroundImageLayout = ImageLayout.Stretch;
         Temp.Visible = false;
-        
+
+        Button BotaoEntrar = new Button();
+        BotaoEntrar.Text = "ENTRAR";
+        BotaoEntrar.AutoSize = true;
+        BotaoEntrar.Location = new Point(215, 350);
+        BotaoEntrar.Font = new Font("Arial", 20, FontStyle.Bold);
+        BotaoEntrar.ForeColor = Color.FromArgb(0, 171, 155);
+        BotaoEntrar.FlatStyle = FlatStyle.Flat;
+        BotaoEntrar.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
+        BotaoEntrar.BackColor = Color.White;
+        BotaoEntrar.FlatAppearance.BorderSize = 1;
+        BotaoEntrar.Click += (sender, e) => {
+            tabelaEstoque.DataSource = MostrarPlanilha.LerPlanilhas();
+            Temp.Visible = false;
+            VerPlanilha.Visible = true;
+        };
+        Temp.Controls.Add(BotaoEntrar);
+
         Button botaoVoltar = new Button();
         botaoVoltar.Text = "Voltar";
-        botaoVoltar.Location = new Point(20, 20); 
+        botaoVoltar.Location = new Point(20, 20);
         botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
         botaoVoltar.AutoSize = true;
         botaoVoltar.FlatStyle = FlatStyle.Flat;
@@ -355,7 +343,6 @@ public partial class Formprinciapl : Form {
             PainelLogin.Visible = true;
         };
         Temp.Controls.Add(botaoVoltar);
-
     }
 
     public void Ver_Planilha() {
@@ -366,11 +353,26 @@ public partial class Formprinciapl : Form {
         VerPlanilha.BackgroundImageLayout = ImageLayout.Stretch;
         VerPlanilha.Visible = false;
 
-        
-        
+        tabelaEstoque = new DataGridView();
+        tabelaEstoque.Location = new Point(20, 70); // Posição (X, Y) - 20px da borda, 70px do topo
+        tabelaEstoque.Size = new Size(this.ClientSize.Width - 40, this.ClientSize.Height - 90); // Tamanho (Largura, Altura)
+        tabelaEstoque.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+        tabelaEstoque.ReadOnly = true;
+        tabelaEstoque.BackgroundColor = Color.White;
+        tabelaEstoque.ForeColor = Color.FromArgb(0, 171, 155);
+        tabelaEstoque.DefaultCellStyle.BackColor = Color.White;
+        tabelaEstoque.DefaultCellStyle.ForeColor = Color.FromArgb(0, 171, 155);
+        tabelaEstoque.DefaultCellStyle.Font = new Font("Arial", 12);
+        tabelaEstoque.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10, FontStyle.Bold);
+        tabelaEstoque.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
+        tabelaEstoque.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(0, 171, 155);
+        tabelaEstoque.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        tabelaEstoque.EnableHeadersVisualStyles = false;
+        VerPlanilha.Controls.Add(tabelaEstoque);
+
         Button botaoVoltar = new Button();
         botaoVoltar.Text = "Voltar";
-        botaoVoltar.Location = new Point(20, 20); 
+        botaoVoltar.Location = new Point(20, 20);
         botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
         botaoVoltar.AutoSize = true;
         botaoVoltar.FlatStyle = FlatStyle.Flat;
@@ -382,6 +384,6 @@ public partial class Formprinciapl : Form {
             PainelLogin.Visible = true;
         };
         VerPlanilha.Controls.Add(botaoVoltar);
-        
+        this.Controls.Add(VerPlanilha);
     }
 }
