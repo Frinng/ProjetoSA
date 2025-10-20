@@ -137,21 +137,45 @@ public partial class Formprinciapl : Form
         BotaoEntrar.FlatAppearance.BorderSize = 1;
         BotaoEntrar.Click += (sender, e) => {
 
-            string usuario = CampoSenha.Text;
+            string usuario = CampoUsuario.Text;
             string senha = CampoSenha.Text;
-            
-            if (string.IsNullOrWhiteSpace(CampoUsuario.Text)) {
-                MessageBox.Show("Por favor, Digite seu Usuário!");
-                return; // Para a execução do clique aqui
+
+            if (string.IsNullOrWhiteSpace(usuario)) {
+                MessageBox.Show("Por favor, digite seu usuário!");
+                return;
             }
 
-            //VERIFICA SE O CAMPO DE SENHA ESTÁ VAZIO
-            if (string.IsNullOrWhiteSpace(CampoSenha.Text)) {
-                MessageBox.Show("Por favor, Digite sua Senha!");
-                return; // Para a execução do clique aqui
+            if (string.IsNullOrWhiteSpace(senha)) {
+                MessageBox.Show("Por favor, digite sua senha!");
+                return;
             }
-            
-            
+
+            string resultado = ValidadorLogin.FazerLogin(usuario, senha);
+
+            switch (resultado) {
+                case "SUCESSO":
+                    MessageBox.Show("Login realizado com sucesso!");
+                    PainelLogin.Visible = false;
+                    MenuTemp();
+                    Temp.Visible = true;
+                    this.Controls.Add(Temp);
+                    break;
+
+                case "ADMIN":
+                    MessageBox.Show("Bem-vindo, Administrador!");
+                    PainelLogin.Visible = false;
+                    MenuTemp();
+                    Temp.Visible = true;
+                    this.Controls.Add(Temp);
+                    break;
+
+                case "FALHA":
+                    MessageBox.Show("Usuário ou senha incorretos!");
+                    break;
+
+                case "ERRO":
+                    break;
+            }
             
         };
         PainelLogin.Controls.Add(BotaoEntrar);
@@ -165,7 +189,6 @@ public partial class Formprinciapl : Form
         PainelRegistro = new Panel();
         PainelRegistro.Name = "PainelRegistro";
         PainelRegistro.Size = this.ClientSize;
-        PainelRegistro.Location = new Point(0, 0);
         PainelRegistro.Location = new Point(0, 0);
         PainelRegistro.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
         PainelRegistro.BackgroundImageLayout = ImageLayout.Stretch;
@@ -302,6 +325,16 @@ public partial class Formprinciapl : Form
     }
 
     public void MenuTemp() {
+
+        Temp = new Panel();
+        Temp.Name = "Temporario";
+        Temp.Size = this.ClientSize;
+        Temp.Location = new Point(0, 0);
+        Temp.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+        Temp.BackgroundImageLayout = ImageLayout.Stretch;
+        Temp.Visible = false;
         
+        
+
     }
 }
