@@ -10,6 +10,7 @@ public partial class Formprinciapl : Form {
     public Panel PainelRegistro;
     public Panel PainelLogin;
     public Panel Temp;
+    public Panel VerPlanilha;
     
     public  Formprinciapl() {
             InitializeComponent();
@@ -44,7 +45,7 @@ public partial class Formprinciapl : Form {
         
         Label TextoOlaAmigo = new Label();
         TextoOlaAmigo.Text = "Olá, Amigo!";
-        TextoOlaAmigo.Location = new Point(790, 200);
+        TextoOlaAmigo.Location = new Point(810, 200);
         TextoOlaAmigo.AutoSize = true;
         TextoOlaAmigo.Font = new Font("Arial",20, FontStyle.Bold);
         TextoOlaAmigo.ForeColor = Color.White;
@@ -53,7 +54,7 @@ public partial class Formprinciapl : Form {
 
         Label InsiraDetalhes = new Label();
         InsiraDetalhes.Text = "Insira alguns Detalhes e comece sua jornada";
-        InsiraDetalhes.Location = new Point(724,230);
+        InsiraDetalhes.Location = new Point(735,230);
         InsiraDetalhes.AutoSize = true;
         InsiraDetalhes.Font = new Font("Arial", 10, FontStyle.Bold);
         InsiraDetalhes.ForeColor = Color.White;
@@ -62,7 +63,7 @@ public partial class Formprinciapl : Form {
             
         Label Conosco = new Label();
         Conosco.Text = "conosco.";
-        Conosco.Location = new Point(835, 245);
+        Conosco.Location = new Point(855, 245);
         Conosco.AutoSize = true;
         Conosco.Font = new Font("Arial", 10, FontStyle.Bold);
         Conosco.ForeColor = Color.White;
@@ -72,7 +73,7 @@ public partial class Formprinciapl : Form {
         Button BotaoRegistrar = new Button();
         BotaoRegistrar.Text = "REGISTRAR";
         BotaoRegistrar.AutoSize = true;
-        BotaoRegistrar.Location = new Point(780, 270);
+        BotaoRegistrar.Location = new Point(795, 270);
         BotaoRegistrar.Font = new Font("Arial",20,FontStyle.Bold);
         BotaoRegistrar.ForeColor = Color.White;
         BotaoRegistrar.BackColor = Color.FromArgb(0, 171, 155);
@@ -112,6 +113,7 @@ public partial class Formprinciapl : Form {
         CampoSenha.Font = new Font("Arial", 20);
         CampoSenha.PlaceholderText = "Senha";
         CampoSenha.TextAlign = HorizontalAlignment.Center;
+        CampoSenha.UseSystemPasswordChar = true;
         PainelLogin.Controls.Add(CampoSenha);
             
         Button BotaoEsqueceuSenha = new Button();
@@ -202,7 +204,7 @@ public partial class Formprinciapl : Form {
 
         Label labelTituloRegistro = new Label();
         labelTituloRegistro.Text = "Crie sua Conta";
-        labelTituloRegistro.Location = new Point(350, 100);
+        labelTituloRegistro.Location = new Point(410, 100);
         labelTituloRegistro.Font = new Font("Arial", 28, FontStyle.Bold);
         labelTituloRegistro.AutoSize = true;
         labelTituloRegistro.BackColor = Color.Transparent;
@@ -210,7 +212,7 @@ public partial class Formprinciapl : Form {
         PainelRegistro.Controls.Add(labelTituloRegistro); 
 
         TextBox campoNovoUsuario = new TextBox();
-        campoNovoUsuario.Location = new Point(350, 180);
+        campoNovoUsuario.Location = new Point(410, 180);
         campoNovoUsuario.Size = new Size(300, 30);
         campoNovoUsuario.Font = new Font("Arial", 20);
         campoNovoUsuario.PlaceholderText = "Digite seu usuário";
@@ -218,7 +220,7 @@ public partial class Formprinciapl : Form {
         PainelRegistro.Controls.Add(campoNovoUsuario);
 
         TextBox campoNovaSenha = new TextBox();
-        campoNovaSenha.Location = new Point(350, 240);
+        campoNovaSenha.Location = new Point(410, 240);
         campoNovaSenha.Size = new Size(300, 30);
         campoNovaSenha.Font = new Font("Arial", 20);
         campoNovaSenha.PlaceholderText = "Digite sua senha";
@@ -226,7 +228,7 @@ public partial class Formprinciapl : Form {
         PainelRegistro.Controls.Add(campoNovaSenha); 
 
         TextBox campoConfirmarSenha = new TextBox();
-        campoConfirmarSenha.Location = new Point(350, 300);
+        campoConfirmarSenha.Location = new Point(410, 300);
         campoConfirmarSenha.Size = new Size(300, 30);
         campoConfirmarSenha.Font = new Font("Arial", 20);
         campoConfirmarSenha.PlaceholderText = "Confirme sua senha";
@@ -235,7 +237,7 @@ public partial class Formprinciapl : Form {
         
         Button botaoConfirmar = new Button();
         botaoConfirmar.Text = "CONFIRMAR REGISTRO";
-        botaoConfirmar.Location = new Point(350, 370);
+        botaoConfirmar.Location = new Point(410, 370);
         botaoConfirmar.Size = new Size(300, 50);
         botaoConfirmar.Font = new Font("Arial", 16, FontStyle.Bold);
         botaoConfirmar.BackColor = Color.White;
@@ -354,5 +356,32 @@ public partial class Formprinciapl : Form {
         };
         Temp.Controls.Add(botaoVoltar);
 
+    }
+
+    public void Ver_Planilha() {
+        VerPlanilha = new Panel();
+        VerPlanilha.Size = this.ClientSize;
+        VerPlanilha.Location = new Point(0, 0);
+        VerPlanilha.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+        VerPlanilha.BackgroundImageLayout = ImageLayout.Stretch;
+        VerPlanilha.Visible = false;
+
+        
+        
+        Button botaoVoltar = new Button();
+        botaoVoltar.Text = "Voltar";
+        botaoVoltar.Location = new Point(20, 20); 
+        botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+        botaoVoltar.AutoSize = true;
+        botaoVoltar.FlatStyle = FlatStyle.Flat;
+        botaoVoltar.FlatAppearance.BorderSize = 0;
+        botaoVoltar.BackColor = Color.White;
+        botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
+        botaoVoltar.Click += (sender, e) => {
+            VerPlanilha.Visible = false;
+            PainelLogin.Visible = true;
+        };
+        VerPlanilha.Controls.Add(botaoVoltar);
+        
     }
 }
