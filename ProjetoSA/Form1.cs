@@ -2,6 +2,7 @@ namespace ProjetoSA;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using ClosedXML.Excel;
 
 public partial class Formprinciapl : Form {
 
@@ -17,6 +18,14 @@ public partial class Formprinciapl : Form {
     public Panel PainelPegarEmprestimo;
     public Panel PainelDevolver;
     public Panel PainelVerEmprestimos;
+    public Panel adicionarproduto;
+    public Panel removeritem;
+    public Panel adicionaritem;
+    public static string CaminhoDoEstoque = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PLanilhaSimuladoEstoque.xlsx");
+
+    
+    
+
     private DataGridView tabelaEmprestimos;
 
     public Formprinciapl() {
@@ -43,6 +52,12 @@ public partial class Formprinciapl : Form {
         CriarPainelPegarEmprestimo();
         CriarPainelDevolver();
         CriarPainelVerEmprestimos();
+        Adicionaritem();
+        Removeritem();
+        
+        
+        this.Controls.Add(removeritem);
+        this.Controls.Add(adicionaritem);
         this.Controls.Add(PainelVerEmprestimos);
         this.Controls.Add(PainelPegarEmprestimo);
         this.Controls.Add(PainelDevolver);
@@ -357,7 +372,7 @@ public partial class Formprinciapl : Form {
         Button BotaoMenuFerra = new Button();
         BotaoMenuFerra.Text = "Emprestimo";
         BotaoMenuFerra.Size = new Size(230, 40);
-        BotaoMenuFerra.Location = new Point(480, 240);
+        BotaoMenuFerra.Location = new Point(480, 230);
         BotaoMenuFerra.Font = new Font("Arial", 20, FontStyle.Bold);
         BotaoMenuFerra.ForeColor = Color.FromArgb(0, 171, 155);
         BotaoMenuFerra.FlatStyle = FlatStyle.Flat;
@@ -370,7 +385,37 @@ public partial class Formprinciapl : Form {
         };
         ADM.Controls.Add(BotaoMenuFerra);
         
+        Button BotaoAddItem = new Button();
+        BotaoAddItem .Text = "Adicionar item";
+        BotaoAddItem .Size = new Size(230, 40);
+        BotaoAddItem .Location = new Point(480, 280);
+        BotaoAddItem .Font = new Font("Arial", 20, FontStyle.Bold);
+        BotaoAddItem .ForeColor = Color.FromArgb(0, 171, 155);
+        BotaoAddItem .FlatStyle = FlatStyle.Flat;
+        BotaoAddItem .FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
+        BotaoAddItem .BackColor = Color.White;
+        BotaoAddItem .FlatAppearance.BorderSize = 1;
+        BotaoAddItem .Click += (sender, e) => {
+            ADM.Visible = false;
+            adicionaritem.Visible = true;
+        };
+        ADM.Controls.Add(BotaoAddItem );
         
+        Button BotaoRemoveItem = new Button();
+        BotaoRemoveItem .Text = "Remover Item";
+        BotaoRemoveItem.Size = new Size(230, 40);
+        BotaoRemoveItem.Location = new Point(480, 330);
+        BotaoRemoveItem.Font = new Font("Arial", 20, FontStyle.Bold);
+        BotaoRemoveItem.ForeColor = Color.FromArgb(0, 171, 155);
+        BotaoRemoveItem.FlatStyle = FlatStyle.Flat;
+        BotaoRemoveItem.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
+        BotaoRemoveItem.BackColor = Color.White;
+        BotaoRemoveItem.FlatAppearance.BorderSize = 1;
+        BotaoRemoveItem.Click += (sender, e) => {
+            ADM.Visible = false;
+            removeritem.Visible = true;
+        };
+        ADM.Controls.Add(BotaoRemoveItem);
 
         Button botaoVoltar = new Button();
         botaoVoltar.Text = "Voltar";
@@ -846,4 +891,321 @@ public partial class Formprinciapl : Form {
         };
         PainelVerEmprestimos.Controls.Add(botaoVoltar);
     }
+    public void Adicionaritem() {
+        
+            adicionaritem = new Panel();
+            adicionaritem.Size = this.ClientSize;
+            adicionaritem.Location = new Point(0, 0);
+            adicionaritem.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+            adicionaritem.BackgroundImageLayout = ImageLayout.Stretch;
+            adicionaritem.Visible = false;
+
+            Label titulo = new Label();
+            titulo.Text = "Adicionar Novo Item";
+            titulo.Font = new Font("Arial", 28, FontStyle.Bold);
+            titulo.ForeColor = Color.FromArgb(0, 171, 155);
+            titulo.AutoSize = true;
+            titulo.BackColor = Color.Transparent;
+            titulo.Location = new Point(380, 100);
+            adicionaritem.Controls.Add(titulo);
+
+            // --- Campos de texto ---
+            TextBox txtDescricao = new TextBox();
+            txtDescricao.PlaceholderText = "Descrição do Item";
+            txtDescricao.Font = new Font("Arial", 14);
+            txtDescricao.Location = new Point(410, 200);
+            txtDescricao.Size = new Size(300, 30);
+            adicionaritem.Controls.Add(txtDescricao);
+
+            TextBox txtQuantidade = new TextBox();
+            txtQuantidade.PlaceholderText = "Quantidade";
+            txtQuantidade.Font = new Font("Arial", 14);
+            txtQuantidade.Location = new Point(410, 250);
+            txtQuantidade.Size = new Size(300, 30);
+            adicionaritem.Controls.Add(txtQuantidade);
+
+            TextBox txtMarca = new TextBox();
+            txtMarca.PlaceholderText = "Marca / Modelo";
+            txtMarca.Font = new Font("Arial", 14);
+            txtMarca.Location = new Point(410, 300);
+            txtMarca.Size = new Size(300, 30);
+            adicionaritem.Controls.Add(txtMarca);
+
+            TextBox txtLocal = new TextBox();
+            txtLocal.PlaceholderText = "Local de Armazenamento";
+            txtLocal.Font = new Font("Arial", 14);
+            txtLocal.Location = new Point(410, 350);
+            txtLocal.Size = new Size(300, 30);
+            adicionaritem.Controls.Add(txtLocal);
+
+            // --- Botão SALVAR ---
+            Button btnSalvar = new Button();
+            btnSalvar.Text = "Salvar Item";
+            btnSalvar.Font = new Font("Arial", 16, FontStyle.Bold);
+            btnSalvar.Size = new Size(250, 50);
+            btnSalvar.Location = new Point(435, 420);
+            btnSalvar.BackColor = Color.White;
+            btnSalvar.ForeColor = Color.FromArgb(0, 171, 155);
+            btnSalvar.FlatStyle = FlatStyle.Flat;
+            btnSalvar.FlatAppearance.BorderSize = 1;
+
+            btnSalvar.Click += (sender, e) => {
+                string descricao = txtDescricao.Text;
+                string marca = txtMarca.Text;
+                string local = txtLocal.Text;
+                int quantidade;
+
+                if (string.IsNullOrWhiteSpace(descricao) || 
+                    string.IsNullOrWhiteSpace(marca) || 
+                    string.IsNullOrWhiteSpace(local) || 
+                    !int.TryParse(txtQuantidade.Text, out quantidade))
+                {
+                    MessageBox.Show("Preencha todos os campos corretamente.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                string caminho = CaminhoDoEstoque; // mesmo caminho usado no código original
+                if (caminho == null) {
+                    MessageBox.Show("Erro: Caminho do estoque não definido!");
+                    return;
+                }
+
+                try
+                {
+                    using (var workbook = new XLWorkbook(caminho))
+                    {
+                        var ws = workbook.Worksheet(1);
+                        int ultimaLinha = ws.LastRowUsed().RowNumber() + 1;
+                        int novoNumero = ultimaLinha - 1;
+
+                        ws.Cell(ultimaLinha, 1).Value = novoNumero;
+                        ws.Cell(ultimaLinha, 2).Value = descricao;
+                        ws.Cell(ultimaLinha, 3).Value = quantidade;
+                        ws.Cell(ultimaLinha, 4).Value = marca;
+                        ws.Cell(ultimaLinha, 5).Value = local;
+
+                        workbook.Save();
+                    }
+
+                    MessageBox.Show("Item adicionado com sucesso!");
+                    txtDescricao.Clear();
+                    txtQuantidade.Clear();
+                    txtMarca.Clear();
+                    txtLocal.Clear();
+
+                    adicionaritem.Visible = false;
+                    ADM.Visible = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Erro ao salvar: {ex.Message}");
+                }
+            };
+
+            adicionaritem.Controls.Add(btnSalvar);
+
+            // --- Botão Voltar ---
+            Button botaoVoltar = new Button();
+            botaoVoltar.Text = "Voltar";
+            botaoVoltar.Location = new Point(20, 20);
+            botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+            botaoVoltar.AutoSize = true;
+            botaoVoltar.FlatStyle = FlatStyle.Flat;
+            botaoVoltar.FlatAppearance.BorderSize = 0;
+            botaoVoltar.BackColor = Color.White;
+            botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
+            botaoVoltar.Click += (sender, e) => {
+                adicionaritem.Visible = false;
+                ADM.Visible = true;
+            };
+            adicionaritem.Controls.Add(botaoVoltar);
+
+            this.Controls.Add(adicionaritem);
+    }
+    public void Removeritem() {
+        removeritem = new Panel();
+        removeritem.Size = this.ClientSize;
+        removeritem.Location = new Point(0, 0);
+        removeritem.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+        removeritem.BackgroundImageLayout = ImageLayout.Stretch;
+        removeritem.Visible = false;
+
+        Label titulo = new Label();
+        titulo.Text = "Remover Item do Estoque";
+        titulo.Font = new Font("Arial", 28, FontStyle.Bold);
+        titulo.ForeColor = Color.FromArgb(0, 171, 155);
+        titulo.AutoSize = true;
+        titulo.BackColor = Color.Transparent;
+        titulo.Location = new Point(350, 100);
+        removeritem.Controls.Add(titulo);
+
+        TextBox txtID = new TextBox();
+        txtID.PlaceholderText = "Número do Item (ID)";
+        txtID.Font = new Font("Arial", 14);
+        txtID.Location = new Point(410, 220);
+        txtID.Size = new Size(300, 30);
+        removeritem.Controls.Add(txtID);
+
+        Button btnRemover = new Button();
+        btnRemover.Text = "Remover";
+        btnRemover.Font = new Font("Arial", 16, FontStyle.Bold);
+        btnRemover.Size = new Size(200, 50);
+        btnRemover.Location = new Point(460, 280);
+        btnRemover.BackColor = Color.Red;
+        btnRemover.ForeColor = Color.White;
+        btnRemover.FlatStyle = FlatStyle.Flat;
+        btnRemover.FlatAppearance.BorderSize = 0;
+
+        btnRemover.Click += (sender, e) =>
+        {
+            if (!int.TryParse(txtID.Text, out int id))
+            {
+                MessageBox.Show("Digite um número de item válido.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string caminho = CaminhoDoEstoque;
+            if (caminho == null)
+            {
+                MessageBox.Show("Erro: Caminho do estoque não definido!");
+                return;
+            }
+
+            try
+            {
+                using (var wb = new XLWorkbook(caminho))
+                {
+                    var ws = wb.Worksheet(1);
+
+                    bool achou = false;
+                    for (int i = 2; i <= ws.LastRowUsed().RowNumber(); i++)
+                    {
+                        if (ws.Cell(i, 1).GetValue<int>() == id)
+                        {
+                            ws.Row(i).Delete();
+                            achou = true;
+                            break;
+                        }
+                    }
+
+                    if (achou)
+                    {
+                        wb.Save();
+                        MessageBox.Show("Item removido com sucesso!");
+                        txtID.Clear();
+                        removeritem.Visible = false;
+                        ADM.Visible = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("ID não encontrado!");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro: {ex.Message}");
+            }
+        };
+
+        removeritem.Controls.Add(btnRemover);
+
+        Button botaoVoltar = new Button();
+        botaoVoltar.Text = "Voltar";
+        botaoVoltar.Location = new Point(20, 20);
+        botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+        botaoVoltar.AutoSize = true;
+        botaoVoltar.FlatStyle = FlatStyle.Flat;
+        botaoVoltar.FlatAppearance.BorderSize = 0;
+        botaoVoltar.BackColor = Color.White;
+        botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
+        botaoVoltar.Click += (sender, e) =>
+        {
+            removeritem.Visible = false;
+            ADM.Visible = true;
+        };
+        removeritem.Controls.Add(botaoVoltar);
+
+        this.Controls.Add(removeritem);
+    }
+
+    // Método de clique do botão
+    private void BtnRemover_Click(object sender, EventArgs e)
+    {
+        // Aqui você pode colocar a lógica para remover o item desejado
+        MessageBox.Show("Item removido com sucesso!", "Remoção", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        // Oculta o painel após a ação
+        removeritem.Visible = false;
+    }
+
+    public void AdicionarProduto() {
+        // Criação do painel
+        adicionarproduto = new Panel();
+        adicionarproduto.Size = this.ClientSize;
+        adicionarproduto.Location = new Point(0, 0);
+        adicionarproduto.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+        adicionarproduto.BackgroundImageLayout = ImageLayout.Stretch;
+        adicionarproduto.Visible = true; // Tornar visível para testar
+
+        // Label e TextBox para o nome do produto
+        Label lblNome = new Label();
+        lblNome.Text = "Nome do Produto:";
+        lblNome.Location = new Point(50, 50);
+        lblNome.AutoSize = true;
+
+        TextBox txtNome = new TextBox();
+        txtNome.Location = new Point(200, 50);
+        txtNome.Width = 200;
+
+        // Label e TextBox para o preço do produto
+        Label lblPreco = new Label();
+        lblPreco.Text = "Preço:";
+        lblPreco.Location = new Point(50, 100);
+        lblPreco.AutoSize = true;
+
+        TextBox txtPreco = new TextBox();
+        txtPreco.Location = new Point(200, 100);
+        txtPreco.Width = 100;
+
+        // Botão salvar
+        Button btnSalvar = new Button();
+        btnSalvar.Text = "Salvar";
+        btnSalvar.Size = new Size(100, 30);
+        btnSalvar.Location = new Point(200, 150);
+
+        // Evento do botão
+        btnSalvar.Click += (s, e) =>
+        {
+            string nome = txtNome.Text;
+            string precoTexto = txtPreco.Text;
+
+            // Validação simples
+            if (string.IsNullOrWhiteSpace(nome) || string.IsNullOrWhiteSpace(precoTexto))
+            {
+                MessageBox.Show("Por favor, preencha todos os campos.");
+                return;
+            }
+
+            if (!decimal.TryParse(precoTexto, out decimal preco))
+            {
+                MessageBox.Show("Preço inválido.");
+                return;
+            }
+
+            // Aqui você pode adicionar o produto a uma lista, banco de dados, etc.
+            MessageBox.Show($"Produto salvo:\nNome: {nome}\nPreço: {preco:C}");
+        };
+
+        // Adiciona os controles ao painel
+        adicionarproduto.Controls.Add(lblNome);
+        adicionarproduto.Controls.Add(txtNome);
+        adicionarproduto.Controls.Add(lblPreco);
+        adicionarproduto.Controls.Add(txtPreco);
+        adicionarproduto.Controls.Add(btnSalvar);
+
+        // Adiciona o painel ao formulário
+        this.Controls.Add(adicionarproduto);
+    }
 }
+
