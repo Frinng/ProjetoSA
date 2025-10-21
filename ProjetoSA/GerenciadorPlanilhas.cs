@@ -9,9 +9,9 @@ using System.Windows.Forms;
 namespace ProjetoSA {
     public static class GerenciadorPlanilhas {
         // ------------------- Caminhos -------------------
-        public static string CaminhoDoEstoque = Path.Combine(Application.StartupPath, "PLanilhaSimuladoEstoque.xlsx");
-        private static string CaminhoPlanilhaLog = Path.Combine(Application.StartupPath, "PLanilhaEmpresgravados.xlsx");
-        private static string CaminhoPlanilhaLogin = Path.Combine(Application.StartupPath, "BancoDeDados.xlsx");
+        public static string CaminhoDoEstoque = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PLanilhaSimuladoEstoque.xlsx");
+        private static string CaminhoPlanilhaLog = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PLanilhaEmpresgravados.xlsx");
+        private static string CaminhoPlanilhaLogin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BancoDeDados.xlsx");
 
         // ------------------- LOGIN -------------------
         public static string FazerLogin(string usuario, string senha) {

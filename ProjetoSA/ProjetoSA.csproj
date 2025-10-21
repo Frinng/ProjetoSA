@@ -13,9 +13,34 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Recursos\BancoDeDados.xlsx">
+      <None Remove="Recursos\FundoTelaPadrao.png" />
+      <Content Include="Recursos\FundoTelaPadrao.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Recursos\PLanilhaSimuladoEstoque.xlsx" />
+      <Content Include="Recursos\PLanilhaSimuladoEstoque.xlsx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Recursos\PLanilhaEmpresgravados.xlsx" />
+      <Content Include="Recursos\PLanilhaEmpresgravados.xlsx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Recursos\ImagemLogin.png" />
+      <Content Include="Recursos\ImagemLogin.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Recursos\FerramentasParaEmprestimo.xlsx" />
+      <Content Include="Recursos\FerramentasParaEmprestimo.xlsx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Recursos\EstoqueDeItens.xlsx" />
+      <Content Include="Recursos\EstoqueDeItens.xlsx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Recursos\BancoDeDados.xlsx" />
+      <Content Include="Recursos\BancoDeDados.xlsx">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+      </Content>
     </ItemGroup>
 
 </Project>

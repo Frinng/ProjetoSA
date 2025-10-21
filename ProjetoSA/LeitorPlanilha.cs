@@ -5,7 +5,7 @@ using System.Windows.Forms;
 public class LeitorPlanilha {
 
     private static string CaminhoPlanilhaLogin = Path.Combine(
-        Application.StartupPath, // Pega a pasta onde o .exe está
+        AppDomain.CurrentDomain.BaseDirectory, // Pega a pasta onde o .exe está
         "BancoDeDados.xlsx"      // Procura o arquivo na MESMA pasta
     );
 
