@@ -23,9 +23,6 @@ public partial class Formprinciapl : Form {
     public Panel adicionaritem;
     public static string CaminhoDoEstoque = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PLanilhaSimuladoEstoque.xlsx");
 
-    
-    
-
     private DataGridView tabelaEmprestimos;
 
     public Formprinciapl() {
@@ -54,8 +51,9 @@ public partial class Formprinciapl : Form {
         CriarPainelVerEmprestimos();
         Adicionaritem();
         Removeritem();
+        MenuPrincipal();
         
-        
+        this.Controls.Add(Menuprincipal);
         this.Controls.Add(removeritem);
         this.Controls.Add(adicionaritem);
         this.Controls.Add(PainelVerEmprestimos);
@@ -181,8 +179,7 @@ public partial class Formprinciapl : Form {
                     MessageBox.Show("Login realizado com sucesso!");
                     PainelLogin.Visible = false;
                     
-                    
-                    
+                    Menuprincipal.Visible = true;
                     break;
 
                 case "ADMIN":
@@ -328,7 +325,105 @@ public partial class Formprinciapl : Form {
     
     public void MenuPrincipal() {
         
+        Menuprincipal = new Panel();
+        Menuprincipal.Name = "MenuUsuario";
+        Menuprincipal.Size = this.ClientSize;
+        Menuprincipal.Location = new Point(0, 0);
+        Menuprincipal.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+        Menuprincipal.BackgroundImageLayout = ImageLayout.Stretch;
+        Menuprincipal.Visible = false;
 
+        
+        Label labelMenuADM = new Label();
+        labelMenuADM.Text = "Menu Principal";
+        labelMenuADM.Location = new Point(450, 100);
+        labelMenuADM.Font = new Font("Arial", 28, FontStyle.Bold);
+        labelMenuADM.AutoSize = true;
+        labelMenuADM.BackColor = Color.Transparent;
+        labelMenuADM.ForeColor = Color.FromArgb(0, 171, 155);
+        Menuprincipal.Controls.Add(labelMenuADM);
+        
+        
+        Button BotaoEntrar = new Button();
+        BotaoEntrar.Text = "Ver Estoque";
+        BotaoEntrar.Size = new Size(230, 40);
+        BotaoEntrar.Location = new Point(480, 180);
+        BotaoEntrar.Font = new Font("Arial", 20, FontStyle.Bold);
+        BotaoEntrar.ForeColor = Color.FromArgb(0, 171, 155);
+        BotaoEntrar.FlatStyle = FlatStyle.Flat;
+        BotaoEntrar.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
+        BotaoEntrar.BackColor = Color.White;
+        BotaoEntrar.FlatAppearance.BorderSize = 1;
+        BotaoEntrar.Click += (sender, e) => {
+            tabelaEstoque.DataSource = MostrarPlanilha.LerPlanilhas();
+            ADM.Visible = false;
+            VerPlanilha.Visible = true;
+        };
+        Menuprincipal.Controls.Add(BotaoEntrar);
+        
+        
+        Button BotaoMenuFerra = new Button();
+        BotaoMenuFerra.Text = "Emprestimo";
+        BotaoMenuFerra.Size = new Size(230, 40);
+        BotaoMenuFerra.Location = new Point(480, 230);
+        BotaoMenuFerra.Font = new Font("Arial", 20, FontStyle.Bold);
+        BotaoMenuFerra.ForeColor = Color.FromArgb(0, 171, 155);
+        BotaoMenuFerra.FlatStyle = FlatStyle.Flat;
+        BotaoMenuFerra.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
+        BotaoMenuFerra.BackColor = Color.White;
+        BotaoMenuFerra.FlatAppearance.BorderSize = 1;
+        BotaoMenuFerra.Click += (sender, e) => {
+            ADM.Visible = false;
+            MEmprestimoPrinc.Visible = true;
+        };
+        Menuprincipal.Controls.Add(BotaoMenuFerra);
+        
+        Button BotaoAddItem = new Button();
+        BotaoAddItem .Text = "Adicionar Produto";
+        BotaoAddItem .Size = new Size(230, 40);
+        BotaoAddItem .Location = new Point(480, 280);
+        BotaoAddItem .Font = new Font("Arial", 20, FontStyle.Bold);
+        BotaoAddItem .ForeColor = Color.FromArgb(0, 171, 155);
+        BotaoAddItem .FlatStyle = FlatStyle.Flat;
+        BotaoAddItem .FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
+        BotaoAddItem .BackColor = Color.White;
+        BotaoAddItem .FlatAppearance.BorderSize = 1;
+        BotaoAddItem .Click += (sender, e) => {
+            ADM.Visible = false;
+            adicionaritem.Visible = true;
+        };
+        Menuprincipal.Controls.Add(BotaoAddItem );
+        
+        Button BotaoRemoveItem = new Button();
+        BotaoRemoveItem .Text = "Remover Produto";
+        BotaoRemoveItem.Size = new Size(230, 40);
+        BotaoRemoveItem.Location = new Point(480, 330);
+        BotaoRemoveItem.Font = new Font("Arial", 20, FontStyle.Bold);
+        BotaoRemoveItem.ForeColor = Color.FromArgb(0, 171, 155);
+        BotaoRemoveItem.FlatStyle = FlatStyle.Flat;
+        BotaoRemoveItem.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
+        BotaoRemoveItem.BackColor = Color.White;
+        BotaoRemoveItem.FlatAppearance.BorderSize = 1;
+        BotaoRemoveItem.Click += (sender, e) => {
+            ADM.Visible = false;
+            removeritem.Visible = true;
+        };
+        Menuprincipal.Controls.Add(BotaoRemoveItem);
+
+        Button botaoVoltar = new Button();
+        botaoVoltar.Text = "Voltar";
+        botaoVoltar.Location = new Point(20, 20);
+        botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+        botaoVoltar.AutoSize = true;
+        botaoVoltar.FlatStyle = FlatStyle.Flat;
+        botaoVoltar.FlatAppearance.BorderSize = 0;
+        botaoVoltar.BackColor = Color.White;
+        botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
+        botaoVoltar.Click += (sender, e) => {
+            ADM.Visible = false;
+            PainelLogin.Visible = true;
+        };
+        Menuprincipal.Controls.Add(botaoVoltar);
     }
     
     public void MenuADM() {
@@ -1056,17 +1151,15 @@ public partial class Formprinciapl : Form {
         btnRemover.FlatStyle = FlatStyle.Flat;
         btnRemover.FlatAppearance.BorderSize = 0;
 
-        btnRemover.Click += (sender, e) =>
-        {
-            if (!int.TryParse(txtID.Text, out int id))
-            {
+        btnRemover.Click += (sender, e) => {
+            if (!int.TryParse(txtID.Text, out int id)) {
                 MessageBox.Show("Digite um número de item válido.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             string caminho = CaminhoDoEstoque;
-            if (caminho == null)
-            {
+            
+            if (caminho == null) {
                 MessageBox.Show("Erro: Caminho do estoque não definido!");
                 return;
             }
@@ -1175,8 +1268,7 @@ public partial class Formprinciapl : Form {
         btnSalvar.Location = new Point(200, 150);
 
         // Evento do botão
-        btnSalvar.Click += (s, e) =>
-        {
+        btnSalvar.Click += (s, e) => {
             string nome = txtNome.Text;
             string precoTexto = txtPreco.Text;
 
