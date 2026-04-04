@@ -2,7 +2,7 @@ namespace ProjetoSA;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
-
+using System.Net.Http;
 
 public partial class Formprinciapl : Form {
 
@@ -43,14 +43,6 @@ public partial class Formprinciapl : Form {
         CriarPainelLogin();
         CriarPainelRegistro();
         MenuADM();
-        Ver_Planilha();
-        Menu_EmprestimoPrinci();
-        VerFerramentas();
-        CriarPainelPegarEmprestimo();
-        CriarPainelDevolver();
-        CriarPainelVerEmprestimos();
-        Adicionaritem();
-        Removeritem();
         MenuPrincipal();
         
         this.Controls.Add(Menuprincipal);
@@ -254,9 +246,10 @@ public partial class Formprinciapl : Form {
         botaoConfirmar.ForeColor = Color.FromArgb(0, 171, 155);
         botaoConfirmar.FlatStyle = FlatStyle.Flat;
         botaoConfirmar.FlatAppearance.BorderSize = 1;
-        botaoConfirmar.Click += (sender, e) => {
+        botaoConfirmar.Click += async (sender, e) => {
             string novoUsuario = campoNovoUsuario.Text;
             string novaSenha = campoNovaSenha.Text;
+            int IDgerado = criarID.GerarID();
 
             if (string.IsNullOrWhiteSpace(campoNovoUsuario.Text)) {
                 MessageBox.Show("Por favor, preencha o campo Usuário!");
@@ -282,9 +275,43 @@ public partial class Formprinciapl : Form {
                 MessageBox.Show("As senhas não conferem!");
                 return;
             }
+            
+            //Chama o phpkkkk
+            
+            try {
+                using (HttpClient cliente = new HttpClient()){
+                    
+                    string url = "http://localhost/projeto_sa/cadastrar.php";
+                    
+                    var dados = new FormUrlEncodedContent(new[] {
+                        new KeyValuePair<string, string>("novoUsuario", novoUsuario),
+                        new KeyValuePair<string, string>("novaSenha", novaSenha),
+                        new KeyValuePair<string, string>("IDgerado", IDgerado.ToString())
+                    });
 
-            //string resultado = LeitorPlanilha.AdicionarUsuario(novoUsuario, novaSenha);
+                    HttpResponseMessage resposta = await cliente.PostAsync(url, dados);
 
+                    if (resposta.IsSuccessStatusCode) {
+                        string conteudo = await resposta.Content.ReadAsStringAsync();
+                        
+                        if (conteudo.Contains("sucesso")) {
+                            MessageBox.Show("Usuário registrado com sucesso!");
+                            PainelRegistro.Visible = false;
+                            PainelLogin.Visible = true;
+                        } else {
+                            MessageBox.Show("Erro ao cadastrar: " + conteudo);
+                        }
+                    }
+                    else {
+                        MessageBox.Show("Erro no servidor: " + resposta.StatusCode);
+                    }
+                }
+            }
+            catch (Exception ex){
+                
+                MessageBox.Show("Erro de conexão: " + ex.Message);
+                
+            }
            
         };
         PainelRegistro.Controls.Add(botaoConfirmar);
@@ -510,682 +537,6 @@ public partial class Formprinciapl : Form {
             PainelLogin.Visible = true;
         };
         ADM.Controls.Add(botaoVoltar);
-    }
-
-    public void Ver_Planilha() {
-        VerPlanilha = new Panel();
-        VerPlanilha.Size = this.ClientSize;
-        VerPlanilha.Location = new Point(0, 0);
-        VerPlanilha.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
-        VerPlanilha.BackgroundImageLayout = ImageLayout.Stretch;
-        VerPlanilha.Visible = false;
-
-        tabelaEstoque = new DataGridView();
-        tabelaEstoque.Location = new Point(20, 70); // Posição (X, Y) - 20px da borda, 70px do topo
-        tabelaEstoque.Size = new Size(this.ClientSize.Width - 40, this.ClientSize.Height - 90); // Tamanho (Largura, Altura)
-        tabelaEstoque.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-        tabelaEstoque.ReadOnly = true;
-        tabelaEstoque.BackgroundColor = Color.White;
-        tabelaEstoque.ForeColor = Color.FromArgb(0, 171, 155);
-        tabelaEstoque.DefaultCellStyle.BackColor = Color.White;
-        tabelaEstoque.DefaultCellStyle.ForeColor = Color.FromArgb(0, 171, 155);
-        tabelaEstoque.DefaultCellStyle.Font = new Font("Arial", 12);
-        tabelaEstoque.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10, FontStyle.Bold);
-        tabelaEstoque.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
-        tabelaEstoque.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(0, 171, 155);
-        tabelaEstoque.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-        tabelaEstoque.EnableHeadersVisualStyles = false;
-        VerPlanilha.Controls.Add(tabelaEstoque);
-
-        Button botaoVoltar = new Button();
-        botaoVoltar.Text = "Voltar";
-        botaoVoltar.Location = new Point(20, 20);
-        botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
-        botaoVoltar.AutoSize = true;
-        botaoVoltar.FlatStyle = FlatStyle.Flat;
-        botaoVoltar.FlatAppearance.BorderSize = 0;
-        botaoVoltar.BackColor = Color.White;
-        botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
-        botaoVoltar.Click += (sender, e) => {
-            VerPlanilha.Visible = false;
-            ADM.Visible = true;
-        };
-        VerPlanilha.Controls.Add(botaoVoltar);
-        this.Controls.Add(VerPlanilha);
-    }
-
-    public void Menu_EmprestimoPrinci() {
-        MEmprestimoPrinc = new Panel();
-        MEmprestimoPrinc.Name = "Temporario";
-        MEmprestimoPrinc.Size = this.ClientSize;
-        MEmprestimoPrinc.Location = new Point(0, 0);
-        MEmprestimoPrinc.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
-        MEmprestimoPrinc.BackgroundImageLayout = ImageLayout.Stretch;
-        MEmprestimoPrinc.Visible = false;
-        
-        Label labelMenuEmp = new Label();
-        labelMenuEmp.Text = "Menu De Emprestimo";
-        labelMenuEmp.Location = new Point(370, 100);
-        labelMenuEmp.Font = new Font("Arial", 28, FontStyle.Bold);
-        labelMenuEmp.AutoSize = true;
-        labelMenuEmp.BackColor = Color.Transparent;
-        labelMenuEmp.ForeColor = Color.FromArgb(0, 171, 155);
-        MEmprestimoPrinc.Controls.Add(labelMenuEmp);
-        
-        // Botao de mostrar ferramentas disponiveis
-        Button MostrarFerramentas = new Button();
-        MostrarFerramentas.Text = "Ferramentas";
-        MostrarFerramentas.Size = new Size(240, 40);
-        MostrarFerramentas.Location = new Point(460, 160);
-        MostrarFerramentas.Font = new Font("Arial", 20, FontStyle.Bold);
-        // ... (estilos) ...
-        MostrarFerramentas.ForeColor = Color.FromArgb(0, 171, 155);
-        MostrarFerramentas.FlatStyle = FlatStyle.Flat;
-        MostrarFerramentas.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
-        MostrarFerramentas.BackColor = Color.White;
-        MostrarFerramentas.FlatAppearance.BorderSize = 1;
-        MostrarFerramentas.Click += (sender, e) => {
-            
-            VerFerramentasDisponiveis.Visible = true; 
-            MEmprestimoPrinc.Visible = false;
-        };
-        MEmprestimoPrinc.Controls.Add(MostrarFerramentas);
-        
-        // Botão PEGAR EMPRESTADO
-        Button BotaoPegarEmprestimo = new Button();
-        BotaoPegarEmprestimo.Text = "PEGAR";
-        BotaoPegarEmprestimo.Size = new Size(240, 40);
-        BotaoPegarEmprestimo.Location = new Point(460, 210);
-        BotaoPegarEmprestimo.Font = new Font("Arial", 20, FontStyle.Bold);
-        // ... (estilos) ...
-        BotaoPegarEmprestimo.ForeColor = Color.FromArgb(0, 171, 155);
-        BotaoPegarEmprestimo.FlatStyle = FlatStyle.Flat;
-        BotaoPegarEmprestimo.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
-        BotaoPegarEmprestimo.BackColor = Color.White;
-        BotaoPegarEmprestimo.FlatAppearance.BorderSize = 1;
-        BotaoPegarEmprestimo.Click += (sender, e) => {
-            MEmprestimoPrinc.Visible = false;
-            PainelPegarEmprestimo.Visible = true;
-        };
-        MEmprestimoPrinc.Controls.Add(BotaoPegarEmprestimo);
-        
-        
-        // Botão DEVOLVER FERRAMENTA
-        Button BotaoDevolverEmprestimo = new Button();
-        BotaoDevolverEmprestimo.Text = "DEVOLVER";
-        BotaoDevolverEmprestimo.Size = new Size(240, 40);
-        BotaoDevolverEmprestimo.Location = new Point(460, 260); // Posição 260
-        BotaoDevolverEmprestimo.Font = new Font("Arial", 20, FontStyle.Bold);
-        // ... (estilos) ...
-        BotaoDevolverEmprestimo.ForeColor = Color.FromArgb(0, 171, 155);
-        BotaoDevolverEmprestimo.FlatStyle = FlatStyle.Flat;
-        BotaoDevolverEmprestimo.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
-        BotaoDevolverEmprestimo.BackColor = Color.White;
-        BotaoDevolverEmprestimo.FlatAppearance.BorderSize = 1;
-        BotaoDevolverEmprestimo.Click += (sender, e) => {
-            MEmprestimoPrinc.Visible = false;
-            PainelDevolver.Visible = true;
-        };
-        MEmprestimoPrinc.Controls.Add(BotaoDevolverEmprestimo);
-        
-        // --- NOVO BOTÃO (Corrigido) ---
-        Button VerEmprestimos = new Button();
-        VerEmprestimos.Text = "VER EMPRÉSTIMOS"; // Texto corrigido
-        VerEmprestimos.Size = new Size(240, 40);
-        VerEmprestimos.Location = new Point(460, 310); // Posição corrigida (260 + 40 + 10)
-        VerEmprestimos.Font = new Font("Arial", 20, FontStyle.Bold);
-        // ... (estilos) ...
-        VerEmprestimos.ForeColor = Color.FromArgb(0, 171, 155);
-        VerEmprestimos.FlatStyle = FlatStyle.Flat;
-        VerEmprestimos.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
-        VerEmprestimos.BackColor = Color.White;
-        VerEmprestimos.FlatAppearance.BorderSize = 1;
-        VerEmprestimos.Click += (sender, e) => {
-            // Ação corrigida:
-            
-            MEmprestimoPrinc.Visible = false;
-            PainelVerEmprestimos.Visible = true; // Abre o painel novo
-        };
-        MEmprestimoPrinc.Controls.Add(VerEmprestimos);
-        
-        // --- Botão Voltar ---
-        Button botaoVoltar = new Button();
-        botaoVoltar.Text = "Voltar";
-        botaoVoltar.Location = new Point(20, 20);
-        // ... (estilos) ...
-        botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
-        botaoVoltar.AutoSize = true;
-        botaoVoltar.FlatStyle = FlatStyle.Flat;
-        botaoVoltar.FlatAppearance.BorderSize = 0;
-        botaoVoltar.BackColor = Color.White;
-        botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
-        botaoVoltar.Click += (sender, e) => {
-            MEmprestimoPrinc.Visible = false;
-            ADM.Visible = true;
-        };
-        MEmprestimoPrinc.Controls.Add(botaoVoltar);
-        this.Controls.Add(MEmprestimoPrinc);
-    }
-
-    public void VerFerramentas() {
-        
-        // Criando o painel
-        VerFerramentasDisponiveis = new Panel();
-        VerFerramentasDisponiveis.Size = this.ClientSize;
-        VerFerramentasDisponiveis.Location = new Point(0, 0);
-        VerFerramentasDisponiveis.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
-        VerFerramentasDisponiveis.BackgroundImageLayout = ImageLayout.Stretch;
-        VerFerramentasDisponiveis.Visible = false;
-
-        // Criando o DataGridView
-        tabelaFerramentas = new DataGridView();
-        tabelaFerramentas.Location = new Point(20, 70);
-        tabelaFerramentas.Size = new Size(this.ClientSize.Width - 40, this.ClientSize.Height - 90);
-        tabelaFerramentas.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-        tabelaFerramentas.ReadOnly = true;
-        tabelaFerramentas.BackgroundColor = Color.White;
-        tabelaFerramentas.ForeColor = Color.FromArgb(0, 171, 155);
-        tabelaFerramentas.DefaultCellStyle.BackColor = Color.White;
-        tabelaFerramentas.DefaultCellStyle.ForeColor = Color.FromArgb(0, 171, 155);
-        tabelaFerramentas.DefaultCellStyle.Font = new Font("Arial", 12);
-        tabelaFerramentas.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10, FontStyle.Bold);
-        tabelaFerramentas.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
-        tabelaFerramentas.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(0, 171, 155);
-        tabelaFerramentas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-        tabelaFerramentas.EnableHeadersVisualStyles = false;
-
-        // Carregar os dados da planilha
-        //tabelaFerramentas.DataSource = Emprestimo.LerPlanilhas();
-
-        VerFerramentasDisponiveis.Controls.Add(tabelaFerramentas);
-
-        // Criando o botão Voltar
-        Button botaoVoltar = new Button();
-        botaoVoltar.Text = "Voltar";
-        botaoVoltar.Location = new Point(20, 20);
-        botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
-        botaoVoltar.AutoSize = true;
-        botaoVoltar.FlatStyle = FlatStyle.Flat;
-        botaoVoltar.FlatAppearance.BorderSize = 0;
-        botaoVoltar.BackColor = Color.White;
-        botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
-        botaoVoltar.Click += (sender, e) =>
-        {
-            VerFerramentasDisponiveis.Visible = false;
-            MEmprestimoPrinc.Visible = true;
-        };
-
-        VerFerramentasDisponiveis.Controls.Add(botaoVoltar);
-
-        // Adicionando o painel ao Form
-        this.Controls.Add(VerFerramentasDisponiveis);
-
-        
-    }
-   
-    public void CriarPainelPegarEmprestimo() {
-        
-        PainelPegarEmprestimo = new Panel();
-        PainelPegarEmprestimo.Size = this.ClientSize;
-        PainelPegarEmprestimo.Location = new Point(0, 0);
-        PainelPegarEmprestimo.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
-        PainelPegarEmprestimo.BackgroundImageLayout = ImageLayout.Stretch;
-        PainelPegarEmprestimo.Visible = false;
-
-        Label labelTitulo = new Label();
-        labelTitulo.Text = "Registrar Empréstimo";
-        labelTitulo.Location = new Point(370, 100);
-        labelTitulo.Font = new Font("Arial", 28, FontStyle.Bold);
-        labelTitulo.AutoSize = true;
-        labelTitulo.BackColor = Color.Transparent;
-        labelTitulo.ForeColor = Color.FromArgb(0, 171, 155);
-        PainelPegarEmprestimo.Controls.Add(labelTitulo);
-
-        // --- Campos de Texto ---
-        TextBox campoNomePessoa = new TextBox();
-        campoNomePessoa.Location = new Point(410, 180);
-        campoNomePessoa.Size = new Size(300, 30);
-        campoNomePessoa.Font = new Font("Arial", 14);
-        campoNomePessoa.PlaceholderText = "Nome Da Pessoa";
-        PainelPegarEmprestimo.Controls.Add(campoNomePessoa);
-
-        TextBox campoCPF = new TextBox();
-        campoCPF.Location = new Point(410, 230);
-        campoCPF.Size = new Size(300, 30);
-        campoCPF.Font = new Font("Arial", 14);
-        campoCPF.PlaceholderText = "CPF";
-        PainelPegarEmprestimo.Controls.Add(campoCPF);
-
-        TextBox campoEndereco = new TextBox();
-        campoEndereco.Location = new Point(410, 280);
-        campoEndereco.Size = new Size(300, 30);
-        campoEndereco.Font = new Font("Arial", 14);
-        campoEndereco.PlaceholderText = "Endereço";
-        PainelPegarEmprestimo.Controls.Add(campoEndereco);
-
-        TextBox campoCidade = new TextBox();
-        campoCidade.Location = new Point(410, 330);
-        campoCidade.Size = new Size(300, 30);
-        campoCidade.Font = new Font("Arial", 14);
-        campoCidade.PlaceholderText = "Cidade";
-        PainelPegarEmprestimo.Controls.Add(campoCidade);
-
-        // --- CAMPO MODIFICADO ---
-        TextBox campoItemFerramenta = new TextBox(); // Renomeado
-        campoItemFerramenta.Location = new Point(410, 380);
-        campoItemFerramenta.Size = new Size(300, 30);
-        campoItemFerramenta.Font = new Font("Arial", 14);
-        campoItemFerramenta.PlaceholderText = "Item da Ferramenta"; // Texto modificado
-        PainelPegarEmprestimo.Controls.Add(campoItemFerramenta);
-        
-        // (Campos Descricao e Marca/Modelo foram removidos deste formulário)
-        
-        // --- Botão Confirmar ---
-        Button botaoConfirmar = new Button();
-        botaoConfirmar.Text = "CONFIRMAR EMPRÉSTIMO";
-        botaoConfirmar.Location = new Point(410, 430); // Posição Y ajustada
-        botaoConfirmar.Size = new Size(300, 50);
-        botaoConfirmar.Font = new Font("Arial", 16, FontStyle.Bold);
-        botaoConfirmar.BackColor = Color.White;
-        botaoConfirmar.ForeColor = Color.FromArgb(0, 171, 155);
-        botaoConfirmar.FlatStyle = FlatStyle.Flat;
-        botaoConfirmar.FlatAppearance.BorderSize = 1;
-        botaoConfirmar.Click += (sender, e) => {
-            // Chama a função do Gerenciador com o Item
-            
-
-            
-        };
-        PainelPegarEmprestimo.Controls.Add(botaoConfirmar);
-
-        // --- Botão Voltar ---
-        Button botaoVoltar = new Button();
-        botaoVoltar.Text = "Voltar";
-        botaoVoltar.Location = new Point(20, 20);
-        botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
-        botaoVoltar.AutoSize = true;
-        botaoVoltar.FlatStyle = FlatStyle.Flat;
-        botaoVoltar.FlatAppearance.BorderSize = 0;
-        botaoVoltar.BackColor = Color.White;
-        botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
-        botaoVoltar.Click += (sender, e) => {
-            PainelPegarEmprestimo.Visible = false;
-            MEmprestimoPrinc.Visible = true;
-        };
-        PainelPegarEmprestimo.Controls.Add(botaoVoltar);
-    } 
-
-    // --- NOVO PAINEL PARA DEVOLVER ---
-    public void CriarPainelDevolver() {
-        PainelDevolver = new Panel();
-        PainelDevolver.Size = this.ClientSize;
-        PainelDevolver.Location = new Point(0, 0);
-        PainelDevolver.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
-        PainelDevolver.BackgroundImageLayout = ImageLayout.Stretch;
-        PainelDevolver.Visible = false;
-
-        Label labelTitulo = new Label();
-        labelTitulo.Text = "Registrar Devolução";
-        labelTitulo.Location = new Point(370, 100);
-        labelTitulo.Font = new Font("Arial", 28, FontStyle.Bold);
-        labelTitulo.AutoSize = true;
-        labelTitulo.BackColor = Color.Transparent;
-        labelTitulo.ForeColor = Color.FromArgb(0, 171, 155);
-        PainelDevolver.Controls.Add(labelTitulo);
-
-        // --- Campos de Texto MODIFICADOS ---
-        TextBox campoItem = new TextBox(); 
-        campoItem.Location = new Point(410, 180);
-        campoItem.Size = new Size(300, 30);
-        campoItem.Font = new Font("Arial", 14);
-        campoItem.PlaceholderText = "Item do Empréstimo (da Planilha Log)"; // Texto modificado
-        PainelDevolver.Controls.Add(campoItem);
-
-        // --- NOVO CAMPO ---
-        TextBox campoNomePessoaDev = new TextBox();
-        campoNomePessoaDev.Location = new Point(410, 230); // Posição Y ajustada
-        campoNomePessoaDev.Size = new Size(300, 30);
-        campoNomePessoaDev.Font = new Font("Arial", 14);
-        campoNomePessoaDev.PlaceholderText = "Nome da Pessoa";
-        PainelDevolver.Controls.Add(campoNomePessoaDev);
-        
-        // --- NOVO CAMPO ---
-        TextBox campoCPFDev = new TextBox();
-        campoCPFDev.Location = new Point(410, 280); // Posição Y ajustada
-        campoCPFDev.Size = new Size(300, 30);
-        campoCPFDev.Font = new Font("Arial", 14);
-        campoCPFDev.PlaceholderText = "CPF da Pessoa";
-        PainelDevolver.Controls.Add(campoCPFDev);
-
-        // --- Botão Confirmar ---
-        Button botaoConfirmar = new Button();
-        botaoConfirmar.Text = "CONFIRMAR DEVOLUÇÃO";
-        botaoConfirmar.Location = new Point(410, 330); // Posição Y ajustada
-        botaoConfirmar.Size = new Size(300, 50);
-        botaoConfirmar.Font = new Font("Arial", 16, FontStyle.Bold);
-        // ... (estilos) ...
-        botaoConfirmar.BackColor = Color.White;
-        botaoConfirmar.ForeColor = Color.FromArgb(0, 171, 155);
-        botaoConfirmar.FlatStyle = FlatStyle.Flat;
-        botaoConfirmar.FlatAppearance.BorderSize = 1;
-        botaoConfirmar.Click += (sender, e) => {
-            
-            // --- CHAMADA MODIFICADA ---
-           
-        };
-        PainelDevolver.Controls.Add(botaoConfirmar);
-
-        // --- Botão Voltar ---
-        Button botaoVoltar = new Button();
-        botaoVoltar.Text = "Voltar";
-        botaoVoltar.Location = new Point(20, 20);
-        // ... (estilos) ...
-        botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
-        botaoVoltar.AutoSize = true;
-        botaoVoltar.FlatStyle = FlatStyle.Flat;
-        botaoVoltar.FlatAppearance.BorderSize = 0;
-        botaoVoltar.BackColor = Color.White;
-        botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
-        botaoVoltar.Click += (sender, e) => {
-            PainelDevolver.Visible = false;
-            MEmprestimoPrinc.Visible = true;
-        };
-        PainelDevolver.Controls.Add(botaoVoltar);
-    }
-    public void CriarPainelVerEmprestimos() {
-        
-        PainelVerEmprestimos = new Panel();
-        PainelVerEmprestimos.Size = this.ClientSize;
-        PainelVerEmprestimos.Location = new Point(0, 0);
-        PainelVerEmprestimos.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
-        PainelVerEmprestimos.BackgroundImageLayout = ImageLayout.Stretch;
-        PainelVerEmprestimos.Visible = false;
-
-        // Criando o DataGridView
-        tabelaEmprestimos = new DataGridView();
-        tabelaEmprestimos.Location = new Point(20, 70);
-        tabelaEmprestimos.Size = new Size(this.ClientSize.Width - 40, this.ClientSize.Height - 90);
-        tabelaEmprestimos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-        tabelaEmprestimos.ReadOnly = true;
-        tabelaEmprestimos.BackgroundColor = Color.White;
-        tabelaEmprestimos.ForeColor = Color.FromArgb(0, 171, 155);
-        tabelaEmprestimos.DefaultCellStyle.BackColor = Color.White;
-        tabelaEmprestimos.DefaultCellStyle.ForeColor = Color.FromArgb(0, 171, 155);
-        tabelaEmprestimos.DefaultCellStyle.Font = new Font("Arial", 12);
-        tabelaEmprestimos.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10, FontStyle.Bold);
-        tabelaEmprestimos.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
-        tabelaEmprestimos.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(0, 171, 155);
-        tabelaEmprestimos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-        tabelaEmprestimos.EnableHeadersVisualStyles = false;
-
-        PainelVerEmprestimos.Controls.Add(tabelaEmprestimos);
-
-        // Criando o botão Voltar
-        Button botaoVoltar = new Button();
-        botaoVoltar.Text = "Voltar";
-        botaoVoltar.Location = new Point(20, 20);
-        botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
-        botaoVoltar.AutoSize = true;
-        botaoVoltar.FlatStyle = FlatStyle.Flat;
-        botaoVoltar.FlatAppearance.BorderSize = 0;
-        botaoVoltar.BackColor = Color.White;
-        botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
-        botaoVoltar.Click += (sender, e) =>
-        {
-            PainelVerEmprestimos.Visible = false;
-            MEmprestimoPrinc.Visible = true;
-        };
-        PainelVerEmprestimos.Controls.Add(botaoVoltar);
-    }
-    public void Adicionaritem() {
-        
-            adicionaritem = new Panel();
-            adicionaritem.Size = this.ClientSize;
-            adicionaritem.Location = new Point(0, 0);
-            adicionaritem.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
-            adicionaritem.BackgroundImageLayout = ImageLayout.Stretch;
-            adicionaritem.Visible = false;
-
-            Label titulo = new Label();
-            titulo.Text = "Adicionar Novo Item";
-            titulo.Font = new Font("Arial", 28, FontStyle.Bold);
-            titulo.ForeColor = Color.FromArgb(0, 171, 155);
-            titulo.AutoSize = true;
-            titulo.BackColor = Color.Transparent;
-            titulo.Location = new Point(380, 100);
-            adicionaritem.Controls.Add(titulo);
-
-            // --- Campos de texto ---
-            TextBox txtDescricao = new TextBox();
-            txtDescricao.PlaceholderText = "Descrição do Item";
-            txtDescricao.Font = new Font("Arial", 14);
-            txtDescricao.Location = new Point(410, 200);
-            txtDescricao.Size = new Size(300, 30);
-            adicionaritem.Controls.Add(txtDescricao);
-
-            TextBox txtQuantidade = new TextBox();
-            txtQuantidade.PlaceholderText = "Quantidade";
-            txtQuantidade.Font = new Font("Arial", 14);
-            txtQuantidade.Location = new Point(410, 250);
-            txtQuantidade.Size = new Size(300, 30);
-            adicionaritem.Controls.Add(txtQuantidade);
-
-            TextBox txtMarca = new TextBox();
-            txtMarca.PlaceholderText = "Marca / Modelo";
-            txtMarca.Font = new Font("Arial", 14);
-            txtMarca.Location = new Point(410, 300);
-            txtMarca.Size = new Size(300, 30);
-            adicionaritem.Controls.Add(txtMarca);
-
-            TextBox txtLocal = new TextBox();
-            txtLocal.PlaceholderText = "Local de Armazenamento";
-            txtLocal.Font = new Font("Arial", 14);
-            txtLocal.Location = new Point(410, 350);
-            txtLocal.Size = new Size(300, 30);
-            adicionaritem.Controls.Add(txtLocal);
-
-            // --- Botão SALVAR ---
-            Button btnSalvar = new Button();
-            btnSalvar.Text = "Salvar Item";
-            btnSalvar.Font = new Font("Arial", 16, FontStyle.Bold);
-            btnSalvar.Size = new Size(250, 50);
-            btnSalvar.Location = new Point(435, 420);
-            btnSalvar.BackColor = Color.White;
-            btnSalvar.ForeColor = Color.FromArgb(0, 171, 155);
-            btnSalvar.FlatStyle = FlatStyle.Flat;
-            btnSalvar.FlatAppearance.BorderSize = 1;
-
-            btnSalvar.Click += (sender, e) => {
-                string descricao = txtDescricao.Text;
-                string marca = txtMarca.Text;
-                string local = txtLocal.Text;
-                int quantidade;
-
-                if (string.IsNullOrWhiteSpace(descricao) || 
-                    string.IsNullOrWhiteSpace(marca) || 
-                    string.IsNullOrWhiteSpace(local) || 
-                    !int.TryParse(txtQuantidade.Text, out quantidade))
-                {
-                    MessageBox.Show("Preencha todos os campos corretamente.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                string caminho = CaminhoDoEstoque; // mesmo caminho usado no código original
-                if (caminho == null) {
-                    MessageBox.Show("Erro: Caminho do estoque não definido!");
-                    return;
-                }
-
-               
-            };
-
-            adicionaritem.Controls.Add(btnSalvar);
-
-            // --- Botão Voltar ---
-            Button botaoVoltar = new Button();
-            botaoVoltar.Text = "Voltar";
-            botaoVoltar.Location = new Point(20, 20);
-            botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
-            botaoVoltar.AutoSize = true;
-            botaoVoltar.FlatStyle = FlatStyle.Flat;
-            botaoVoltar.FlatAppearance.BorderSize = 0;
-            botaoVoltar.BackColor = Color.White;
-            botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
-            botaoVoltar.Click += (sender, e) => {
-                adicionaritem.Visible = false;
-                ADM.Visible = true;
-            };
-            adicionaritem.Controls.Add(botaoVoltar);
-
-            this.Controls.Add(adicionaritem);
-    }
-    public void Removeritem() {
-        removeritem = new Panel();
-        removeritem.Size = this.ClientSize;
-        removeritem.Location = new Point(0, 0);
-        removeritem.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
-        removeritem.BackgroundImageLayout = ImageLayout.Stretch;
-        removeritem.Visible = false;
-
-        Label titulo = new Label();
-        titulo.Text = "Remover Item do Estoque";
-        titulo.Font = new Font("Arial", 28, FontStyle.Bold);
-        titulo.ForeColor = Color.FromArgb(0, 171, 155);
-        titulo.AutoSize = true;
-        titulo.BackColor = Color.Transparent;
-        titulo.Location = new Point(350, 100);
-        removeritem.Controls.Add(titulo);
-
-        TextBox txtID = new TextBox();
-        txtID.PlaceholderText = "Número do Item (ID)";
-        txtID.Font = new Font("Arial", 14);
-        txtID.Location = new Point(410, 220);
-        txtID.Size = new Size(300, 30);
-        removeritem.Controls.Add(txtID);
-
-        Button btnRemover = new Button();
-        btnRemover.Text = "Remover";
-        btnRemover.Font = new Font("Arial", 16, FontStyle.Bold);
-        btnRemover.Size = new Size(200, 50);
-        btnRemover.Location = new Point(460, 280);
-        btnRemover.BackColor = Color.Red;
-        btnRemover.ForeColor = Color.White;
-        btnRemover.FlatStyle = FlatStyle.Flat;
-        btnRemover.FlatAppearance.BorderSize = 0;
-
-        btnRemover.Click += (sender, e) => {
-            if (!int.TryParse(txtID.Text, out int id)) {
-                MessageBox.Show("Digite um número de item válido.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            string caminho = CaminhoDoEstoque;
-            
-            if (caminho == null) {
-                MessageBox.Show("Erro: Caminho do estoque não definido!");
-                return;
-            }
-
-           
-        };
-
-        removeritem.Controls.Add(btnRemover);
-
-        Button botaoVoltar = new Button();
-        botaoVoltar.Text = "Voltar";
-        botaoVoltar.Location = new Point(20, 20);
-        botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
-        botaoVoltar.AutoSize = true;
-        botaoVoltar.FlatStyle = FlatStyle.Flat;
-        botaoVoltar.FlatAppearance.BorderSize = 0;
-        botaoVoltar.BackColor = Color.White;
-        botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
-        botaoVoltar.Click += (sender, e) =>
-        {
-            removeritem.Visible = false;
-            ADM.Visible = true;
-        };
-        removeritem.Controls.Add(botaoVoltar);
-
-        this.Controls.Add(removeritem);
-    }
-
-    // Método de clique do botão
-    private void BtnRemover_Click(object sender, EventArgs e)
-    {
-        // Aqui você pode colocar a lógica para remover o item desejado
-        MessageBox.Show("Item removido com sucesso!", "Remoção", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-        // Oculta o painel após a ação
-        removeritem.Visible = false;
-    }
-
-    public void AdicionarProduto() {
-        // Criação do painel
-        adicionarproduto = new Panel();
-        adicionarproduto.Size = this.ClientSize;
-        adicionarproduto.Location = new Point(0, 0);
-        adicionarproduto.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
-        adicionarproduto.BackgroundImageLayout = ImageLayout.Stretch;
-        adicionarproduto.Visible = true; // Tornar visível para testar
-
-        // Label e TextBox para o nome do produto
-        Label lblNome = new Label();
-        lblNome.Text = "Nome do Produto:";
-        lblNome.Location = new Point(50, 50);
-        lblNome.AutoSize = true;
-
-        TextBox txtNome = new TextBox();
-        txtNome.Location = new Point(200, 50);
-        txtNome.Width = 200;
-
-        // Label e TextBox para o preço do produto
-        Label lblPreco = new Label();
-        lblPreco.Text = "Preço:";
-        lblPreco.Location = new Point(50, 100);
-        lblPreco.AutoSize = true;
-
-        TextBox txtPreco = new TextBox();
-        txtPreco.Location = new Point(200, 100);
-        txtPreco.Width = 100;
-
-        // Botão salvar
-        Button btnSalvar = new Button();
-        btnSalvar.Text = "Salvar";
-        btnSalvar.Size = new Size(100, 30);
-        btnSalvar.Location = new Point(200, 150);
-
-        // Evento do botão
-        btnSalvar.Click += (s, e) => {
-            string nome = txtNome.Text;
-            string precoTexto = txtPreco.Text;
-
-            // Validação simples
-            if (string.IsNullOrWhiteSpace(nome) || string.IsNullOrWhiteSpace(precoTexto))
-            {
-                MessageBox.Show("Por favor, preencha todos os campos.");
-                return;
-            }
-
-            if (!decimal.TryParse(precoTexto, out decimal preco))
-            {
-                MessageBox.Show("Preço inválido.");
-                return;
-            }
-
-            // Aqui você pode adicionar o produto a uma lista, banco de dados, etc.
-            MessageBox.Show($"Produto salvo:\nNome: {nome}\nPreço: {preco:C}");
-        };
-
-        // Adiciona os controles ao painel
-        adicionarproduto.Controls.Add(lblNome);
-        adicionarproduto.Controls.Add(txtNome);
-        adicionarproduto.Controls.Add(lblPreco);
-        adicionarproduto.Controls.Add(txtPreco);
-        adicionarproduto.Controls.Add(btnSalvar);
-
-        // Adiciona o painel ao formulário
-        this.Controls.Add(adicionarproduto);
     }
 }
 
