@@ -2,7 +2,7 @@ namespace ProjetoSA;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
-using ClosedXML.Excel;
+
 
 public partial class Formprinciapl : Form {
 
@@ -283,25 +283,9 @@ public partial class Formprinciapl : Form {
                 return;
             }
 
-            string resultado = LeitorPlanilha.AdicionarUsuario(novoUsuario, novaSenha);
+            //string resultado = LeitorPlanilha.AdicionarUsuario(novoUsuario, novaSenha);
 
-            switch (resultado) {
-                case "SUCESSO":
-                    MessageBox.Show("Usuário registrado com sucesso!");
-                    campoNovoUsuario.Text = "";
-                    campoNovaSenha.Text = "";
-                    campoConfirmarSenha.Text = "";
-                    PainelRegistro.Visible = false;
-                    PainelLogin.Visible = true;
-                    break;
-
-                case "USUARIO_EXISTE":
-                    MessageBox.Show("Este nome de usuário já existe. Por favor, escolha outro.");
-                    break;
-
-                case "ERRO_ARQUIVO":
-                    break;
-            }
+           
         };
         PainelRegistro.Controls.Add(botaoConfirmar);
 
@@ -355,7 +339,7 @@ public partial class Formprinciapl : Form {
         BotaoEntrar.BackColor = Color.White;
         BotaoEntrar.FlatAppearance.BorderSize = 1;
         BotaoEntrar.Click += (sender, e) => {
-            tabelaEstoque.DataSource = MostrarPlanilha.LerPlanilhas();
+           
             ADM.Visible = false;
             VerPlanilha.Visible = true;
         };
@@ -457,7 +441,7 @@ public partial class Formprinciapl : Form {
         BotaoEntrar.BackColor = Color.White;
         BotaoEntrar.FlatAppearance.BorderSize = 1;
         BotaoEntrar.Click += (sender, e) => {
-            tabelaEstoque.DataSource = MostrarPlanilha.LerPlanilhas();
+            
             ADM.Visible = false;
             VerPlanilha.Visible = true;
         };
@@ -601,7 +585,7 @@ public partial class Formprinciapl : Form {
         MostrarFerramentas.BackColor = Color.White;
         MostrarFerramentas.FlatAppearance.BorderSize = 1;
         MostrarFerramentas.Click += (sender, e) => {
-            tabelaFerramentas.DataSource = Emprestimo.LerPlanilhas();
+            
             VerFerramentasDisponiveis.Visible = true; 
             MEmprestimoPrinc.Visible = false;
         };
@@ -658,7 +642,7 @@ public partial class Formprinciapl : Form {
         VerEmprestimos.FlatAppearance.BorderSize = 1;
         VerEmprestimos.Click += (sender, e) => {
             // Ação corrigida:
-            tabelaEmprestimos.DataSource = GerenciadorEmprestimos.LerPlanilhaLog(); // Carrega os dados
+            
             MEmprestimoPrinc.Visible = false;
             PainelVerEmprestimos.Visible = true; // Abre o painel novo
         };
@@ -711,7 +695,7 @@ public partial class Formprinciapl : Form {
         tabelaFerramentas.EnableHeadersVisualStyles = false;
 
         // Carregar os dados da planilha
-        tabelaFerramentas.DataSource = Emprestimo.LerPlanilhas();
+        //tabelaFerramentas.DataSource = Emprestimo.LerPlanilhas();
 
         VerFerramentasDisponiveis.Controls.Add(tabelaFerramentas);
 
@@ -808,27 +792,9 @@ public partial class Formprinciapl : Form {
         botaoConfirmar.FlatAppearance.BorderSize = 1;
         botaoConfirmar.Click += (sender, e) => {
             // Chama a função do Gerenciador com o Item
-            string resultado = GerenciadorEmprestimos.RealizarEmprestimo(
-                campoNomePessoa.Text,
-                campoCPF.Text,
-                campoEndereco.Text,
-                campoCidade.Text,
-                campoItemFerramenta.Text // Passa o Item em vez do código
-            );
+            
 
-            MessageBox.Show(resultado); 
-
-            if (resultado.EndsWith("registrado com sucesso!"))
-            {
-                campoNomePessoa.Clear();
-                campoCPF.Clear();
-                campoEndereco.Clear();
-                campoCidade.Clear();
-                campoItemFerramenta.Clear();
-                
-                PainelPegarEmprestimo.Visible = false;
-                MEmprestimoPrinc.Visible = true;
-            }
+            
         };
         PainelPegarEmprestimo.Controls.Add(botaoConfirmar);
 
@@ -905,22 +871,7 @@ public partial class Formprinciapl : Form {
         botaoConfirmar.Click += (sender, e) => {
             
             // --- CHAMADA MODIFICADA ---
-            string resultado = GerenciadorEmprestimos.RealizarDevolucao(
-                campoItem.Text,
-                campoNomePessoaDev.Text,
-                campoCPFDev.Text
-            );
-            
-            MessageBox.Show(resultado); // Mostra o resultado
-
-            if (resultado.EndsWith("atualizado.")) // Limpa e volta
-            {
-                campoItem.Clear();
-                campoNomePessoaDev.Clear();
-                campoCPFDev.Clear();
-                PainelDevolver.Visible = false;
-                MEmprestimoPrinc.Visible = true;
-            }
+           
         };
         PainelDevolver.Controls.Add(botaoConfirmar);
 
@@ -1065,36 +1016,7 @@ public partial class Formprinciapl : Form {
                     return;
                 }
 
-                try
-                {
-                    using (var workbook = new XLWorkbook(caminho))
-                    {
-                        var ws = workbook.Worksheet(1);
-                        int ultimaLinha = ws.LastRowUsed().RowNumber() + 1;
-                        int novoNumero = ultimaLinha - 1;
-
-                        ws.Cell(ultimaLinha, 1).Value = novoNumero;
-                        ws.Cell(ultimaLinha, 2).Value = descricao;
-                        ws.Cell(ultimaLinha, 3).Value = quantidade;
-                        ws.Cell(ultimaLinha, 4).Value = marca;
-                        ws.Cell(ultimaLinha, 5).Value = local;
-
-                        workbook.Save();
-                    }
-
-                    MessageBox.Show("Item adicionado com sucesso!");
-                    txtDescricao.Clear();
-                    txtQuantidade.Clear();
-                    txtMarca.Clear();
-                    txtLocal.Clear();
-
-                    adicionaritem.Visible = false;
-                    ADM.Visible = true;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Erro ao salvar: {ex.Message}");
-                }
+               
             };
 
             adicionaritem.Controls.Add(btnSalvar);
@@ -1164,41 +1086,7 @@ public partial class Formprinciapl : Form {
                 return;
             }
 
-            try
-            {
-                using (var wb = new XLWorkbook(caminho))
-                {
-                    var ws = wb.Worksheet(1);
-
-                    bool achou = false;
-                    for (int i = 2; i <= ws.LastRowUsed().RowNumber(); i++)
-                    {
-                        if (ws.Cell(i, 1).GetValue<int>() == id)
-                        {
-                            ws.Row(i).Delete();
-                            achou = true;
-                            break;
-                        }
-                    }
-
-                    if (achou)
-                    {
-                        wb.Save();
-                        MessageBox.Show("Item removido com sucesso!");
-                        txtID.Clear();
-                        removeritem.Visible = false;
-                        ADM.Visible = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("ID não encontrado!");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro: {ex.Message}");
-            }
+           
         };
 
         removeritem.Controls.Add(btnRemover);

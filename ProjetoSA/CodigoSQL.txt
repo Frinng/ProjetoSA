@@ -1,0 +1,9 @@
+﻿CREATE DATABASE AprendizadoPHP;
+
+USE AprendizadoPHP;
+
+CREATE TABLE Usuarios(
+	ID_User INT PRIMARY KEY,
+    User_nome VARCHAR(200) UNIQUE,
+   	User_senha VARCHAR(200)
+);
