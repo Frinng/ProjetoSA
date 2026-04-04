@@ -7,3 +7,17 @@ CREATE TABLE Usuarios(
     User_nome VARCHAR(200) UNIQUE,
    	User_senha VARCHAR(200)
 );
+
+DELIMITER !!
+
+CREATE PROCEDURE InserirUsuario (
+    IN p_ID_User INT,
+    IN p_User_nome VARCHAR(200),
+    IN p_User_senha VARCHAR(200)
+)
+BEGIN
+    -- Insere os dados passados como parâmetro na tabela
+    INSERT INTO Usuarios (ID_User, User_nome, User_senha)
+    VALUES (p_ID_User, p_User_nome, p_User_senha);
+END !!
+DELIMITER ;

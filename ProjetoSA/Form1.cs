@@ -150,7 +150,7 @@ public partial class Formprinciapl : Form {
         BotaoEntrar.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
         BotaoEntrar.BackColor = Color.White;
         BotaoEntrar.FlatAppearance.BorderSize = 1;
-        BotaoEntrar.Click += (sender, e) => {
+        BotaoEntrar.Click += async (sender, e) => {
             string usuario = CampoUsuario.Text;
             string senha = CampoSenha.Text;
 
@@ -164,30 +164,61 @@ public partial class Formprinciapl : Form {
                 return;
             }
 
-            string resultado = ValidadorLogin.FazerLogin(usuario, senha);
+            try {
+                using (HttpClient cliente = new HttpClient()) {
+                    string url = "http://localhost/projeto_sa/logar.php";
 
-            switch (resultado) {
-                case "SUCESSO":
-                    MessageBox.Show("Login realizado com sucesso!");
-                    PainelLogin.Visible = false;
+                    // Monta o pacote de dados com "usuario" e "senha"
+                    var dados = new FormUrlEncodedContent(new[] {
+                        new KeyValuePair<string, string>("usuario", usuario),
+                        new KeyValuePair<string, string>("senha", senha)
+                    });
                     
-                    Menuprincipal.Visible = true;
-                    break;
+                    HttpResponseMessage resposta = await cliente.PostAsync(url, dados);
 
-                case "ADMIN":
-                    CampoUsuario.Clear();
-                    CampoSenha.Clear();
-                    MessageBox.Show("Bem-vindo, Administrador!");
-                    PainelLogin.Visible = false;
-                    ADM.Visible = true;
-                    break;
+                    if (resposta.IsSuccessStatusCode) {
+                        
+                        // Lê o que o PHP respondeu (SUCESSO, ADMIN ou FALHA)
+                        string resultado = await resposta.Content.ReadAsStringAsync();
+                
+                        // O .Trim() limpa qualquer espaço em branco invisível que o PHP possa ter enviado
+                        resultado = resultado.Trim(); 
 
-                case "FALHA":
-                    MessageBox.Show("Usuário ou senha incorretos!");
-                    break;
+                        // Toma a decisão baseada na resposta do PHP
+                        switch (resultado) {
+                            case "SUCESSO":
+                                MessageBox.Show("Login realizado com sucesso!");
+                                PainelLogin.Visible = false;
+                                Menuprincipal.Visible = true;
+                                break;
 
-                case "ERRO":
-                    break;
+                            case "ADMIN":
+                                CampoUsuario.Clear();
+                                CampoSenha.Clear();
+                                MessageBox.Show("Bem-vindo, Administrador!");
+                                PainelLogin.Visible = false;
+                                ADM.Visible = true;
+                                break;
+
+                            case "FALHA":
+                                MessageBox.Show("Usuário ou senha incorretos!");
+                                break;
+
+                            default:
+                                MessageBox.Show("Erro retornado pelo servidor: " + resultado);
+                                break;
+                        }
+                    }else{
+                        MessageBox.Show("Erro no servidor: " + resposta.StatusCode);
+                    }
+                    
+                    
+                }
+            }
+            catch (Exception ex) {
+                
+                MessageBox.Show("Erro de conexão: " + ex.Message);
+                
             }
         };
         PainelLogin.Controls.Add(BotaoEntrar);
