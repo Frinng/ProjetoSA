@@ -62,6 +62,9 @@ public partial class Formprinciapl : Form {
     }
 
     public void CriarPainelLogin() {
+        
+        bool escondersenha = true;
+        
         PainelLogin = new Panel();
         PainelLogin.Name = "PainelLogin";
         PainelLogin.Size = this.ClientSize;
@@ -138,9 +141,31 @@ public partial class Formprinciapl : Form {
         CampoSenha.Font = new Font("Arial", 20);
         CampoSenha.PlaceholderText = "Senha";
         CampoSenha.TextAlign = HorizontalAlignment.Center;
-        CampoSenha.UseSystemPasswordChar = true;
         PainelLogin.Controls.Add(CampoSenha);
 
+        Button botaoescondersenha = new Button();
+        Image imagemOriginal = Image.FromFile(@"..\..\..\Recursos\Ocultar.png");
+        botaoescondersenha.Image = new Bitmap(imagemOriginal, new Size(20, 20)); 
+        botaoescondersenha.ImageAlign = ContentAlignment.MiddleCenter;
+        botaoescondersenha.Location = new Point(420, 290);
+        botaoescondersenha.Size = new Size(30, 30);
+        botaoescondersenha.FlatStyle = FlatStyle.Flat;
+        botaoescondersenha.FlatAppearance.BorderSize = 1;
+        botaoescondersenha.Click += (sender, e) => {
+            escondersenha = !escondersenha; 
+
+            CampoSenha.UseSystemPasswordChar = escondersenha;
+
+            Image img = Image.FromFile(
+                escondersenha
+                    ? @"..\..\..\Recursos\Ocultar.png"
+                    : @"..\..\..\Recursos\mostar.png"
+            );
+            botaoescondersenha.Image = new Bitmap(img, new Size(20, 20));
+        };
+        PainelLogin.Controls.Add(botaoescondersenha);
+        
+        
         Button BotaoEntrar = new Button();
         BotaoEntrar.Text = "ENTRAR";
         BotaoEntrar.AutoSize = true;
@@ -227,6 +252,7 @@ public partial class Formprinciapl : Form {
     }
 
     public void CriarPainelRegistro() {
+        bool escondersenha = true;
         
         PainelRegistro = new Panel();
         PainelRegistro.Name = "PainelRegistro";
@@ -235,7 +261,7 @@ public partial class Formprinciapl : Form {
         PainelRegistro.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
         PainelRegistro.BackgroundImageLayout = ImageLayout.Stretch;
         PainelRegistro.Visible = false;
-
+        
         Label labelTituloRegistro = new Label();
         labelTituloRegistro.Text = "Crie sua Conta";
         labelTituloRegistro.Location = new Point(410, 100);
@@ -268,7 +294,32 @@ public partial class Formprinciapl : Form {
         campoConfirmarSenha.PlaceholderText = "Confirme sua senha";
         campoConfirmarSenha.TextAlign = HorizontalAlignment.Center;
         PainelRegistro.Controls.Add(campoConfirmarSenha);
+        
+        Button botaoescondersenha = new Button();
+        Image imagemOriginal = Image.FromFile(@"..\..\..\Recursos\Ocultar.png");
+        botaoescondersenha.Image = new Bitmap(imagemOriginal, new Size(20, 20)); 
+        botaoescondersenha.ImageAlign = ContentAlignment.MiddleCenter;
+        botaoescondersenha.Location = new Point(720, 245);
+        botaoescondersenha.Size = new Size(30, 30);
+        botaoescondersenha.BackColor = Color.White;
+        botaoescondersenha.ForeColor = Color.FromArgb(0, 171, 155);
+        botaoescondersenha.FlatStyle = FlatStyle.Flat;
+        botaoescondersenha.FlatAppearance.BorderSize = 1;
+        botaoescondersenha.Click += (sender, e) => {
+            escondersenha = !escondersenha; 
 
+            campoNovaSenha.UseSystemPasswordChar = escondersenha;
+            campoConfirmarSenha.UseSystemPasswordChar = escondersenha;
+
+            Image img = Image.FromFile(
+                escondersenha
+                    ? @"..\..\..\Recursos\Ocultar.png"
+                    : @"..\..\..\Recursos\mostar.png"
+            );
+            botaoescondersenha.Image = new Bitmap(img, new Size(20, 20));
+        };
+        PainelRegistro.Controls.Add(botaoescondersenha);
+        
         Button botaoConfirmar = new Button();
         botaoConfirmar.Text = "CONFIRMAR REGISTRO";
         botaoConfirmar.Location = new Point(410, 370);
