@@ -28,7 +28,7 @@ public partial class Formprinciapl : Form {
         InitializeComponent();
         this.DoubleBuffered = true;
 
-        this.Text = "Menu Principal";
+        this.Text = "S.A Desenvolvimento de Sistemas";
         this.Width = 900;
         this.Height = 600;
 
