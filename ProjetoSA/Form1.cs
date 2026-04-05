@@ -17,11 +17,10 @@ public partial class Formprinciapl : Form {
     private DataGridView tabelaFerramentas;
     public Panel PainelPegarEmprestimo;
     public Panel PainelDevolver;
-    public Panel PainelVerEmprestimos;
-    public Panel adicionarproduto;
+    public Panel MenuFerramenta;
+    public Panel menuProdutos;
     public Panel removeritem;
     public Panel adicionaritem;
-    public static string CaminhoDoEstoque = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PLanilhaSimuladoEstoque.xlsx");
 
     private DataGridView tabelaEmprestimos;
 
@@ -44,18 +43,20 @@ public partial class Formprinciapl : Form {
         CriarPainelRegistro();
         MenuADM();
         MenuPrincipal();
+        MenuProdutos();
+        MenuFerramentas();
         
         this.Controls.Add(Menuprincipal);
         this.Controls.Add(removeritem);
         this.Controls.Add(adicionaritem);
-        this.Controls.Add(PainelVerEmprestimos);
+        this.Controls.Add(MenuFerramenta);
         this.Controls.Add(PainelPegarEmprestimo);
         this.Controls.Add(PainelDevolver);
         this.Controls.Add(VerFerramentasDisponiveis);
         this.Controls.Add(PainelLogin);
         this.Controls.Add(PainelRegistro);
         this.Controls.Add(ADM);
-        this.Controls.Add(VerPlanilha);
+        this.Controls.Add(menuProdutos);
         this.Controls.Add(MEmprestimoPrinc);
         PainelLogin.BringToFront();
     }
@@ -178,7 +179,7 @@ public partial class Formprinciapl : Form {
 
                     if (resposta.IsSuccessStatusCode) {
                         
-                        // Lê o que o PHP respondeu (SUCESSO, ADMIN ou FALHA)
+                        // chama o php lkkkkkkkk
                         string resultado = await resposta.Content.ReadAsStringAsync();
                 
                         // O .Trim() limpa qualquer espaço em branco invisível que o PHP possa ter enviado
@@ -280,7 +281,6 @@ public partial class Formprinciapl : Form {
         botaoConfirmar.Click += async (sender, e) => {
             string novoUsuario = campoNovoUsuario.Text;
             string novaSenha = campoNovaSenha.Text;
-            int IDgerado = criarID.GerarID();
 
             if (string.IsNullOrWhiteSpace(campoNovoUsuario.Text)) {
                 MessageBox.Show("Por favor, preencha o campo Usuário!");
@@ -317,7 +317,6 @@ public partial class Formprinciapl : Form {
                     var dados = new FormUrlEncodedContent(new[] {
                         new KeyValuePair<string, string>("novoUsuario", novoUsuario),
                         new KeyValuePair<string, string>("novaSenha", novaSenha),
-                        new KeyValuePair<string, string>("IDgerado", IDgerado.ToString())
                     });
 
                     HttpResponseMessage resposta = await cliente.PostAsync(url, dados);
@@ -488,26 +487,26 @@ public partial class Formprinciapl : Form {
         ADM.Controls.Add(labelMenuADM);
         
         
-        Button BotaoEntrar = new Button();
-        BotaoEntrar.Text = "Ver Estoque";
-        BotaoEntrar.Size = new Size(230, 40);
-        BotaoEntrar.Location = new Point(480, 180);
-        BotaoEntrar.Font = new Font("Arial", 20, FontStyle.Bold);
-        BotaoEntrar.ForeColor = Color.FromArgb(0, 171, 155);
-        BotaoEntrar.FlatStyle = FlatStyle.Flat;
-        BotaoEntrar.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
-        BotaoEntrar.BackColor = Color.White;
-        BotaoEntrar.FlatAppearance.BorderSize = 1;
-        BotaoEntrar.Click += (sender, e) => {
+        Button BotaoEstoque = new Button();
+        BotaoEstoque.Text = "Estoque";
+        BotaoEstoque.Size = new Size(230, 40);
+        BotaoEstoque.Location = new Point(480, 180);
+        BotaoEstoque.Font = new Font("Arial", 20, FontStyle.Bold);
+        BotaoEstoque.ForeColor = Color.FromArgb(0, 171, 155);
+        BotaoEstoque.FlatStyle = FlatStyle.Flat;
+        BotaoEstoque.FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
+        BotaoEstoque.BackColor = Color.White;
+        BotaoEstoque.FlatAppearance.BorderSize = 1;
+        BotaoEstoque.Click += (sender, e) => {
             
             ADM.Visible = false;
             VerPlanilha.Visible = true;
         };
-        ADM.Controls.Add(BotaoEntrar);
+        ADM.Controls.Add(BotaoEstoque);
         
         
         Button BotaoMenuFerra = new Button();
-        BotaoMenuFerra.Text = "Emprestimo";
+        BotaoMenuFerra.Text = "Ferramentas";
         BotaoMenuFerra.Size = new Size(230, 40);
         BotaoMenuFerra.Location = new Point(480, 230);
         BotaoMenuFerra.Font = new Font("Arial", 20, FontStyle.Bold);
@@ -522,21 +521,21 @@ public partial class Formprinciapl : Form {
         };
         ADM.Controls.Add(BotaoMenuFerra);
         
-        Button BotaoAddItem = new Button();
-        BotaoAddItem .Text = "Adicionar item";
-        BotaoAddItem .Size = new Size(230, 40);
-        BotaoAddItem .Location = new Point(480, 280);
-        BotaoAddItem .Font = new Font("Arial", 20, FontStyle.Bold);
-        BotaoAddItem .ForeColor = Color.FromArgb(0, 171, 155);
-        BotaoAddItem .FlatStyle = FlatStyle.Flat;
-        BotaoAddItem .FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
-        BotaoAddItem .BackColor = Color.White;
-        BotaoAddItem .FlatAppearance.BorderSize = 1;
-        BotaoAddItem .Click += (sender, e) => {
+        Button BotaoProdutos = new Button();
+        BotaoProdutos .Text = "Produtos";
+        BotaoProdutos .Size = new Size(230, 40);
+        BotaoProdutos .Location = new Point(480, 280);
+        BotaoProdutos.Font = new Font("Arial", 20, FontStyle.Bold);
+        BotaoProdutos .ForeColor = Color.FromArgb(0, 171, 155);
+        BotaoProdutos .FlatStyle = FlatStyle.Flat;
+        BotaoProdutos .FlatAppearance.BorderColor = Color.FromArgb(0, 171, 155);
+        BotaoProdutos .BackColor = Color.White;
+        BotaoProdutos .FlatAppearance.BorderSize = 1;
+        BotaoProdutos .Click += (sender, e) => {
             ADM.Visible = false;
             adicionaritem.Visible = true;
         };
-        ADM.Controls.Add(BotaoAddItem );
+        ADM.Controls.Add(BotaoProdutos );
         
         Button BotaoRemoveItem = new Button();
         BotaoRemoveItem .Text = "Remover Item";
@@ -568,6 +567,50 @@ public partial class Formprinciapl : Form {
             PainelLogin.Visible = true;
         };
         ADM.Controls.Add(botaoVoltar);
+    }
+
+
+    public void MenuProdutos() {
+        menuProdutos = new Panel();
+        menuProdutos.Name = "Temporario";
+        menuProdutos.Size = this.ClientSize;
+        menuProdutos.Location = new Point(0, 0);
+        menuProdutos.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+        menuProdutos.BackgroundImageLayout = ImageLayout.Stretch;
+        menuProdutos.Visible = false;
+        
+        
+        
+        
+        //Botao para voltar
+        Button botaoVoltar = new Button();
+        botaoVoltar.Text = "Voltar";
+        botaoVoltar.Location = new Point(20, 20);
+        botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+        botaoVoltar.AutoSize = true;
+        botaoVoltar.FlatStyle = FlatStyle.Flat;
+        botaoVoltar.FlatAppearance.BorderSize = 0;
+        botaoVoltar.BackColor = Color.White;
+        botaoVoltar.ForeColor = Color.FromArgb(0, 171, 155);
+        botaoVoltar.Click += (sender, e) => {
+            menuProdutos.Visible = false;
+             ADM.Visible = true;
+        };
+        menuProdutos.Controls.Add(botaoVoltar);
+    }
+
+    public void MenuFerramentas() {
+        MenuFerramenta = new Panel();
+        MenuFerramenta.Name = "Temporario";
+        MenuFerramenta.Size = this.ClientSize;
+        MenuFerramenta.Location = new Point(0, 0);
+        MenuFerramenta.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+        MenuFerramenta.BackgroundImageLayout = ImageLayout.Stretch;
+        MenuFerramenta.Visible = false;
+        
+        
+        
+        
     }
 }
 
