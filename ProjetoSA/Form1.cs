@@ -8,8 +8,7 @@ using System.Net.Http;
 using System.Reflection.PortableExecutable;
 using System.Windows.Forms;
 
-public partial class Formprinciapl : Form
-{
+public partial class Formprinciapl : Form {
 
 	public Panel PainelRegistro;
 	public Panel PainelLogin;
@@ -26,7 +25,7 @@ public partial class Formprinciapl : Form
 	public Panel Menuverlotes;
 	public Panel Menuconsultoria;
 	public Panel MenucDA;
-	public Panel Menufinanciamentoa;
+	public Panel Menufinanciamentos;
 		
 	
 	private DataGridView tabelaEmprestimos;
@@ -668,8 +667,7 @@ public partial class Formprinciapl : Form
 	}
 
 
-	public void MenuCliente()
-	{
+	public void MenuCliente() {
 		menucliente = new Panel();
 		menucliente.Name = "Temporario";
 		menucliente.Size = this.ClientSize;
@@ -773,12 +771,12 @@ public partial class Formprinciapl : Form
 	}
 
 	public void MenuVerlotes() {
-		MenuFerramenta = new Panel();
-		MenuFerramenta.Name = "Temporario";
-		MenuFerramenta.Size = this.ClientSize;
-		MenuFerramenta.Location = new Point(0, 0);
-		MenuFerramenta.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
-		MenuFerramenta.BackgroundImageLayout = ImageLayout.Stretch;
+		Menuverlotes = new Panel();
+		Menuverlotes.Name = "Temporario";
+		Menuverlotes.Size = this.ClientSize;
+		Menuverlotes.Location = new Point(0, 0);
+		Menuverlotes.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		Menuverlotes.BackgroundImageLayout = ImageLayout.Stretch;
 		Menuverlotes.Visible = false;
 
 
@@ -787,12 +785,12 @@ public partial class Formprinciapl : Form
 	}
 	
 	public void MenuConsultoria() {
-		MenuFerramenta = new Panel();
-		MenuFerramenta.Name = "Temporario";
-		MenuFerramenta.Size = this.ClientSize;
-		MenuFerramenta.Location = new Point(0, 0);
-		MenuFerramenta.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
-		MenuFerramenta.BackgroundImageLayout = ImageLayout.Stretch;
+		Menuconsultoria = new Panel();
+		Menuconsultoria.Name = "Temporario";
+		Menuconsultoria.Size = this.ClientSize;
+		Menuconsultoria.Location = new Point(0, 0);
+		Menuconsultoria.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		Menuconsultoria.BackgroundImageLayout = ImageLayout.Stretch;
 		Menuconsultoria.Visible = false;
 
 
@@ -801,12 +799,12 @@ public partial class Formprinciapl : Form
 	}
 	
 	public void MenuDA() {
-		MenuFerramenta = new Panel();
-		MenuFerramenta.Name = "Temporario";
-		MenuFerramenta.Size = this.ClientSize;
-		MenuFerramenta.Location = new Point(0, 0);
-		MenuFerramenta.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
-		MenuFerramenta.BackgroundImageLayout = ImageLayout.Stretch;
+		MenucDA = new Panel();
+		MenucDA.Name = "Temporario";
+		MenucDA.Size = this.ClientSize;
+		MenucDA.Location = new Point(0, 0);
+		MenucDA.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		MenucDA.BackgroundImageLayout = ImageLayout.Stretch;
 		MenucDA.Visible = false;
 
 
@@ -815,13 +813,13 @@ public partial class Formprinciapl : Form
 	}
 	
 	public void MenuFinanciamentoa() {
-		MenuFerramenta = new Panel();
-		MenuFerramenta.Name = "Temporario";
-		MenuFerramenta.Size = this.ClientSize;
-		MenuFerramenta.Location = new Point(0, 0);
-		MenuFerramenta.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
-		MenuFerramenta.BackgroundImageLayout = ImageLayout.Stretch;
-		Menufinanciamentoa.Visible = false;
+		Menufinanciamentos = new Panel();
+		Menufinanciamentos.Name = "Temporario";
+		Menufinanciamentos.Size = this.ClientSize;
+		Menufinanciamentos.Location = new Point(0, 0);
+		Menufinanciamentos.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		Menufinanciamentos.BackgroundImageLayout = ImageLayout.Stretch;
+		Menufinanciamentos.Visible = false;
 
 
 
