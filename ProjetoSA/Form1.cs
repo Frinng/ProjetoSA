@@ -26,6 +26,13 @@ public partial class Formprinciapl : Form {
 	public Panel Menuconsultoria;
 	public Panel MenucDA;
 	public Panel Menufinanciamentos;
+	public Panel Menuhisto;
+	public Panel Menucontrato;
+	public Panel Menuentrega;
+	public Panel Menucaract;
+	public Panel Menuinfolotes;
+	public Panel Menucarrinho;
+	public Panel Menurastreio;
 		
 	
 	private DataGridView tabelaEmprestimos;
@@ -67,8 +74,25 @@ public partial class Formprinciapl : Form {
 		MenuVerlotes();
 		MenuConsultoria();
 		MenuDA();
+		MenuEntrega();
+		Menuhistorico();
+		MenuContrato();
+		MenuCaracteristicas();
+		MenuInfoLotes();
+		MenuCarrinho();
+		MenuRastreio();
 		
-
+		this.Controls.Add(Menucaract);
+		this.Controls.Add(Menuinfolotes);
+		this.Controls.Add(Menucarrinho);
+		this.Controls.Add(Menurastreio);
+		this.Controls.Add(Menuverlotes);
+		this.Controls.Add(Menuconsultoria);
+		this.Controls.Add(MenucDA);
+		this.Controls.Add(Menufinanciamentos);
+		this.Controls.Add(Menuhisto);
+		this.Controls.Add(Menucontrato);
+		this.Controls.Add(Menuentrega);
 		this.Controls.Add(Menucolaborador);
 		this.Controls.Add(removeritem);
 		this.Controls.Add(adicionaritem);
@@ -165,6 +189,7 @@ public partial class Formprinciapl : Form {
 	    CampoSenha.Font = new Font("Arial", 20);
 	    CampoSenha.PlaceholderText = "Senha";
 	    CampoSenha.TextAlign = HorizontalAlignment.Center;
+	    CampoSenha.UseSystemPasswordChar = true;
 	    PainelLogin.Controls.Add(CampoSenha);
 
 	    Button botaoescondersenha = new Button();
@@ -287,7 +312,7 @@ public partial class Formprinciapl : Form {
 
 	public void CriarPainelRegistro()
 	{
-		bool escondersenha = false;
+		bool escondersenha = true;
 
 		PainelRegistro = new Panel();
 		PainelRegistro.Name = "PainelRegistro";
@@ -320,6 +345,7 @@ public partial class Formprinciapl : Form {
 		campoNovaSenha.Font = new Font("Arial", 20);
 		campoNovaSenha.PlaceholderText = "Digite sua senha";
 		campoNovaSenha.TextAlign = HorizontalAlignment.Center;
+		campoNovaSenha.UseSystemPasswordChar = true;
 		PainelRegistro.Controls.Add(campoNovaSenha);
 
 		TextBox campoConfirmarSenha = new TextBox();
@@ -328,6 +354,7 @@ public partial class Formprinciapl : Form {
 		campoConfirmarSenha.Font = new Font("Arial", 20);
 		campoConfirmarSenha.PlaceholderText = "Confirme sua senha";
 		campoConfirmarSenha.TextAlign = HorizontalAlignment.Center;
+		campoNovaSenha.UseSystemPasswordChar = true;
 		PainelRegistro.Controls.Add(campoConfirmarSenha);
 
 		ListBox listTipoUsuario = new ListBox();
@@ -475,8 +502,7 @@ public partial class Formprinciapl : Form {
 		PainelRegistro.BringToFront();
 	}
 
-	public void MenuColaborador()
-	{
+	public void MenuColaborador() {
 
 		Menucolaborador = new Panel();
 		Menucolaborador.Name = "MenuUsuario";
@@ -508,8 +534,8 @@ public partial class Formprinciapl : Form {
 		BotaoVerlotes.BackColor = Color.White;
 		BotaoVerlotes.FlatAppearance.BorderSize = 1;
 		BotaoVerlotes.Click += (sender, e) => {
-
 			Menucolaborador.Visible = false;
+			Menuverlotes.Visible = true;
 
 		};
 		Menucolaborador.Controls.Add(BotaoVerlotes);
@@ -527,7 +553,7 @@ public partial class Formprinciapl : Form {
 		BotaoConsultoria.FlatAppearance.BorderSize = 1;
 		BotaoConsultoria.Click += (sender, e) => {
 			Menucolaborador.Visible = false;
-			MEmprestimoPrinc.Visible = true;
+			Menuconsultoria.Visible = true;
 		};
 		Menucolaborador.Controls.Add(BotaoConsultoria);
 
@@ -543,7 +569,7 @@ public partial class Formprinciapl : Form {
 		BotaoDA.FlatAppearance.BorderSize = 1;
 		BotaoDA.Click += (sender, e) => {
 			Menucolaborador.Visible = false;
-			adicionaritem.Visible = true;
+			MenucDA.Visible = true;
 		};
 		Menucolaborador.Controls.Add(BotaoDA);
 
@@ -559,7 +585,7 @@ public partial class Formprinciapl : Form {
 		BotaoFinancimento.FlatAppearance.BorderSize = 1;
 		BotaoFinancimento.Click += (sender, e) => {
 			Menucolaborador.Visible = false;
-			removeritem.Visible = true;
+			Menufinanciamentos.Visible = true;
 		};
 		Menucolaborador.Controls.Add(BotaoFinancimento);
 
@@ -579,8 +605,7 @@ public partial class Formprinciapl : Form {
 		Menucolaborador.Controls.Add(botaoVoltar);
 	}
 
-	public void MenuFornecedor()
-	{
+	public void MenuFornecedor() {
 		MENUFORNECEDOR = new Panel();
 		MENUFORNECEDOR.Name = "Temporario";
 		MENUFORNECEDOR.Size = this.ClientSize;
@@ -600,55 +625,56 @@ public partial class Formprinciapl : Form {
 		MENUFORNECEDOR.Controls.Add(labelMenuADM);
 
 
-		Button BotaoEstoque = new Button();
-		BotaoEstoque.Text = "Ver Entregas";
-		BotaoEstoque.Size = new Size(230, 40);
-		BotaoEstoque.Location = new Point(480, 180);
-		BotaoEstoque.Font = new Font("Arial", 20, FontStyle.Bold);
-		BotaoEstoque.ForeColor = Color.FromArgb(255, 189, 89);
-		BotaoEstoque.FlatStyle = FlatStyle.Flat;
-		BotaoEstoque.FlatAppearance.BorderColor = Color.FromArgb(255, 189, 89);
-		BotaoEstoque.BackColor = Color.White;
-		BotaoEstoque.FlatAppearance.BorderSize = 1;
-		BotaoEstoque.Click += (sender, e) => {
+		Button BotaoEntrega = new Button();
+		BotaoEntrega .Text = "Ver Entregas";
+		BotaoEntrega .Size = new Size(230, 40);
+		BotaoEntrega .Location = new Point(480, 180);
+		BotaoEntrega .Font = new Font("Arial", 20, FontStyle.Bold);
+		BotaoEntrega .ForeColor = Color.FromArgb(255, 189, 89);
+		BotaoEntrega .FlatStyle = FlatStyle.Flat;
+		BotaoEntrega .FlatAppearance.BorderColor = Color.FromArgb(255, 189, 89);
+		BotaoEntrega .BackColor = Color.White;
+		BotaoEntrega .FlatAppearance.BorderSize = 1;
+		BotaoEntrega .Click += (sender, e) => {
 
 			MENUFORNECEDOR.Visible = false;
+			Menuentrega.Visible = true;
 
 		};
-		MENUFORNECEDOR.Controls.Add(BotaoEstoque);
+		MENUFORNECEDOR.Controls.Add(BotaoEntrega);
 
 
-		Button BotaoMenuFerra = new Button();
-		BotaoMenuFerra.Text = "Histórico";
-		BotaoMenuFerra.Size = new Size(230, 40);
-		BotaoMenuFerra.Location = new Point(480, 230);
-		BotaoMenuFerra.Font = new Font("Arial", 20, FontStyle.Bold);
-		BotaoMenuFerra.ForeColor = Color.FromArgb(255, 189, 89);
-		BotaoMenuFerra.FlatStyle = FlatStyle.Flat;
-		BotaoMenuFerra.FlatAppearance.BorderColor = Color.FromArgb(255, 189, 89);
-		BotaoMenuFerra.BackColor = Color.White;
-		BotaoMenuFerra.FlatAppearance.BorderSize = 1;
-		BotaoMenuFerra.Click += (sender, e) => {
+		Button Botaohisto = new Button();
+		Botaohisto.Text = "Histórico";
+		Botaohisto.Size = new Size(230, 40);
+		Botaohisto.Location = new Point(480, 230);
+		Botaohisto.Font = new Font("Arial", 20, FontStyle.Bold);
+		Botaohisto.ForeColor = Color.FromArgb(255, 189, 89);
+		Botaohisto.FlatStyle = FlatStyle.Flat;
+		Botaohisto.FlatAppearance.BorderColor = Color.FromArgb(255, 189, 89);
+		Botaohisto.BackColor = Color.White;
+		Botaohisto.FlatAppearance.BorderSize = 1;
+		Botaohisto.Click += (sender, e) => {
 			MENUFORNECEDOR.Visible = false;
-			MEmprestimoPrinc.Visible = true;
+			Menuhisto.Visible = true;
 		};
-		MENUFORNECEDOR.Controls.Add(BotaoMenuFerra);
+		MENUFORNECEDOR.Controls.Add(Botaohisto);
 
-		Button BotaoProdutos = new Button();
-		BotaoProdutos.Text = "Contrato";
-		BotaoProdutos.Size = new Size(230, 40);
-		BotaoProdutos.Location = new Point(480, 280);
-		BotaoProdutos.Font = new Font("Arial", 20, FontStyle.Bold);
-		BotaoProdutos.ForeColor = Color.FromArgb(255, 189, 89);
-		BotaoProdutos.FlatStyle = FlatStyle.Flat;
-		BotaoProdutos.FlatAppearance.BorderColor = Color.FromArgb(255, 189, 89);
-		BotaoProdutos.BackColor = Color.White;
-		BotaoProdutos.FlatAppearance.BorderSize = 1;
-		BotaoProdutos.Click += (sender, e) => {
+		Button BotaoContrato = new Button();
+		BotaoContrato.Text = "Contrato";
+		BotaoContrato.Size = new Size(230, 40);
+		BotaoContrato.Location = new Point(480, 280);
+		BotaoContrato.Font = new Font("Arial", 20, FontStyle.Bold);
+		BotaoContrato.ForeColor = Color.FromArgb(255, 189, 89);
+		BotaoContrato.FlatStyle = FlatStyle.Flat;
+		BotaoContrato.FlatAppearance.BorderColor = Color.FromArgb(255, 189, 89);
+		BotaoContrato.BackColor = Color.White;
+		BotaoContrato.FlatAppearance.BorderSize = 1;
+		BotaoContrato.Click += (sender, e) => {
 			MENUFORNECEDOR.Visible = false;
-			adicionaritem.Visible = true;
+			Menucontrato.Visible = true;
 		};
-		MENUFORNECEDOR.Controls.Add(BotaoProdutos);
+		MENUFORNECEDOR.Controls.Add(BotaoContrato);
 
 		Button botaoVoltar = new Button();
 		botaoVoltar.Text = "Voltar";
@@ -700,6 +726,7 @@ public partial class Formprinciapl : Form {
 		BotaoCaracteristicas.Click += (sender, e) => {
 
 			menucliente.Visible = false;
+			Menucaract.Visible = true;
 
 		};
 		menucliente.Controls.Add(BotaoCaracteristicas);
@@ -717,7 +744,7 @@ public partial class Formprinciapl : Form {
 		BotaoInfoLotes.FlatAppearance.BorderSize = 1;
 		BotaoInfoLotes.Click += (sender, e) => {
 			menucliente.Visible = false;
-			MEmprestimoPrinc.Visible = true;
+			Menuinfolotes.Visible = true;
 		};
 		menucliente.Controls.Add(BotaoInfoLotes);
 
@@ -733,7 +760,7 @@ public partial class Formprinciapl : Form {
 		BotaoCarrinho.FlatAppearance.BorderSize = 1;
 		BotaoCarrinho.Click += (sender, e) => {
 			menucliente.Visible = false;
-			adicionaritem.Visible = true;
+			Menucarrinho.Visible = true;
 		};
 		menucliente.Controls.Add(BotaoCarrinho);
 
@@ -749,7 +776,7 @@ public partial class Formprinciapl : Form {
 		BotaoRastreio.FlatAppearance.BorderSize = 1;
 		BotaoRastreio.Click += (sender, e) => {
 			menucliente.Visible = false;
-			removeritem.Visible = true;
+			Menurastreio.Visible = true;
 		};
 		menucliente.Controls.Add(BotaoRastreio);
 
@@ -780,8 +807,21 @@ public partial class Formprinciapl : Form {
 		Menuverlotes.Visible = false;
 
 
-
 		
+		Button botaoVoltar = new Button();
+		botaoVoltar.Text = "Voltar";
+		botaoVoltar.Location = new Point(20, 20);
+		botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+		botaoVoltar.AutoSize = true;
+		botaoVoltar.FlatStyle = FlatStyle.Flat;
+		botaoVoltar.FlatAppearance.BorderSize = 0;
+		botaoVoltar.BackColor = Color.White;
+		botaoVoltar.ForeColor = Color.FromArgb(255, 189, 89);
+		botaoVoltar.Click += (sender, e) => {
+			Menuverlotes.Visible = false;
+			Menucolaborador.Visible = true;
+		};
+		Menuverlotes.Controls.Add(botaoVoltar);
 	}
 	
 	public void MenuConsultoria() {
@@ -794,8 +834,21 @@ public partial class Formprinciapl : Form {
 		Menuconsultoria.Visible = false;
 
 
-
-
+		
+		Button botaoVoltar = new Button();
+		botaoVoltar.Text = "Voltar";
+		botaoVoltar.Location = new Point(20, 20);
+		botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+		botaoVoltar.AutoSize = true;
+		botaoVoltar.FlatStyle = FlatStyle.Flat;
+		botaoVoltar.FlatAppearance.BorderSize = 0;
+		botaoVoltar.BackColor = Color.White;
+		botaoVoltar.ForeColor = Color.FromArgb(255, 189, 89);
+		botaoVoltar.Click += (sender, e) => {
+			Menuconsultoria.Visible = false;
+			Menucolaborador.Visible = true;
+		};
+		Menuconsultoria.Controls.Add(botaoVoltar);
 	}
 	
 	public void MenuDA() {
@@ -808,8 +861,21 @@ public partial class Formprinciapl : Form {
 		MenucDA.Visible = false;
 
 
-
-
+		Button botaoVoltar = new Button();
+		botaoVoltar.Text = "Voltar";
+		botaoVoltar.Location = new Point(20, 20);
+		botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+		botaoVoltar.AutoSize = true;
+		botaoVoltar.FlatStyle = FlatStyle.Flat;
+		botaoVoltar.FlatAppearance.BorderSize = 0;
+		botaoVoltar.BackColor = Color.White;
+		botaoVoltar.ForeColor = Color.FromArgb(255, 189, 89);
+		botaoVoltar.Click += (sender, e) => {
+			MenucDA.Visible = false;
+			Menucolaborador.Visible = true;
+		};
+		MenucDA.Controls.Add(botaoVoltar);
+	
 	}
 	
 	public void MenuFinanciamentoa() {
@@ -823,7 +889,212 @@ public partial class Formprinciapl : Form {
 
 
 
-
+		Button botaoVoltar = new Button();
+		botaoVoltar.Text = "Voltar";
+		botaoVoltar.Location = new Point(20, 20);
+		botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+		botaoVoltar.AutoSize = true;
+		botaoVoltar.FlatStyle = FlatStyle.Flat;
+		botaoVoltar.FlatAppearance.BorderSize = 0;
+		botaoVoltar.BackColor = Color.White;
+		botaoVoltar.ForeColor = Color.FromArgb(255, 189, 89);
+		botaoVoltar.Click += (sender, e) => {
+			Menufinanciamentos.Visible = false;
+			Menucolaborador.Visible = true;
+		};
+		Menufinanciamentos.Controls.Add(botaoVoltar);
 	}
+
+	public void MenuEntrega() {
+		Menuentrega = new Panel();
+		Menuentrega.Name = "Temporario";
+		Menuentrega.Size = this.ClientSize;
+		Menuentrega.Location = new Point(0, 0);
+		Menuentrega.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		Menuentrega.BackgroundImageLayout = ImageLayout.Stretch;
+		Menuentrega.Visible = false;
+		
+		
+		
+		
+		
+		
+		Button botaoVoltar = new Button();
+		botaoVoltar.Text = "Voltar";
+		botaoVoltar.Location = new Point(20, 20);
+		botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+		botaoVoltar.AutoSize = true;
+		botaoVoltar.FlatStyle = FlatStyle.Flat;
+		botaoVoltar.FlatAppearance.BorderSize = 0;
+		botaoVoltar.BackColor = Color.White;
+		botaoVoltar.ForeColor = Color.FromArgb(255, 189, 89);
+		botaoVoltar.Click += (sender, e) => {
+			Menuentrega.Visible = false;
+			MENUFORNECEDOR.Visible = true;
+		};
+		Menuentrega.Controls.Add(botaoVoltar);
+	}
+	public void Menuhistorico() {
+		Menuhisto = new Panel();
+		Menuhisto.Name = "Temporario";
+		Menuhisto.Size = this.ClientSize;
+		Menuhisto.Location = new Point(0, 0);
+		Menuhisto.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		Menuhisto.BackgroundImageLayout = ImageLayout.Stretch;
+		Menuhisto.Visible = false;
+		
+		
+		
+		
+		Button botaoVoltar = new Button();
+		botaoVoltar.Text = "Voltar";
+		botaoVoltar.Location = new Point(20, 20);
+		botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+		botaoVoltar.AutoSize = true;
+		botaoVoltar.FlatStyle = FlatStyle.Flat;
+		botaoVoltar.FlatAppearance.BorderSize = 0;
+		botaoVoltar.BackColor = Color.White;
+		botaoVoltar.ForeColor = Color.FromArgb(255, 189, 89);
+		botaoVoltar.Click += (sender, e) => {
+			Menuhisto.Visible = false;
+			MENUFORNECEDOR.Visible = true;
+		};
+		Menuhisto.Controls.Add(botaoVoltar);
+	}
+	public void MenuContrato() {
+		Menucontrato = new Panel();
+		Menucontrato.Name = "Temporario";
+		Menucontrato.Size = this.ClientSize;
+		Menucontrato.Location = new Point(0, 0);
+		Menucontrato.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		Menucontrato.BackgroundImageLayout = ImageLayout.Stretch;
+		Menucontrato.Visible = false;
+		
+		
+		
+		Button botaoVoltar = new Button();
+		botaoVoltar.Text = "Voltar";
+		botaoVoltar.Location = new Point(20, 20);
+		botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+		botaoVoltar.AutoSize = true;
+		botaoVoltar.FlatStyle = FlatStyle.Flat;
+		botaoVoltar.FlatAppearance.BorderSize = 0;
+		botaoVoltar.BackColor = Color.White;
+		botaoVoltar.ForeColor = Color.FromArgb(255, 189, 89);
+		botaoVoltar.Click += (sender, e) => {
+			Menucontrato.Visible = false;
+			MENUFORNECEDOR.Visible = true;
+		};
+		Menucontrato.Controls.Add(botaoVoltar);
+	}
+
+	public void MenuCaracteristicas() {
+		Menucaract = new Panel();
+		Menucaract.Name = "Temporario";
+		Menucaract.Size = this.ClientSize;
+		Menucaract.Location = new Point(0, 0);
+		Menucaract.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		Menucaract.BackgroundImageLayout = ImageLayout.Stretch;
+		Menucaract.Visible = false;
+		
+		
+		
+		Button botaoVoltar = new Button();
+		botaoVoltar.Text = "Voltar";
+		botaoVoltar.Location = new Point(20, 20);
+		botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+		botaoVoltar.AutoSize = true;
+		botaoVoltar.FlatStyle = FlatStyle.Flat;
+		botaoVoltar.FlatAppearance.BorderSize = 0;
+		botaoVoltar.BackColor = Color.White;
+		botaoVoltar.ForeColor = Color.FromArgb(255, 189, 89);
+		botaoVoltar.Click += (sender, e) => {
+			Menucaract.Visible = false;
+			menucliente.Visible = true;
+		};
+		Menucaract.Controls.Add(botaoVoltar);
+		
+	}
+	public void MenuInfoLotes() {
+		Menuinfolotes = new Panel();
+		Menuinfolotes.Name = "Temporario";
+		Menuinfolotes.Size = this.ClientSize;
+		Menuinfolotes.Location = new Point(0, 0);
+		Menuinfolotes.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		Menuinfolotes.BackgroundImageLayout = ImageLayout.Stretch;
+		Menuinfolotes.Visible = false;
+		
+		
+		
+		
+		Button botaoVoltar = new Button();
+		botaoVoltar.Text = "Voltar";
+		botaoVoltar.Location = new Point(20, 20);
+		botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+		botaoVoltar.AutoSize = true;
+		botaoVoltar.FlatStyle = FlatStyle.Flat;
+		botaoVoltar.FlatAppearance.BorderSize = 0;
+		botaoVoltar.BackColor = Color.White;
+		botaoVoltar.ForeColor = Color.FromArgb(255, 189, 89);
+		botaoVoltar.Click += (sender, e) => {
+			Menuinfolotes.Visible = false;
+			menucliente.Visible = true;
+		};
+		Menuinfolotes.Controls.Add(botaoVoltar);
+	}
+	public void MenuCarrinho() {
+		Menucarrinho = new Panel();
+		Menucarrinho.Name = "Temporario";
+		Menucarrinho.Size = this.ClientSize;
+		Menucarrinho.Location = new Point(0, 0);
+		Menucarrinho.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		Menucarrinho.BackgroundImageLayout = ImageLayout.Stretch;
+		Menucarrinho.Visible = false;
+		
+		
+		
+		Button botaoVoltar = new Button();
+		botaoVoltar.Text = "Voltar";
+		botaoVoltar.Location = new Point(20, 20);
+		botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+		botaoVoltar.AutoSize = true;
+		botaoVoltar.FlatStyle = FlatStyle.Flat;
+		botaoVoltar.FlatAppearance.BorderSize = 0;
+		botaoVoltar.BackColor = Color.White;
+		botaoVoltar.ForeColor = Color.FromArgb(255, 189, 89);
+		botaoVoltar.Click += (sender, e) => {
+			Menucarrinho.Visible = false;
+			menucliente.Visible = true;
+		};
+		Menucarrinho.Controls.Add(botaoVoltar);
+	}
+	public void MenuRastreio() {
+		Menurastreio = new Panel();
+		Menurastreio.Name = "Temporario";
+		Menurastreio.Size = this.ClientSize;
+		Menurastreio.Location = new Point(0, 0);
+		Menurastreio.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		Menurastreio.BackgroundImageLayout = ImageLayout.Stretch;
+		Menurastreio.Visible = false;
+		
+		
+		
+		Button botaoVoltar = new Button();
+		botaoVoltar.Text = "Voltar";
+		botaoVoltar.Location = new Point(20, 20);
+		botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+		botaoVoltar.AutoSize = true;
+		botaoVoltar.FlatStyle = FlatStyle.Flat;
+		botaoVoltar.FlatAppearance.BorderSize = 0;
+		botaoVoltar.BackColor = Color.White;
+		botaoVoltar.ForeColor = Color.FromArgb(255, 189, 89);
+		botaoVoltar.Click += (sender, e) => {
+			Menurastreio.Visible = false;
+			menucliente.Visible = true;
+		};
+		Menurastreio.Controls.Add(botaoVoltar);
+		
+	}
+	
 }
 
