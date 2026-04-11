@@ -23,15 +23,26 @@ public partial class Formprinciapl : Form
 	public Panel menucliente;
 	public Panel removeritem;
 	public Panel adicionaritem;
-
-	public string user;
-	public string senha;
-	public string password;
-	public string usuario;
-
-
+	public Panel Menuverlotes;
+	public Panel Menuconsultoria;
+	public Panel MenucDA;
+	public Panel Menufinanciamentoa;
+		
+	
 	private DataGridView tabelaEmprestimos;
-
+	
+	private void LimparCamposRegistro()
+	{
+		// Percorre todos os controles dentro do PainelRegistro
+		foreach (Control c in PainelRegistro.Controls)
+		{
+			if (c is TextBox textBox)
+			{
+				textBox.Clear();
+			}
+		}
+	}
+	
 	public Formprinciapl()
 	{
 		InitializeComponent();
@@ -52,9 +63,12 @@ public partial class Formprinciapl : Form
 		CriarPainelLogin();
 		CriarPainelRegistro();
 		MenuFornecedor();
-
+		MenuFinanciamentoa();
 		MenuCliente();
-		MenuFerramentas();
+		MenuVerlotes();
+		MenuConsultoria();
+		MenuDA();
+		
 
 		this.Controls.Add(Menucolaborador);
 		this.Controls.Add(removeritem);
@@ -71,164 +85,210 @@ public partial class Formprinciapl : Form
 		PainelLogin.BringToFront();
 	}
 
-	public void CriarPainelLogin()
-	{
+	public void CriarPainelLogin() {
 
 		bool escondersenha = true;
 
-		PainelLogin = new Panel();
-		PainelLogin.Name = "PainelLogin";
-		PainelLogin.Size = this.ClientSize;
-		PainelLogin.Location = new Point(0, 0);
-		PainelLogin.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\ImagemLogin.png");
-		PainelLogin.BackgroundImageLayout = ImageLayout.Stretch;
-		PainelLogin.Visible = true;
+	    PainelLogin = new Panel();
+	    PainelLogin.Name = "PainelLogin";
+	    PainelLogin.Size = this.ClientSize;
+	    PainelLogin.Location = new Point(0, 0);
+	    PainelLogin.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\ImagemLogin.png");
+	    PainelLogin.BackgroundImageLayout = ImageLayout.Stretch;
+	    PainelLogin.Visible = true;
 
-		Label TextoOlaAmigo = new Label();
-		TextoOlaAmigo.Text = "Olá, Amigo!";
-		TextoOlaAmigo.Location = new Point(810, 200);
-		TextoOlaAmigo.AutoSize = true;
-		TextoOlaAmigo.Font = new Font("Arial", 20, FontStyle.Bold);
-		TextoOlaAmigo.ForeColor = Color.White;
-		TextoOlaAmigo.BackColor = Color.Transparent;
-		PainelLogin.Controls.Add(TextoOlaAmigo);
+	    Label TextoOlaAmigo = new Label();
+	    TextoOlaAmigo.Text = "Olá, Amigo!";
+	    TextoOlaAmigo.Location = new Point(810, 200);
+	    TextoOlaAmigo.AutoSize = true;
+	    TextoOlaAmigo.Font = new Font("Arial", 20, FontStyle.Bold);
+	    TextoOlaAmigo.ForeColor = Color.White;
+	    TextoOlaAmigo.BackColor = Color.Transparent;
+	    PainelLogin.Controls.Add(TextoOlaAmigo);
 
-		Label InsiraDetalhes = new Label();
-		InsiraDetalhes.Text = "Insira alguns Detalhes e comece sua jornada";
-		InsiraDetalhes.Location = new Point(735, 230);
-		InsiraDetalhes.AutoSize = true;
-		InsiraDetalhes.Font = new Font("Arial", 10, FontStyle.Bold);
-		InsiraDetalhes.ForeColor = Color.White;
-		InsiraDetalhes.BackColor = Color.Transparent;
-		PainelLogin.Controls.Add(InsiraDetalhes);
+	    Label InsiraDetalhes = new Label();
+	    InsiraDetalhes.Text = "Insira alguns Detalhes e comece sua jornada";
+	    InsiraDetalhes.Location = new Point(735, 230);
+	    InsiraDetalhes.AutoSize = true;
+	    InsiraDetalhes.Font = new Font("Arial", 10, FontStyle.Bold);
+	    InsiraDetalhes.ForeColor = Color.White;
+	    InsiraDetalhes.BackColor = Color.Transparent;
+	    PainelLogin.Controls.Add(InsiraDetalhes);
 
-		Label Conosco = new Label();
-		Conosco.Text = "conosco.";
-		Conosco.Location = new Point(855, 245);
-		Conosco.AutoSize = true;
-		Conosco.Font = new Font("Arial", 10, FontStyle.Bold);
-		Conosco.ForeColor = Color.White;
-		Conosco.BackColor = Color.Transparent;
-		PainelLogin.Controls.Add(Conosco);
+	    Label Conosco = new Label();
+	    Conosco.Text = "conosco.";
+	    Conosco.Location = new Point(855, 245);
+	    Conosco.AutoSize = true;
+	    Conosco.Font = new Font("Arial", 10, FontStyle.Bold);
+	    Conosco.ForeColor = Color.White;
+	    Conosco.BackColor = Color.Transparent;
+	    PainelLogin.Controls.Add(Conosco);
 
-		Button BotaoRegistrar = new Button();
-		BotaoRegistrar.Text = "REGISTRAR";
-		BotaoRegistrar.AutoSize = true;
-		BotaoRegistrar.Location = new Point(795, 270);
-		BotaoRegistrar.Font = new Font("Arial", 20, FontStyle.Bold);
-		BotaoRegistrar.ForeColor = Color.White;
-		BotaoRegistrar.BackColor = Color.FromArgb(255, 189, 89);
-		BotaoRegistrar.FlatStyle = FlatStyle.Flat;
-		BotaoRegistrar.FlatAppearance.BorderColor = Color.White;
-		BotaoRegistrar.FlatAppearance.BorderSize = 1;
-		BotaoRegistrar.Click += (sender, e) => {
-			PainelLogin.Visible = false;
-			PainelRegistro.Visible = true;
-		};
-		PainelLogin.Controls.Add(BotaoRegistrar);
+	    Button BotaoRegistrar = new Button();
+	    BotaoRegistrar.Text = "REGISTRAR";
+	    BotaoRegistrar.AutoSize = true;
+	    BotaoRegistrar.Location = new Point(795, 270);
+	    BotaoRegistrar.Font = new Font("Arial", 20, FontStyle.Bold);
+	    BotaoRegistrar.ForeColor = Color.White;
+	    BotaoRegistrar.BackColor = Color.FromArgb(255, 189, 89);
+	    BotaoRegistrar.FlatStyle = FlatStyle.Flat;
+	    BotaoRegistrar.FlatAppearance.BorderColor = Color.White;
+	    BotaoRegistrar.FlatAppearance.BorderSize = 1;
+	    BotaoRegistrar.Click += (sender, e) => { 
+		    LimparCamposRegistro();
+	        PainelLogin.Visible = false;
+	        PainelRegistro.Visible = true;
+	    };
+	    PainelLogin.Controls.Add(BotaoRegistrar);
 
-		Label Entrar_NoSistema = new Label();
-		Entrar_NoSistema.Text = "ENTRAR NO SISTEMA";
-		Entrar_NoSistema.Location = new Point(130, 200);
-		Entrar_NoSistema.AutoSize = true;
-		Entrar_NoSistema.Font = new Font("Arial", 20, FontStyle.Bold);
-		Entrar_NoSistema.ForeColor = Color.FromArgb(255, 189, 89);
-		Entrar_NoSistema.BackColor = Color.Transparent;
-		PainelLogin.Controls.Add(Entrar_NoSistema);
+	    Label Entrar_NoSistema = new Label();
+	    Entrar_NoSistema.Text = "ENTRAR NO SISTEMA";
+	    Entrar_NoSistema.Location = new Point(130, 200);
+	    Entrar_NoSistema.AutoSize = true;
+	    Entrar_NoSistema.Font = new Font("Arial", 20, FontStyle.Bold);
+	    Entrar_NoSistema.ForeColor = Color.FromArgb(255, 189, 89);
+	    Entrar_NoSistema.BackColor = Color.Transparent;
+	    PainelLogin.Controls.Add(Entrar_NoSistema);
 
-		TextBox CampoUsuario = new TextBox();
-		CampoUsuario.Name = "campousuario";
-		CampoUsuario.Location = new Point(160, 240);
-		CampoUsuario.Size = new Size(250, 30);
-		CampoUsuario.Font = new Font("Arial", 20);
-		CampoUsuario.PlaceholderText = "Usuário";
-		CampoUsuario.TextAlign = HorizontalAlignment.Center;
-		PainelLogin.Controls.Add(CampoUsuario);
+	    TextBox CampoUsuario = new TextBox();
+	    CampoUsuario.Name = "campousuario";
+	    CampoUsuario.Location = new Point(160, 240);
+	    CampoUsuario.Size = new Size(250, 30);
+	    CampoUsuario.Font = new Font("Arial", 20);
+	    CampoUsuario.PlaceholderText = "Usuário";
+	    CampoUsuario.TextAlign = HorizontalAlignment.Center;
+	    PainelLogin.Controls.Add(CampoUsuario);
 
-		TextBox CampoSenha = new TextBox();
-		CampoSenha.Name = "camposenha";
-		CampoSenha.Location = new Point(160, 285);
-		CampoSenha.Size = new Size(250, 30);
-		CampoSenha.Font = new Font("Arial", 20);
-		CampoSenha.PlaceholderText = "Senha";
-		CampoSenha.TextAlign = HorizontalAlignment.Center;
-		PainelLogin.Controls.Add(CampoSenha);
+	    TextBox CampoSenha = new TextBox();
+	    CampoSenha.Name = "camposenha";
+	    CampoSenha.Location = new Point(160, 285);
+	    CampoSenha.Size = new Size(250, 30);
+	    CampoSenha.Font = new Font("Arial", 20);
+	    CampoSenha.PlaceholderText = "Senha";
+	    CampoSenha.TextAlign = HorizontalAlignment.Center;
+	    PainelLogin.Controls.Add(CampoSenha);
 
-		Button botaoescondersenha = new Button();
-		Image imagemOriginal = Image.FromFile(@"..\..\..\Recursos\Ocultar.png");
-		botaoescondersenha.Image = new Bitmap(imagemOriginal, new Size(20, 20));
-		botaoescondersenha.ImageAlign = ContentAlignment.MiddleCenter;
-		botaoescondersenha.Location = new Point(420, 290);
-		botaoescondersenha.Size = new Size(30, 30);
-		botaoescondersenha.FlatStyle = FlatStyle.Flat;
-		botaoescondersenha.FlatAppearance.BorderSize = 1;
-		botaoescondersenha.Click += (sender, e) => {
-			escondersenha = !escondersenha;
+	    Button botaoescondersenha = new Button();
+	    Image imagemOriginal = Image.FromFile(@"..\..\..\Recursos\Ocultar.png");
+	    botaoescondersenha.Image = new Bitmap(imagemOriginal, new Size(20, 20));
+	    botaoescondersenha.ImageAlign = ContentAlignment.MiddleCenter;
+	    botaoescondersenha.Location = new Point(420, 290);
+	    botaoescondersenha.Size = new Size(30, 30);
+	    botaoescondersenha.FlatStyle = FlatStyle.Flat;
+	    botaoescondersenha.FlatAppearance.BorderSize = 1;
+	    botaoescondersenha.Click += (sender, e) => {
+	       escondersenha = !escondersenha;
 
-			CampoSenha.UseSystemPasswordChar = escondersenha;
+	       CampoSenha.UseSystemPasswordChar = escondersenha;
 
-			Image img = Image.FromFile(
-				escondersenha
-					? @"..\..\..\Recursos\Ocultar.png"
-					: @"..\..\..\Recursos\mostar.png"
-			);
-			botaoescondersenha.Image = new Bitmap(img, new Size(20, 20));
-		};
-		PainelLogin.Controls.Add(botaoescondersenha);
+	       Image img = Image.FromFile(
+	          escondersenha
+	             ? @"..\..\..\Recursos\Ocultar.png"
+	             : @"..\..\..\Recursos\mostar.png"
+	       );
+	       botaoescondersenha.Image = new Bitmap(img, new Size(20, 20));
+	    };
+	    PainelLogin.Controls.Add(botaoescondersenha);
 
+	    Button BotaoEntrar = new Button();
+	    BotaoEntrar.Text = "ENTRAR";
+	    BotaoEntrar.AutoSize = true;
+	    BotaoEntrar.Location = new Point(215, 350);
+	    BotaoEntrar.Font = new Font("Arial", 20, FontStyle.Bold);
+	    BotaoEntrar.ForeColor = Color.FromArgb(255, 189, 89);
+	    BotaoEntrar.FlatStyle = FlatStyle.Flat;
+	    BotaoEntrar.FlatAppearance.BorderColor = Color.FromArgb(255, 189, 89);
+	    BotaoEntrar.BackColor = Color.White;
+	    BotaoEntrar.FlatAppearance.BorderSize = 1;
+	    
+	    // --- LÓGICA DE LOGIN INSERIDA AQUI ---
+	    BotaoEntrar.Click += async (sender, e) => {
+	        string usuario = CampoUsuario.Text;
+	        string senha = CampoSenha.Text;
 
-		Button BotaoEntrar = new Button();
-		BotaoEntrar.Text = "ENTRAR";
-		BotaoEntrar.AutoSize = true;
-		BotaoEntrar.Location = new Point(215, 350);
-		BotaoEntrar.Font = new Font("Arial", 20, FontStyle.Bold);
-		BotaoEntrar.ForeColor = Color.FromArgb(255, 189, 89);
-		BotaoEntrar.FlatStyle = FlatStyle.Flat;
-		BotaoEntrar.FlatAppearance.BorderColor = Color.FromArgb(255, 189, 89);
-		BotaoEntrar.BackColor = Color.White;
-		BotaoEntrar.FlatAppearance.BorderSize = 1;
-		BotaoEntrar.Click += async (sender, e) => {
-			string usuario = CampoUsuario.Text;
-			string senha = CampoSenha.Text;
+	        if (string.IsNullOrWhiteSpace(usuario)) {
+	            MessageBox.Show("Por favor, digite seu usuário!");
+	            return;
+	        }
 
-			if (string.IsNullOrWhiteSpace(usuario))
-			{
-				MessageBox.Show("Por favor, digite seu usuário!");
-				return;
-			}
+	        if (string.IsNullOrWhiteSpace(senha)) {
+	            MessageBox.Show("Por favor, digite sua senha!");
+	            return;
+	        }
 
-			if (string.IsNullOrWhiteSpace(senha))
-			{
-				MessageBox.Show("Por favor, digite sua senha!");
-				return;
-			}
+	        try {
+	            using (HttpClient cliente = new HttpClient()) {
+	                string url = "http://localhost/projeto_sa/logar.php";
 
-			if(usuario == user){ 
-				if(password == senha){
-					PainelLogin.Visible = false;
-					menucliente.Visible	= true;
+	                // Monta o pacote de dados com "usuario" e "senha"
+	                var dados = new FormUrlEncodedContent(new[] {
+	                    new KeyValuePair<string, string>("usuario", usuario),
+	                    new KeyValuePair<string, string>("senha", senha)
+	                });
+	                
+	                HttpResponseMessage resposta = await cliente.PostAsync(url, dados);
 
+	                if (resposta.IsSuccessStatusCode) {
+	                    
+	                    string resultado = await resposta.Content.ReadAsStringAsync();
+	            
+	                    
+	                    resultado = resultado.Trim(); 
 
-				} else{
-					MessageBox.Show("SENHA ERRADDA ");
-					return;
+	                    
+	                    switch (resultado) {
+		                    case "COLABORADOR":
+			                    CampoUsuario.Clear();
+			                    CampoSenha.Clear();
+			                    MessageBox.Show("Bem-vindo, Colaborador!");
+			                    PainelLogin.Visible = false;
+			                    // PainelColaborador.Visible = true; // Exemplo de redirecionamento
+			                    Menucolaborador.Visible = true; 
+			                    break;
 
-				}
+		                    case "CLIENTE":
+			                    CampoUsuario.Clear();
+			                    CampoSenha.Clear();
+			                    MessageBox.Show("Bem-vindo, Cliente!");
+			                    PainelLogin.Visible = false;
+			                    // PainelCliente.Visible = true; 
+			                    menucliente.Visible = true;
+			                    break;
 
+		                    case "FORNECEDOR":
+			                    CampoUsuario.Clear();
+			                    CampoSenha.Clear();
+			                    MessageBox.Show("Bem-vindo, Fornecedor!");
+			                    PainelLogin.Visible = false;
+			                    // PainelFornecedor.Visible = true;
+			                    MENUFORNECEDOR.Visible = true;
+			                    break;
 
-			} else{
+	                        case "FALHA":
+	                            MessageBox.Show("Usuário ou senha incorretos!");
+	                            break;
 
-				MessageBox.Show("USUARIO ERRADO");
-				return;
-			}
-		};
-		PainelLogin.Controls.Add(BotaoEntrar);
-		this.Controls.Add(PainelLogin);
+	                        default:
+	                            MessageBox.Show("Erro retornado pelo servidor: " + resultado);
+	                            break;
+	                    }
+	                } else {
+	                    MessageBox.Show("Erro no servidor: " + resposta.StatusCode);
+	                }
+	            }
+	        }
+	        catch (Exception ex) {
+	            MessageBox.Show("Erro de conexão: " + ex.Message);
+	        }
+	    };
+
+    PainelLogin.Controls.Add(BotaoEntrar);
+    this.Controls.Add(PainelLogin);
 	}
 
 	public void CriarPainelRegistro()
 	{
-		bool escondersenha = true;
+		bool escondersenha = false;
 
 		PainelRegistro = new Panel();
 		PainelRegistro.Name = "PainelRegistro";
@@ -271,6 +331,15 @@ public partial class Formprinciapl : Form
 		campoConfirmarSenha.TextAlign = HorizontalAlignment.Center;
 		PainelRegistro.Controls.Add(campoConfirmarSenha);
 
+		ListBox listTipoUsuario = new ListBox();
+		listTipoUsuario.Location = new Point(410, 350);
+		listTipoUsuario.Size = new Size(300, 70); 
+		listTipoUsuario.Font = new Font("Arial", 12);
+		listTipoUsuario.Items.Add("Colaborador");
+		listTipoUsuario.Items.Add("Cliente");
+		listTipoUsuario.Items.Add("Fornecedor");
+		PainelRegistro.Controls.Add(listTipoUsuario);
+		
 		Button botaoescondersenha = new Button();
 		Image imagemOriginal = Image.FromFile(@"..\..\..\Recursos\Ocultar.png");
 		botaoescondersenha.Image = new Bitmap(imagemOriginal, new Size(20, 20));
@@ -298,52 +367,94 @@ public partial class Formprinciapl : Form
 
 		Button botaoConfirmar = new Button();
 		botaoConfirmar.Text = "CONFIRMAR REGISTRO";
-		botaoConfirmar.Location = new Point(410, 370);
+		botaoConfirmar.Location = new Point(410, 440); 
 		botaoConfirmar.Size = new Size(300, 50);
 		botaoConfirmar.Font = new Font("Arial", 16, FontStyle.Bold);
 		botaoConfirmar.BackColor = Color.White;
 		botaoConfirmar.ForeColor = Color.FromArgb(255, 189, 89);
 		botaoConfirmar.FlatStyle = FlatStyle.Flat;
 		botaoConfirmar.FlatAppearance.BorderSize = 1;
-		botaoConfirmar.Click += (sender, e) => {
-			string novoUsuario = campoNovoUsuario.Text;
-			string novaSenha = campoNovaSenha.Text;
+		botaoConfirmar.Click += async (sender, e) => { 
+		    string novoUsuario = campoNovoUsuario.Text;
+		    string novaSenha = campoNovaSenha.Text;
+		    string tipoSelecionado = listTipoUsuario.SelectedItem?.ToString();
 
-			if (string.IsNullOrWhiteSpace(campoNovoUsuario.Text))
-			{
-				MessageBox.Show("Por favor, preencha o campo Usuário!");
-				return;
-			}
+		    // Validações básicas de interface
+		    if (string.IsNullOrWhiteSpace(novoUsuario)) {
+		        MessageBox.Show("Por favor, preencha o campo Usuário!");
+		        return;
+		    }
 
-			if (string.IsNullOrWhiteSpace(campoNovaSenha.Text))
-			{
-				MessageBox.Show("Por favor, preencha o campo Senha!");
-				return;
-			}
+		    if (string.IsNullOrWhiteSpace(novaSenha)) {
+		        MessageBox.Show("Por favor, preencha o campo Senha!");
+		        return;
+		    }
 
-			if (campoNovoUsuario.TextLength < 4)
-			{
-				MessageBox.Show("O seu usuario deve ter pelo menos 4 caracteres!");
-				return;
-			}
+		    if (string.IsNullOrWhiteSpace(tipoSelecionado)) {
+		        MessageBox.Show("Por favor, selecione o Tipo de Usuário!");
+		        return;
+		    }
 
-			if (campoNovaSenha.TextLength < 8)
-			{
-				MessageBox.Show("A senha deve ter pelo menos 8 caracteres!");
-				return;
-			}
+		    if (campoNovoUsuario.TextLength < 4) {
+		        MessageBox.Show("O seu usuario deve ter pelo menos 4 caracteres!");
+		        return;
+		    }
 
-			if (novaSenha != campoConfirmarSenha.Text)
-			{
-				MessageBox.Show("As senhas não conferem!");
-				return;
-			}
+		    if (campoNovaSenha.TextLength < 8) {
+		        MessageBox.Show("A senha deve ter pelo menos 8 caracteres!");
+		        return;
+		    }
 
-			//Chama o phpkkkk
-			user = novoUsuario;
-			password = novaSenha;
-			
+		    if (novaSenha != campoConfirmarSenha.Text) {
+		        MessageBox.Show("As senhas não conferem!");
+		        return;
+		    }
 
+		    try {
+		        using (HttpClient cliente = new HttpClient()){
+		                  
+		            string url = "http://localhost/projeto_sa/cadastrar.php";
+		                  
+		            var dados = new FormUrlEncodedContent(new[] {
+		                new KeyValuePair<string, string>("novoUsuario", novoUsuario),
+		                new KeyValuePair<string, string>("novaSenha", novaSenha),
+		                new KeyValuePair<string, string>("tipoUsuario", tipoSelecionado),
+		            });
+
+		            HttpResponseMessage resposta = await cliente.PostAsync(url, dados);
+
+		            if (resposta.IsSuccessStatusCode) {
+		                string conteudo = await resposta.Content.ReadAsStringAsync();
+		                
+		                
+		                if (conteudo.Contains("sucesso")) {
+		                    MessageBox.Show("Usuário registrado com sucesso!");
+		                    
+		                    // Limpa os campos após o sucesso
+		                    campoNovoUsuario.Clear();
+		                    campoNovaSenha.Clear();
+		                    campoConfirmarSenha.Clear();
+
+		                    // Troca de tela
+		                    PainelRegistro.Visible = false;
+		                    PainelLogin.Visible = true;
+		                } 
+		                else if (conteudo.Contains("erro_usuario_existe")) {
+		                    MessageBox.Show("Este nome de usuário já está em uso. Escolha outro!");
+		                } 
+		                else {
+		                    MessageBox.Show("Erro ao cadastrar: " + conteudo);
+		                }
+		               
+		            }
+		            else {
+		                MessageBox.Show("Erro no servidor: " + resposta.StatusCode);
+		            }
+		        }
+		    }
+		    catch (Exception ex){
+		        MessageBox.Show("Erro de conexão: " + ex.Message);
+		    }
 		};
 		PainelRegistro.Controls.Add(botaoConfirmar);
 
@@ -399,7 +510,7 @@ public partial class Formprinciapl : Form
 		BotaoVerlotes.FlatAppearance.BorderSize = 1;
 		BotaoVerlotes.Click += (sender, e) => {
 
-			MENUFORNECEDOR.Visible = false;
+			Menucolaborador.Visible = false;
 
 		};
 		Menucolaborador.Controls.Add(BotaoVerlotes);
@@ -416,7 +527,7 @@ public partial class Formprinciapl : Form
 		BotaoConsultoria.BackColor = Color.White;
 		BotaoConsultoria.FlatAppearance.BorderSize = 1;
 		BotaoConsultoria.Click += (sender, e) => {
-			MENUFORNECEDOR.Visible = false;
+			Menucolaborador.Visible = false;
 			MEmprestimoPrinc.Visible = true;
 		};
 		Menucolaborador.Controls.Add(BotaoConsultoria);
@@ -432,7 +543,7 @@ public partial class Formprinciapl : Form
 		BotaoDA.BackColor = Color.White;
 		BotaoDA.FlatAppearance.BorderSize = 1;
 		BotaoDA.Click += (sender, e) => {
-			MENUFORNECEDOR.Visible = false;
+			Menucolaborador.Visible = false;
 			adicionaritem.Visible = true;
 		};
 		Menucolaborador.Controls.Add(BotaoDA);
@@ -448,7 +559,7 @@ public partial class Formprinciapl : Form
 		BotaoFinancimento.BackColor = Color.White;
 		BotaoFinancimento.FlatAppearance.BorderSize = 1;
 		BotaoFinancimento.Click += (sender, e) => {
-			MENUFORNECEDOR.Visible = false;
+			Menucolaborador.Visible = false;
 			removeritem.Visible = true;
 		};
 		Menucolaborador.Controls.Add(BotaoFinancimento);
@@ -463,7 +574,7 @@ public partial class Formprinciapl : Form
 		botaoVoltar.BackColor = Color.White;
 		botaoVoltar.ForeColor = Color.FromArgb(255, 189, 89);
 		botaoVoltar.Click += (sender, e) => {
-			MENUFORNECEDOR.Visible = false;
+			Menucolaborador.Visible = false;
 			PainelLogin.Visible = true;
 		};
 		Menucolaborador.Controls.Add(botaoVoltar);
@@ -590,7 +701,7 @@ public partial class Formprinciapl : Form
 		BotaoCaracteristicas.FlatAppearance.BorderSize = 1;
 		BotaoCaracteristicas.Click += (sender, e) => {
 
-			MENUFORNECEDOR.Visible = false;
+			menucliente.Visible = false;
 
 		};
 		menucliente.Controls.Add(BotaoCaracteristicas);
@@ -607,7 +718,7 @@ public partial class Formprinciapl : Form
 		BotaoInfoLotes.BackColor = Color.White;
 		BotaoInfoLotes.FlatAppearance.BorderSize = 1;
 		BotaoInfoLotes.Click += (sender, e) => {
-			MENUFORNECEDOR.Visible = false;
+			menucliente.Visible = false;
 			MEmprestimoPrinc.Visible = true;
 		};
 		menucliente.Controls.Add(BotaoInfoLotes);
@@ -623,7 +734,7 @@ public partial class Formprinciapl : Form
 		BotaoCarrinho.BackColor = Color.White;
 		BotaoCarrinho.FlatAppearance.BorderSize = 1;
 		BotaoCarrinho.Click += (sender, e) => {
-			MENUFORNECEDOR.Visible = false;
+			menucliente.Visible = false;
 			adicionaritem.Visible = true;
 		};
 		menucliente.Controls.Add(BotaoCarrinho);
@@ -639,7 +750,7 @@ public partial class Formprinciapl : Form
 		BotaoRastreio.BackColor = Color.White;
 		BotaoRastreio.FlatAppearance.BorderSize = 1;
 		BotaoRastreio.Click += (sender, e) => {
-			MENUFORNECEDOR.Visible = false;
+			menucliente.Visible = false;
 			removeritem.Visible = true;
 		};
 		menucliente.Controls.Add(BotaoRastreio);
@@ -661,15 +772,56 @@ public partial class Formprinciapl : Form
 		menucliente.Controls.Add(botaoVoltar);
 	}
 
-	public void MenuFerramentas()
-	{
+	public void MenuVerlotes() {
 		MenuFerramenta = new Panel();
 		MenuFerramenta.Name = "Temporario";
 		MenuFerramenta.Size = this.ClientSize;
 		MenuFerramenta.Location = new Point(0, 0);
 		MenuFerramenta.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
 		MenuFerramenta.BackgroundImageLayout = ImageLayout.Stretch;
-		MenuFerramenta.Visible = false;
+		Menuverlotes.Visible = false;
+
+
+
+		
+	}
+	
+	public void MenuConsultoria() {
+		MenuFerramenta = new Panel();
+		MenuFerramenta.Name = "Temporario";
+		MenuFerramenta.Size = this.ClientSize;
+		MenuFerramenta.Location = new Point(0, 0);
+		MenuFerramenta.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		MenuFerramenta.BackgroundImageLayout = ImageLayout.Stretch;
+		Menuconsultoria.Visible = false;
+
+
+
+
+	}
+	
+	public void MenuDA() {
+		MenuFerramenta = new Panel();
+		MenuFerramenta.Name = "Temporario";
+		MenuFerramenta.Size = this.ClientSize;
+		MenuFerramenta.Location = new Point(0, 0);
+		MenuFerramenta.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		MenuFerramenta.BackgroundImageLayout = ImageLayout.Stretch;
+		MenucDA.Visible = false;
+
+
+
+
+	}
+	
+	public void MenuFinanciamentoa() {
+		MenuFerramenta = new Panel();
+		MenuFerramenta.Name = "Temporario";
+		MenuFerramenta.Size = this.ClientSize;
+		MenuFerramenta.Location = new Point(0, 0);
+		MenuFerramenta.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		MenuFerramenta.BackgroundImageLayout = ImageLayout.Stretch;
+		Menufinanciamentoa.Visible = false;
 
 
 
