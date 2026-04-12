@@ -35,4 +35,11 @@ public class Animal {
         public DateTime dt_fabricacao { get; set; }
         public DateTime dt_validade { get; set; }
     }
+    public class ContratoDTO {
+        public int id_contrato { get; set; }
+        public decimal valor_total { get; set; }
+        public DateTime data_vencimento { get; set; }
+        public string status_contrato { get; set; }
+        public string termos_clausulas { get; set; }
+    }
 }
