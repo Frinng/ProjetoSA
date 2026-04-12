@@ -1,5 +1,3 @@
-
-
 namespace ProjetoSA;
 
 using System.Drawing;
@@ -7,6 +5,8 @@ using System.Drawing.Drawing2D;
 using System.Net.Http;
 using System.Reflection.PortableExecutable;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 public partial class Formprinciapl : Form {
 
@@ -33,6 +33,9 @@ public partial class Formprinciapl : Form {
 	public Panel Menuinfolotes;
 	public Panel Menucarrinho;
 	public Panel Menurastreio;
+	public Panel MenuLoteMaternida;
+	public Panel MenuLoteengorda;
+	public Panel MenuLotequarentena;
 		
 	
 	private DataGridView tabelaEmprestimos;
@@ -81,7 +84,13 @@ public partial class Formprinciapl : Form {
 		MenuInfoLotes();
 		MenuCarrinho();
 		MenuRastreio();
+		MenuLoteMaternidad();
+		MenuLoteQuarentena();
+		MenuLoteEngorda();
 		
+		this.Controls.Add(MenuLoteMaternida);
+		this.Controls.Add(MenuLoteengorda);
+		this.Controls.Add(MenuLotequarentena);
 		this.Controls.Add(Menucaract);
 		this.Controls.Add(Menuinfolotes);
 		this.Controls.Add(Menucarrinho);
@@ -345,6 +354,7 @@ public partial class Formprinciapl : Form {
 		campoNovaSenha.Font = new Font("Arial", 20);
 		campoNovaSenha.PlaceholderText = "Digite sua senha";
 		campoNovaSenha.TextAlign = HorizontalAlignment.Center;
+		campoNovaSenha.ForeColor = Color.FromArgb(255, 189, 89);
 		campoNovaSenha.UseSystemPasswordChar = true;
 		PainelRegistro.Controls.Add(campoNovaSenha);
 
@@ -354,13 +364,15 @@ public partial class Formprinciapl : Form {
 		campoConfirmarSenha.Font = new Font("Arial", 20);
 		campoConfirmarSenha.PlaceholderText = "Confirme sua senha";
 		campoConfirmarSenha.TextAlign = HorizontalAlignment.Center;
-		campoNovaSenha.UseSystemPasswordChar = true;
+		campoConfirmarSenha.ForeColor = Color.FromArgb(255, 189, 89);
+		campoConfirmarSenha.UseSystemPasswordChar = true;
 		PainelRegistro.Controls.Add(campoConfirmarSenha);
 
 		ListBox listTipoUsuario = new ListBox();
 		listTipoUsuario.Location = new Point(410, 350);
 		listTipoUsuario.Size = new Size(300, 70); 
 		listTipoUsuario.Font = new Font("Arial", 12);
+		listTipoUsuario.ForeColor = Color.FromArgb(255, 189, 89);
 		listTipoUsuario.Items.Add("Colaborador");
 		listTipoUsuario.Items.Add("Cliente");
 		listTipoUsuario.Items.Add("Fornecedor");
@@ -806,7 +818,66 @@ public partial class Formprinciapl : Form {
 		Menuverlotes.BackgroundImageLayout = ImageLayout.Stretch;
 		Menuverlotes.Visible = false;
 
+		
+		Label labelMenulotes = new Label();
+		labelMenulotes.Text = "Lotes";
+		labelMenulotes.Location = new Point(540, 100);
+		labelMenulotes.Font = new Font("Arial", 28, FontStyle.Bold);
+		labelMenulotes.AutoSize = true;
+		labelMenulotes.BackColor = Color.Transparent;
+		labelMenulotes.ForeColor = Color.FromArgb(255, 189, 89);
+		Menuverlotes.Controls.Add(labelMenulotes);
 
+		Button BotaoLotesMedico = new Button();
+		BotaoLotesMedico .Text = "Quarentena";
+		BotaoLotesMedico .Size = new Size(230, 40);
+		BotaoLotesMedico .Location = new Point(480, 180);
+		BotaoLotesMedico .Font = new Font("Arial", 20, FontStyle.Bold);
+		BotaoLotesMedico .ForeColor = Color.FromArgb(255, 189, 89);
+		BotaoLotesMedico .FlatStyle = FlatStyle.Flat;
+		BotaoLotesMedico .FlatAppearance.BorderColor = Color.FromArgb(255, 189, 89);
+		BotaoLotesMedico .BackColor = Color.White;
+		BotaoLotesMedico .FlatAppearance.BorderSize = 1;
+		BotaoLotesMedico .Click += (sender, e) => {
+			Menuverlotes.Visible = false;
+			MenuLotequarentena.Visible = true;
+
+		};
+		Menuverlotes.Controls.Add(BotaoLotesMedico );
+
+
+		Button BotaoLotesEngorda = new Button();
+		BotaoLotesEngorda.Text = "Engorda";
+		BotaoLotesEngorda.Size = new Size(230, 40);
+		BotaoLotesEngorda.Location = new Point(480, 230);
+		BotaoLotesEngorda.Font = new Font("Arial", 20, FontStyle.Bold);
+		BotaoLotesEngorda.ForeColor = Color.FromArgb(255, 189, 89);
+		BotaoLotesEngorda.FlatStyle = FlatStyle.Flat;
+		BotaoLotesEngorda.FlatAppearance.BorderColor = Color.FromArgb(255, 189, 89);
+		BotaoLotesEngorda.BackColor = Color.White;
+		BotaoLotesEngorda.FlatAppearance.BorderSize = 1;
+		BotaoLotesEngorda.Click += (sender, e) => {
+			Menuverlotes.Visible = false;
+			MenuLoteengorda.Visible = true;
+		};
+		Menuverlotes.Controls.Add(BotaoLotesEngorda);
+
+		Button BotaoLoteMaternidade = new Button();
+		BotaoLoteMaternidade.Text = "Maternidade";
+		BotaoLoteMaternidade.Size = new Size(230, 40);
+		BotaoLoteMaternidade.Location = new Point(480, 280);
+		BotaoLoteMaternidade.Font = new Font("Arial", 20, FontStyle.Bold);
+		BotaoLoteMaternidade.ForeColor = Color.FromArgb(255, 189, 89);
+		BotaoLoteMaternidade.FlatStyle = FlatStyle.Flat;
+		BotaoLoteMaternidade.FlatAppearance.BorderColor = Color.FromArgb(255, 189, 89);
+		BotaoLoteMaternidade.BackColor = Color.White;
+		BotaoLoteMaternidade.FlatAppearance.BorderSize = 1;
+		BotaoLoteMaternidade.Click += (sender, e) => {
+			Menuverlotes.Visible = false;
+			MenuLoteMaternida.Visible = true;
+		};
+		Menuverlotes.Controls.Add(BotaoLoteMaternidade);
+		
 		
 		Button botaoVoltar = new Button();
 		botaoVoltar.Text = "Voltar";
@@ -1094,6 +1165,280 @@ public partial class Formprinciapl : Form {
 		};
 		Menurastreio.Controls.Add(botaoVoltar);
 		
+	}
+
+	public async void MenuLoteMaternidad() {
+		MenuLoteMaternida = new Panel();
+		MenuLoteMaternida.Name = "Temporario";
+		MenuLoteMaternida.Size = this.ClientSize;
+		MenuLoteMaternida.Location = new Point(0, 0);
+		MenuLoteMaternida.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao2.png");
+		MenuLoteMaternida.BackgroundImageLayout = ImageLayout.Stretch;
+		MenuLoteMaternida.Visible = false;
+		
+		Label labelANM = new Label();
+		labelANM.Text = "Animais Na Maternidade";
+		labelANM.Location = new Point(80, 100);
+		labelANM.Font = new Font("Arial", 28, FontStyle.Bold);
+		labelANM.AutoSize = true;
+		labelANM.BackColor = Color.Transparent;
+		labelANM.ForeColor = Color.FromArgb(255, 189, 89);
+		MenuLoteMaternida.Controls.Add(labelANM);
+		
+		FlowLayoutPanel flowProdutos = new FlowLayoutPanel();
+		flowProdutos.Location = new Point(50, 150);
+		flowProdutos.Size = new Size(1100, 400);
+		flowProdutos.BackColor = Color.Transparent;
+		flowProdutos.AutoScroll = true;
+		flowProdutos.FlowDirection = FlowDirection.LeftToRight;
+		flowProdutos.WrapContents = true;
+		flowProdutos.Padding = new Padding(20, 20, 20, 50);
+		MenuLoteMaternida.Controls.Add(flowProdutos);
+
+		try {
+	        HttpClient client = new HttpClient();
+	        string url = "http://localhost/projeto_sa/mostrar_maternidade.php"; 
+	        string response = await client.GetStringAsync(url);
+	        var listaAnimais = JsonConvert.DeserializeObject<List<Animal.AnimalMaternidade>>(response);
+
+	        
+	        if (listaAnimais != null) {
+	            foreach (var animal in listaAnimais) {
+		            Panel card = new Panel();
+		            card.Size = new Size(250, 180);
+		            card.BackColor = Color.FromArgb(255, 189, 89);
+		            card.Margin = new Padding(15);
+		            
+		            Label lblTitulo = new Label();
+		            lblTitulo.Text = animal.brinco_identificador ?? "S/ Identif.";
+		            lblTitulo.Font = new Font("Arial", 16, FontStyle.Bold); 
+		            lblTitulo.ForeColor = Color.White;
+		            lblTitulo.AutoSize = false; 
+		            lblTitulo.Size = new Size(250, 40); 
+		            lblTitulo.Location = new Point(0, 50); 
+		            lblTitulo.TextAlign = ContentAlignment.MiddleCenter; 
+		            
+		            Label lblDetalhe = new Label();
+		            lblDetalhe.Text = "Raça: " + animal.raca + "\n" +
+		                              "Idade: " + animal.idade_meses + " meses\n" +
+		                              "Peso: " + animal.peso_kg.ToString("N2") + " kg";
+		            lblDetalhe.Font = new Font("Arial", 11, FontStyle.Regular);
+		            lblDetalhe.ForeColor = Color.White;
+		            lblDetalhe.AutoSize = false;
+		            lblDetalhe.Size = new Size(250, 80); 
+		            lblDetalhe.Location = new Point(0, 90); 
+		            lblDetalhe.TextAlign = ContentAlignment.TopCenter;
+
+		            card.Controls.Add(lblTitulo);
+		            card.Controls.Add(lblDetalhe);
+
+		            flowProdutos.Controls.Add(card);
+	            }
+	        }
+	    }
+	    catch (Exception ex) {
+	        // Exibe erro se o servidor estiver desligado ou a URL errada
+	        Label lblErro = new Label { 
+	            Text = "Erro ao carregar dados: " + ex.Message, 
+	            ForeColor = Color.Red, 
+	            AutoSize = true, 
+	            Location = new Point(20, 20) 
+	        };
+	        flowProdutos.Controls.Add(lblErro);
+	    }
+		
+		Button botaoVoltar = new Button();
+		botaoVoltar.Text = "Voltar";
+		botaoVoltar.Location = new Point(20, 20);
+		botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+		botaoVoltar.AutoSize = true;
+		botaoVoltar.FlatStyle = FlatStyle.Flat;
+		botaoVoltar.FlatAppearance.BorderSize = 0;
+		botaoVoltar.BackColor = Color.White;
+		botaoVoltar.ForeColor = Color.FromArgb(255, 189, 89);
+		botaoVoltar.Click += (sender, e) => {
+			MenuLoteMaternida.Visible = false;
+			Menuverlotes.Visible = true;
+		};
+		MenuLoteMaternida.Controls.Add(botaoVoltar);
+	}
+	public async void MenuLoteEngorda() {
+		MenuLoteengorda = new Panel();
+		MenuLoteengorda.Name = "Temporario";
+		MenuLoteengorda.Size = this.ClientSize;
+		MenuLoteengorda.Location = new Point(0, 0);
+		MenuLoteengorda.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		MenuLoteengorda.BackgroundImageLayout = ImageLayout.Stretch;
+		MenuLoteengorda.Visible = false;
+		
+		Label labelAPE = new Label();
+		labelAPE.Text = "Animais Para Engorda";
+		labelAPE.Location = new Point(80, 100);
+		labelAPE.Font = new Font("Arial", 28, FontStyle.Bold);
+		labelAPE.AutoSize = true;
+		labelAPE.BackColor = Color.Transparent;
+		labelAPE.ForeColor = Color.FromArgb(255, 189, 89);
+		MenuLoteengorda.Controls.Add(labelAPE);
+		
+		FlowLayoutPanel flowAPE = new FlowLayoutPanel();
+		flowAPE.Location = new Point(50, 150);
+		flowAPE.Size = new Size(1100, 400);
+		flowAPE.BackColor = Color.Transparent;
+		flowAPE.AutoScroll = true;
+		flowAPE.FlowDirection = FlowDirection.LeftToRight;
+		flowAPE.WrapContents = true;
+		flowAPE.Padding = new Padding(20, 20, 20, 50);
+		MenuLoteengorda.Controls.Add(flowAPE);
+		try {
+		    HttpClient client = new HttpClient();
+		    // URL para o novo arquivo PHP
+		    string url = "http://localhost/projeto_sa/mostrar_engorda.php"; 
+		    string response = await client.GetStringAsync(url);
+		    var listaAnimais = JsonConvert.DeserializeObject<List<Animal.AnimalEngorda>>(response);
+
+		    if (listaAnimais != null) {
+		        foreach (var animal in listaAnimais) {
+		            Panel card = new Panel();
+		            card.Size = new Size(250, 180);
+		            card.BackColor = Color.FromArgb(255, 189, 89);
+		            card.Margin = new Padding(15);
+		            
+		            Label lblTitulo = new Label();
+		            lblTitulo.Text = animal.brinco_identificador ?? "S/ Identif.";
+		            lblTitulo.Font = new Font("Arial", 16, FontStyle.Bold); 
+		            lblTitulo.ForeColor = Color.White;
+		            lblTitulo.AutoSize = false; 
+		            lblTitulo.Size = new Size(250, 40); 
+		            lblTitulo.Location = new Point(0, 40); // Subi um pouco para caber mais info
+		            lblTitulo.TextAlign = ContentAlignment.MiddleCenter; 
+		            
+		            Label lblDetalhe = new Label();
+		            // Adaptado para mostrar Sexo em vez de Raça, conforme sua View
+		            lblDetalhe.Text = "Sexo: " + animal.sexo_animal + "\n" +
+		                              "Idade: " + animal.idade_meses + " meses\n" +
+		                              "Peso: " + animal.peso_kg.ToString("N2") + " kg";
+		            lblDetalhe.Font = new Font("Arial", 11, FontStyle.Regular);
+		            lblDetalhe.ForeColor = Color.White;
+		            lblDetalhe.AutoSize = false;
+		            lblDetalhe.Size = new Size(250, 80); 
+		            lblDetalhe.Location = new Point(0, 85); 
+		            lblDetalhe.TextAlign = ContentAlignment.TopCenter;
+
+		            card.Controls.Add(lblTitulo);
+		            card.Controls.Add(lblDetalhe);
+
+		            flowAPE.Controls.Add(card);
+		        }
+		    }
+		}
+		catch (Exception ex) {
+		    MessageBox.Show("Erro ao carregar Engorda: " + ex.Message);
+		}
+				
+		
+		Button botaoVoltar = new Button();
+		botaoVoltar.Text = "Voltar";
+		botaoVoltar.Location = new Point(20, 20);
+		botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+		botaoVoltar.AutoSize = true;
+		botaoVoltar.FlatStyle = FlatStyle.Flat;
+		botaoVoltar.FlatAppearance.BorderSize = 0;
+		botaoVoltar.BackColor = Color.White;
+		botaoVoltar.ForeColor = Color.FromArgb(255, 189, 89);
+		botaoVoltar.Click += (sender, e) => {
+			MenuLoteengorda.Visible = false;
+			Menuverlotes.Visible = true;
+		};
+		MenuLoteengorda.Controls.Add(botaoVoltar);
+	}
+
+	public async void MenuLoteQuarentena() {
+		MenuLotequarentena = new Panel();
+		MenuLotequarentena.Name = "Temporario";
+		MenuLotequarentena.Size = this.ClientSize;
+		MenuLotequarentena.Location = new Point(0, 0);
+		MenuLotequarentena.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		MenuLotequarentena.BackgroundImageLayout = ImageLayout.Stretch;
+		MenuLotequarentena.Visible = false;
+		
+		Label labelAPE = new Label();
+		labelAPE.Text = "Animais Em Quarentena";
+		labelAPE.Location = new Point(80, 100);
+		labelAPE.Font = new Font("Arial", 28, FontStyle.Bold);
+		labelAPE.AutoSize = true;
+		labelAPE.BackColor = Color.Transparent;
+		labelAPE.ForeColor = Color.FromArgb(255, 189, 89);
+		MenuLotequarentena.Controls.Add(labelAPE);
+		
+		FlowLayoutPanel flowAMQ = new FlowLayoutPanel();
+		flowAMQ.Location = new Point(50, 150);
+		flowAMQ.Size = new Size(1100, 400);
+		flowAMQ.BackColor = Color.Transparent;
+		flowAMQ.AutoScroll = true;
+		flowAMQ.FlowDirection = FlowDirection.LeftToRight;
+		flowAMQ.WrapContents = true;
+		flowAMQ.Padding = new Padding(20, 20, 20, 50);
+		MenuLotequarentena.Controls.Add(flowAMQ);
+		try {
+			HttpClient client = new HttpClient();
+			string url = "http://localhost/projeto_sa/mostrar_quarentena.php"; 
+			string response = await client.GetStringAsync(url);
+			var listaAnimais = JsonConvert.DeserializeObject < List < Animal.AnimalQuarentena>>(response);
+
+			if (listaAnimais != null) {
+				foreach (var animal in listaAnimais) {
+					Panel card = new Panel();
+					card.Size = new Size(250, 180);
+					card.BackColor = Color.FromArgb(255, 189, 89);
+					card.Margin = new Padding(15);
+            
+					Label lblTitulo = new Label();
+					lblTitulo.Text = animal.brinco_identificador ?? "S/ Identif.";
+					lblTitulo.Font = new Font("Arial", 16, FontStyle.Bold); 
+					lblTitulo.ForeColor = Color.White;
+					lblTitulo.AutoSize = false; 
+					lblTitulo.Size = new Size(250, 40); 
+					lblTitulo.Location = new Point(0, 40); 
+					lblTitulo.TextAlign = ContentAlignment.MiddleCenter; 
+            
+					Label lblDetalhe = new Label();
+					// Exibindo o Status da Quarentena
+					lblDetalhe.Text = "Sexo: " + animal.sexo_animal + "\n" +
+					                  "Idade: " + animal.idade_meses + " meses\n" +
+					                  "Status: " + animal.status;
+					lblDetalhe.Font = new Font("Arial", 11, FontStyle.Regular);
+					lblDetalhe.ForeColor = Color.White;
+					lblDetalhe.AutoSize = false;
+					lblDetalhe.Size = new Size(250, 80); 
+					lblDetalhe.Location = new Point(0, 85); 
+					lblDetalhe.TextAlign = ContentAlignment.TopCenter;
+
+					card.Controls.Add(lblTitulo);
+					card.Controls.Add(lblDetalhe);
+
+					flowAMQ.Controls.Add(card);
+				}
+			}
+		}
+		catch (Exception ex) {
+			MessageBox.Show("Erro ao carregar Quarentena: " + ex.Message);
+		}
+		
+		
+		Button botaoVoltar = new Button();
+		botaoVoltar.Text = "Voltar";
+		botaoVoltar.Location = new Point(20, 20);
+		botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+		botaoVoltar.AutoSize = true;
+		botaoVoltar.FlatStyle = FlatStyle.Flat;
+		botaoVoltar.FlatAppearance.BorderSize = 0;
+		botaoVoltar.BackColor = Color.White;
+		botaoVoltar.ForeColor = Color.FromArgb(255, 189, 89);
+		botaoVoltar.Click += (sender, e) => {
+			MenuLotequarentena.Visible = false;
+			Menuverlotes.Visible = true;
+		};
+		MenuLotequarentena.Controls.Add(botaoVoltar);
 	}
 	
 }
