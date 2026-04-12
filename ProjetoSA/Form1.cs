@@ -36,7 +36,8 @@ public partial class Formprinciapl : Form {
 	public Panel MenuLoteMaternida;
 	public Panel MenuLoteengorda;
 	public Panel MenuLotequarentena;
-		
+	public Panel Menuvercontratos;
+	public Panel Menunovoscontratos;
 	
 	private DataGridView tabelaEmprestimos;
 	
@@ -87,7 +88,11 @@ public partial class Formprinciapl : Form {
 		MenuLoteMaternidad();
 		MenuLoteQuarentena();
 		MenuLoteEngorda();
+		MenuVerContratos();
+		MenuNovosContratos();
 		
+		this.Controls.Add(Menunovoscontratos);
+		this.Controls.Add(Menuvercontratos);
 		this.Controls.Add(MenuLoteMaternida);
 		this.Controls.Add(MenuLoteengorda);
 		this.Controls.Add(MenuLotequarentena);
@@ -629,7 +634,7 @@ public partial class Formprinciapl : Form {
 
 		Label labelMenuADM = new Label();
 		labelMenuADM.Text = "Menu Fornecedor";
-		labelMenuADM.Location = new Point(450, 100);
+		labelMenuADM.Location = new Point(430, 100);
 		labelMenuADM.Font = new Font("Arial", 28, FontStyle.Bold);
 		labelMenuADM.AutoSize = true;
 		labelMenuADM.BackColor = Color.Transparent;
@@ -1289,6 +1294,50 @@ public partial class Formprinciapl : Form {
 		Menucontrato.BackgroundImageLayout = ImageLayout.Stretch;
 		Menucontrato.Visible = false;
 		
+		Label labelContratos = new Label();
+		labelContratos .Text = "Contratos";
+		labelContratos .Location = new Point(500, 100);
+		labelContratos .Font = new Font("Arial", 28, FontStyle.Bold);
+		labelContratos .AutoSize = true;
+		labelContratos .BackColor = Color.Transparent;
+		labelContratos .ForeColor = Color.FromArgb(255, 189, 89);
+		Menucontrato.Controls.Add(labelContratos);
+
+		Button BotaoVercontratos = new Button();
+		BotaoVercontratos .Text = "Ver Contratos";
+		BotaoVercontratos .Size = new Size(230, 40);
+		BotaoVercontratos .Location = new Point(480, 180);
+		BotaoVercontratos .Font = new Font("Arial", 20, FontStyle.Bold);
+		BotaoVercontratos .ForeColor = Color.FromArgb(255, 189, 89);
+		BotaoVercontratos .FlatStyle = FlatStyle.Flat;
+		BotaoVercontratos .FlatAppearance.BorderColor = Color.FromArgb(255, 189, 89);
+		BotaoVercontratos .BackColor = Color.White;
+		BotaoVercontratos .FlatAppearance.BorderSize = 1;
+		BotaoVercontratos .Click += (sender, e) => {
+			Menucontrato.Visible = false;
+			Menuvercontratos.Visible = true;
+
+		};
+		Menucontrato.Controls.Add( BotaoVercontratos);
+
+		
+			
+
+		Button BotaoNovosContratos = new Button();
+		BotaoNovosContratos.Text = "Novos Contratos";
+		BotaoNovosContratos.Size = new Size(230, 40);
+		BotaoNovosContratos.Location = new Point(480, 230);
+		BotaoNovosContratos.Font = new Font("Arial", 20, FontStyle.Bold);
+		BotaoNovosContratos.ForeColor = Color.FromArgb(255, 189, 89);
+		BotaoNovosContratos.FlatStyle = FlatStyle.Flat;
+		BotaoNovosContratos.FlatAppearance.BorderColor = Color.FromArgb(255, 189, 89);
+		BotaoNovosContratos.BackColor = Color.White;
+		BotaoNovosContratos.FlatAppearance.BorderSize = 1;
+		BotaoNovosContratos.Click += (sender, e) => {
+			Menucontrato.Visible = false;
+			Menunovoscontratos.Visible = true;
+		};
+		Menucontrato.Controls.Add(BotaoNovosContratos);
 		
 		
 		Button botaoVoltar = new Button();
@@ -1688,7 +1737,58 @@ public partial class Formprinciapl : Form {
 		};
 		MenuLotequarentena.Controls.Add(botaoVoltar);
 	}
-	
+
+	public void MenuVerContratos() {
+		Menuvercontratos = new Panel();
+		Menuvercontratos.Name = "Temporario";
+		Menuvercontratos.Size = this.ClientSize;
+		Menuvercontratos.Location = new Point(0, 0);
+		Menuvercontratos.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		Menuvercontratos.BackgroundImageLayout = ImageLayout.Stretch;
+		Menuvercontratos.Visible = false;
+
+
+		
+		Button botaoVoltar = new Button();
+		botaoVoltar.Text = "Voltar";
+		botaoVoltar.Location = new Point(20, 20);
+		botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+		botaoVoltar.AutoSize = true;
+		botaoVoltar.FlatStyle = FlatStyle.Flat;
+		botaoVoltar.FlatAppearance.BorderSize = 0;
+		botaoVoltar.BackColor = Color.White;
+		botaoVoltar.ForeColor = Color.FromArgb(255, 189, 89);
+		botaoVoltar.Click += (sender, e) => {
+			Menuvercontratos.Visible = false;
+			Menucontrato.Visible = true;
+		};
+		Menuvercontratos.Controls.Add(botaoVoltar);
+	}
+
+	public void MenuNovosContratos() {
+		Menunovoscontratos = new Panel();
+		Menunovoscontratos.Name = "Temporario";
+		Menunovoscontratos.Size = this.ClientSize;
+		Menunovoscontratos.Location = new Point(0, 0);
+		Menunovoscontratos.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
+		Menunovoscontratos.BackgroundImageLayout = ImageLayout.Stretch;
+		Menunovoscontratos.Visible = false;
+		
+		
+		Button botaoVoltar = new Button();
+		botaoVoltar.Text = "Voltar";
+		botaoVoltar.Location = new Point(20, 20);
+		botaoVoltar.Font = new Font("Arial", 12, FontStyle.Bold);
+		botaoVoltar.AutoSize = true;
+		botaoVoltar.FlatStyle = FlatStyle.Flat;
+		botaoVoltar.FlatAppearance.BorderSize = 0;
+		botaoVoltar.BackColor = Color.White;
+		botaoVoltar.ForeColor = Color.FromArgb(255, 189, 89);
+		botaoVoltar.Click += (sender, e) => {
+			Menunovoscontratos.Visible = false;
+			Menucontrato.Visible = true;
+		};
+		Menunovoscontratos.Controls.Add(botaoVoltar);
+	}
 	
 }
-
