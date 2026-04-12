@@ -918,73 +918,74 @@ public partial class Formprinciapl : Form {
 		Menuconsultoria.Controls.Add(labelMenuADM);
 		
 		// 1. Quantidade para Abate
-	    Label lblAbate = new Label();
-	    lblAbate.Text = "Animais prontos para abate: Carregando...";
-	    lblAbate.Location = new Point(400, 180);
-	    lblAbate.Font = new Font("Arial", 14, FontStyle.Bold);
-	    lblAbate.ForeColor = Color.FromArgb(255, 189, 89);
-	    lblAbate.BackColor = Color.Transparent;
-	    lblAbate.AutoSize = true;
-	    Menuconsultoria.Controls.Add(lblAbate);
+		Label lblAbate = new Label();
+		lblAbate.Name = "lblAbate"; // Nomeado para facilitar acesso via código
+		lblAbate.Text = "Animais prontos para abate: ...";
+		lblAbate.Location = new Point(400, 180);
+		lblAbate.Font = new Font("Arial", 14, FontStyle.Bold);
+		lblAbate.ForeColor = Color.FromArgb(255, 189, 89);
+		lblAbate.BackColor = Color.Transparent;
+		lblAbate.AutoSize = true;
+		Menuconsultoria.Controls.Add(lblAbate);
 
-	    // 2. Vacas Doentes
-	    Label lblDoentes = new Label();
-	    lblDoentes.Text = "Vacas em Quarentena (Doentes): Carregando...";
-	    lblDoentes.Location = new Point(400, 220);
-	    lblDoentes.Font = new Font("Arial", 14, FontStyle.Bold);
-	    lblDoentes.ForeColor = Color.FromArgb(255, 189, 89);
-	    lblDoentes.BackColor = Color.Transparent;
-	    lblDoentes.AutoSize = true;
-	    Menuconsultoria.Controls.Add(lblDoentes);
+		// 2. Vacas Doentes
+		Label lblDoentes = new Label();
+		lblDoentes.Name = "lblDoentes";
+		lblDoentes.Text = "Vacas em Quarentena (Doentes): ...";
+		lblDoentes.Location = new Point(400, 220);
+		lblDoentes.Font = new Font("Arial", 14, FontStyle.Bold);
+		lblDoentes.ForeColor = Color.FromArgb(255, 189, 89);
+		lblDoentes.BackColor = Color.Transparent;
+		lblDoentes.AutoSize = true;
+		Menuconsultoria.Controls.Add(lblDoentes);
 
-	    // 3. Preço da Arroba
-	    Label lblPrecoArroba = new Label();
-	    lblPrecoArroba.Text = "Preço da Arroba: R$ 0,00";
-	    lblPrecoArroba.Location = new Point(400, 260);
-	    lblPrecoArroba.Font = new Font("Arial(14)", 14, FontStyle.Bold);
-	    lblPrecoArroba.ForeColor = Color.FromArgb(255, 189, 89);
-	    lblPrecoArroba.BackColor = Color.Transparent;
-	    lblPrecoArroba.AutoSize = true;
-	    Menuconsultoria.Controls.Add(lblPrecoArroba);
+		// 3. Preço da Arroba
+		Label lblPrecoArroba = new Label();
+		lblPrecoArroba.Name = "lblPrecoArroba";
+		lblPrecoArroba.Text = "Preço da Arroba: ...";
+		lblPrecoArroba.Location = new Point(400, 260);
+		lblPrecoArroba.Font = new Font("Arial", 14, FontStyle.Bold);
+		lblPrecoArroba.ForeColor = Color.FromArgb(255, 189, 89);
+		lblPrecoArroba.BackColor = Color.Transparent;
+		lblPrecoArroba.AutoSize = true;
+		Menuconsultoria.Controls.Add(lblPrecoArroba);
 
-	    // 4. Taxas e Vacinas
-	    Label lblTaxas = new Label();
-	    lblTaxas.Text = "Custos: Vacina R$ 15,20 | Abate R$ 45,00";
-	    lblTaxas.Location = new Point(400, 300);
-	    lblTaxas.Font = new Font("Arial", 14, FontStyle.Bold);
-	    lblTaxas.ForeColor = Color.FromArgb(255, 189, 89);
-	    lblTaxas.BackColor = Color.Transparent;
-	    lblTaxas.AutoSize = true;
-	    Menuconsultoria.Controls.Add(lblTaxas);
+		// 4. Taxas e Vacinas
+		Label lblTaxas = new Label();
+		lblTaxas.Name = "lblTaxas";
+		lblTaxas.Text = "Custos: Carregando taxas...";
+		lblTaxas.Location = new Point(400, 300);
+		lblTaxas.Font = new Font("Arial", 14, FontStyle.Bold);
+		lblTaxas.ForeColor = Color.FromArgb(255, 189, 89);
+		lblTaxas.BackColor = Color.Transparent;
+		lblTaxas.AutoSize = true;
+		Menuconsultoria.Controls.Add(lblTaxas);
 
-	    // 5. Margem de Lucro
-	    Label lblMargem = new Label();
-	    lblMargem.Text = "Margem de Lucro Prevista: 0%";
-	    lblMargem.Location = new Point(400, 340);
-	    lblMargem.Font = new Font("Arial", 14, FontStyle.Bold);
-	    lblMargem.ForeColor = Color.FromArgb(255, 189, 89);
-	    lblMargem.BackColor = Color.Transparent;
-	    lblMargem.AutoSize = true;
-	    Menuconsultoria.Controls.Add(lblMargem);
-
-	    // --- BOTÃO ATUALIZAR ---
-	    Button btnAtualizar = new Button();
-	    btnAtualizar.Text = "Sincronizar Dados";
-	    btnAtualizar.Location = new Point(460, 380);
-	    btnAtualizar.Size = new Size(220, 45);
-	    btnAtualizar.BackColor = Color.White;
-	    btnAtualizar.ForeColor = Color.FromArgb(255, 189, 89);
-	    btnAtualizar.FlatStyle = FlatStyle.Flat;
-	    btnAtualizar.Font = new Font("Arial", 12, FontStyle.Bold);
-	    btnAtualizar.Click += (sender, e) => {
-	        // Aqui você chamaria a função que lê o PHP
-	        // Simulação dos valores vindo do banco:
-	        lblAbate.Text = "Animais prontos para abate: 15";
-	        lblDoentes.Text = "Vacas em Quarentena (Doentes): 2";
-	        lblPrecoArroba.Text = "Preço da Arroba: R$ 285,50";
-	        lblMargem.Text = "Margem de Lucro Prevista: 5%";
-	    };
-	    Menuconsultoria.Controls.Add(btnAtualizar);
+		// 5. Margem de Lucro
+		Label lblMargem = new Label();
+		lblMargem.Name = "lblMargem";
+		lblMargem.Text = "Margem de Lucro Prevista: ...";
+		lblMargem.Location = new Point(400, 340);
+		lblMargem.Font = new Font("Arial", 14, FontStyle.Bold);
+		lblMargem.ForeColor = Color.FromArgb(255, 189, 89);
+		lblMargem.BackColor = Color.Transparent;
+		lblMargem.AutoSize = true;
+		Menuconsultoria.Controls.Add(lblMargem);
+		
+		// Dentro do seu Form
+		ConsultoriaService servico = new ConsultoriaService();
+		
+		Menuconsultoria.VisibleChanged += async (s, e) => {
+			if (Menuconsultoria.Visible) {
+				await servico.AtualizarDadosConsultoria(new { 
+					Abate = lblAbate, 
+					Doentes = lblDoentes, 
+					Preco = lblPrecoArroba, 
+					Taxas = lblTaxas, 
+					Margem = lblMargem 
+				});
+			}
+		};
 		
 		Button botaoVoltar = new Button();
 		botaoVoltar.Text = "Voltar";
