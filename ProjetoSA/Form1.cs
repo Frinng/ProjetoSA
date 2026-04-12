@@ -293,14 +293,17 @@ public partial class Formprinciapl : Form {
 			                    CampoSenha.Clear();
 			                    MessageBox.Show("Bem-vindo, Fornecedor!");
 			                    PainelLogin.Visible = false;
-			                    // PainelFornecedor.Visible = true;
 			                    MENUFORNECEDOR.Visible = true;
 			                    break;
 
 	                        case "FALHA":
 	                            MessageBox.Show("Usuário ou senha incorretos!");
 	                            break;
-
+		                    
+		                    case "EMAIL_INEXISTENTE":
+			                    MessageBox.Show("Este e-mail não está cadastrado no sistema!", "Usuário não encontrado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			                    break;
+		                    
 	                        default:
 	                            MessageBox.Show("Erro retornado pelo servidor: " + resultado);
 	                            break;
@@ -340,13 +343,13 @@ public partial class Formprinciapl : Form {
 		labelTituloRegistro.ForeColor = Color.FromArgb(255, 189, 89);
 		PainelRegistro.Controls.Add(labelTituloRegistro);
 
-		TextBox campoNovoUsuario = new TextBox();
-		campoNovoUsuario.Location = new Point(410, 180);
-		campoNovoUsuario.Size = new Size(300, 30);
-		campoNovoUsuario.Font = new Font("Arial", 20);
-		campoNovoUsuario.PlaceholderText = "Digite seu usuário";
-		campoNovoUsuario.TextAlign = HorizontalAlignment.Center;
-		PainelRegistro.Controls.Add(campoNovoUsuario);
+		TextBox campoNovoEmail = new TextBox();
+		campoNovoEmail.Location = new Point(410, 180);
+		campoNovoEmail.Size = new Size(300, 30);
+		campoNovoEmail.Font = new Font("Arial", 20);
+		campoNovoEmail.PlaceholderText = "Digite seu e-mail";
+		campoNovoEmail.TextAlign = HorizontalAlignment.Center;
+		PainelRegistro.Controls.Add(campoNovoEmail);
 
 		TextBox campoNovaSenha = new TextBox();
 		campoNovaSenha.Location = new Point(410, 240);
@@ -354,7 +357,6 @@ public partial class Formprinciapl : Form {
 		campoNovaSenha.Font = new Font("Arial", 20);
 		campoNovaSenha.PlaceholderText = "Digite sua senha";
 		campoNovaSenha.TextAlign = HorizontalAlignment.Center;
-		campoNovaSenha.ForeColor = Color.FromArgb(255, 189, 89);
 		campoNovaSenha.UseSystemPasswordChar = true;
 		PainelRegistro.Controls.Add(campoNovaSenha);
 
@@ -364,18 +366,16 @@ public partial class Formprinciapl : Form {
 		campoConfirmarSenha.Font = new Font("Arial", 20);
 		campoConfirmarSenha.PlaceholderText = "Confirme sua senha";
 		campoConfirmarSenha.TextAlign = HorizontalAlignment.Center;
-		campoConfirmarSenha.ForeColor = Color.FromArgb(255, 189, 89);
 		campoConfirmarSenha.UseSystemPasswordChar = true;
 		PainelRegistro.Controls.Add(campoConfirmarSenha);
 
 		ListBox listTipoUsuario = new ListBox();
 		listTipoUsuario.Location = new Point(410, 350);
-		listTipoUsuario.Size = new Size(300, 70); 
+		listTipoUsuario.Size = new Size(300, 45);
 		listTipoUsuario.Font = new Font("Arial", 12);
 		listTipoUsuario.ForeColor = Color.FromArgb(255, 189, 89);
 		listTipoUsuario.Items.Add("Colaborador");
 		listTipoUsuario.Items.Add("Cliente");
-		listTipoUsuario.Items.Add("Fornecedor");
 		PainelRegistro.Controls.Add(listTipoUsuario);
 		
 		Button botaoescondersenha = new Button();
@@ -413,14 +413,14 @@ public partial class Formprinciapl : Form {
 		botaoConfirmar.FlatStyle = FlatStyle.Flat;
 		botaoConfirmar.FlatAppearance.BorderSize = 1;
 		botaoConfirmar.Click += async (sender, e) => { 
-		    string novoUsuario = campoNovoUsuario.Text;
+			string novoEmail = campoNovoEmail.Text;
 		    string novaSenha = campoNovaSenha.Text;
 		    string tipoSelecionado = listTipoUsuario.SelectedItem?.ToString();
 
 		    // Validações básicas de interface
-		    if (string.IsNullOrWhiteSpace(novoUsuario)) {
-		        MessageBox.Show("Por favor, preencha o campo Usuário!");
-		        return;
+		    if (string.IsNullOrWhiteSpace(novoEmail)) {
+			    MessageBox.Show("Por favor, preencha o campo E-mail!");
+			    return;
 		    }
 
 		    if (string.IsNullOrWhiteSpace(novaSenha)) {
@@ -433,9 +433,9 @@ public partial class Formprinciapl : Form {
 		        return;
 		    }
 
-		    if (campoNovoUsuario.TextLength < 4) {
-		        MessageBox.Show("O seu usuario deve ter pelo menos 4 caracteres!");
-		        return;
+		    if (!novoEmail.Contains("@") || !novoEmail.Contains(".")) {
+			    MessageBox.Show("Por favor, insira um e-mail válido!");
+			    return;
 		    }
 
 		    if (campoNovaSenha.TextLength < 8) {
@@ -454,7 +454,7 @@ public partial class Formprinciapl : Form {
 		            string url = "http://localhost/projeto_sa/cadastrar.php";
 		                  
 		            var dados = new FormUrlEncodedContent(new[] {
-		                new KeyValuePair<string, string>("novoUsuario", novoUsuario),
+		                new KeyValuePair<string, string>("novoUsuario", novoEmail),
 		                new KeyValuePair<string, string>("novaSenha", novaSenha),
 		                new KeyValuePair<string, string>("tipoUsuario", tipoSelecionado),
 		            });
@@ -469,7 +469,7 @@ public partial class Formprinciapl : Form {
 		                    MessageBox.Show("Usuário registrado com sucesso!");
 		                    
 		                    // Limpa os campos após o sucesso
-		                    campoNovoUsuario.Clear();
+		                    campoNovoEmail.Clear();
 		                    campoNovaSenha.Clear();
 		                    campoConfirmarSenha.Clear();
 
@@ -477,8 +477,8 @@ public partial class Formprinciapl : Form {
 		                    PainelRegistro.Visible = false;
 		                    PainelLogin.Visible = true;
 		                } 
-		                else if (conteudo.Contains("erro_usuario_existe")) {
-		                    MessageBox.Show("Este nome de usuário já está em uso. Escolha outro!");
+		                else if (conteudo.Contains("erro_email_existe")) {
+			                MessageBox.Show("Este e-mail já está cadastrado!");
 		                } 
 		                else {
 		                    MessageBox.Show("Erro ao cadastrar: " + conteudo);
@@ -586,7 +586,7 @@ public partial class Formprinciapl : Form {
 		Menucolaborador.Controls.Add(BotaoDA);
 
 		Button BotaoFinancimento = new Button();
-		BotaoFinancimento.Text = "Financiamento";
+		BotaoFinancimento.Text = "Financeiro";
 		BotaoFinancimento.Size = new Size(230, 40);
 		BotaoFinancimento.Location = new Point(480, 330);
 		BotaoFinancimento.Font = new Font("Arial", 20, FontStyle.Bold);
@@ -903,8 +903,84 @@ public partial class Formprinciapl : Form {
 		Menuconsultoria.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
 		Menuconsultoria.BackgroundImageLayout = ImageLayout.Stretch;
 		Menuconsultoria.Visible = false;
+		
+		Label labelMenuADM = new Label();
+		labelMenuADM.Text = "Consultoria";
+		labelMenuADM.Location = new Point(470, 100);
+		labelMenuADM.Font = new Font("Arial", 28, FontStyle.Bold);
+		labelMenuADM.AutoSize = true;
+		labelMenuADM.BackColor = Color.Transparent;
+		labelMenuADM.ForeColor = Color.FromArgb(255, 189, 89);
+		Menuconsultoria.Controls.Add(labelMenuADM);
+		
+		// 1. Quantidade para Abate
+	    Label lblAbate = new Label();
+	    lblAbate.Text = "Animais prontos para abate: Carregando...";
+	    lblAbate.Location = new Point(400, 180);
+	    lblAbate.Font = new Font("Arial", 14, FontStyle.Bold);
+	    lblAbate.ForeColor = Color.FromArgb(255, 189, 89);
+	    lblAbate.BackColor = Color.Transparent;
+	    lblAbate.AutoSize = true;
+	    Menuconsultoria.Controls.Add(lblAbate);
 
+	    // 2. Vacas Doentes
+	    Label lblDoentes = new Label();
+	    lblDoentes.Text = "Vacas em Quarentena (Doentes): Carregando...";
+	    lblDoentes.Location = new Point(400, 220);
+	    lblDoentes.Font = new Font("Arial", 14, FontStyle.Bold);
+	    lblDoentes.ForeColor = Color.FromArgb(255, 189, 89);
+	    lblDoentes.BackColor = Color.Transparent;
+	    lblDoentes.AutoSize = true;
+	    Menuconsultoria.Controls.Add(lblDoentes);
 
+	    // 3. Preço da Arroba
+	    Label lblPrecoArroba = new Label();
+	    lblPrecoArroba.Text = "Preço da Arroba: R$ 0,00";
+	    lblPrecoArroba.Location = new Point(400, 260);
+	    lblPrecoArroba.Font = new Font("Arial(14)", 14, FontStyle.Bold);
+	    lblPrecoArroba.ForeColor = Color.FromArgb(255, 189, 89);
+	    lblPrecoArroba.BackColor = Color.Transparent;
+	    lblPrecoArroba.AutoSize = true;
+	    Menuconsultoria.Controls.Add(lblPrecoArroba);
+
+	    // 4. Taxas e Vacinas
+	    Label lblTaxas = new Label();
+	    lblTaxas.Text = "Custos: Vacina R$ 15,20 | Abate R$ 45,00";
+	    lblTaxas.Location = new Point(400, 300);
+	    lblTaxas.Font = new Font("Arial", 14, FontStyle.Bold);
+	    lblTaxas.ForeColor = Color.FromArgb(255, 189, 89);
+	    lblTaxas.BackColor = Color.Transparent;
+	    lblTaxas.AutoSize = true;
+	    Menuconsultoria.Controls.Add(lblTaxas);
+
+	    // 5. Margem de Lucro
+	    Label lblMargem = new Label();
+	    lblMargem.Text = "Margem de Lucro Prevista: 0%";
+	    lblMargem.Location = new Point(400, 340);
+	    lblMargem.Font = new Font("Arial", 14, FontStyle.Bold);
+	    lblMargem.ForeColor = Color.FromArgb(255, 189, 89);
+	    lblMargem.BackColor = Color.Transparent;
+	    lblMargem.AutoSize = true;
+	    Menuconsultoria.Controls.Add(lblMargem);
+
+	    // --- BOTÃO ATUALIZAR ---
+	    Button btnAtualizar = new Button();
+	    btnAtualizar.Text = "Sincronizar Dados";
+	    btnAtualizar.Location = new Point(460, 380);
+	    btnAtualizar.Size = new Size(220, 45);
+	    btnAtualizar.BackColor = Color.White;
+	    btnAtualizar.ForeColor = Color.FromArgb(255, 189, 89);
+	    btnAtualizar.FlatStyle = FlatStyle.Flat;
+	    btnAtualizar.Font = new Font("Arial", 12, FontStyle.Bold);
+	    btnAtualizar.Click += (sender, e) => {
+	        // Aqui você chamaria a função que lê o PHP
+	        // Simulação dos valores vindo do banco:
+	        lblAbate.Text = "Animais prontos para abate: 15";
+	        lblDoentes.Text = "Vacas em Quarentena (Doentes): 2";
+	        lblPrecoArroba.Text = "Preço da Arroba: R$ 285,50";
+	        lblMargem.Text = "Margem de Lucro Prevista: 5%";
+	    };
+	    Menuconsultoria.Controls.Add(btnAtualizar);
 		
 		Button botaoVoltar = new Button();
 		botaoVoltar.Text = "Voltar";
@@ -922,7 +998,7 @@ public partial class Formprinciapl : Form {
 		Menuconsultoria.Controls.Add(botaoVoltar);
 	}
 	
-	public void MenuDA() {
+	public async void MenuDA() {
 		MenucDA = new Panel();
 		MenucDA.Name = "Temporario";
 		MenucDA.Size = this.ClientSize;
@@ -930,6 +1006,91 @@ public partial class Formprinciapl : Form {
 		MenucDA.BackgroundImage = Image.FromFile(@"..\..\..\Recursos\FundoTelaPadrao.png");
 		MenucDA.BackgroundImageLayout = ImageLayout.Stretch;
 		MenucDA.Visible = false;
+
+		Label labelDA = new Label();
+		labelDA.Text = "Descrição Animais";
+		labelDA.Location = new Point(80, 100);
+		labelDA.Font = new Font("Arial", 28, FontStyle.Bold);
+		labelDA.AutoSize = true;
+		labelDA.BackColor = Color.Transparent;
+		labelDA.ForeColor = Color.FromArgb(255, 189, 89);
+		MenucDA.Controls.Add(labelDA);
+		
+		FlowLayoutPanel flowDA = new FlowLayoutPanel();
+		flowDA .Location = new Point(50, 150);
+		flowDA .Size = new Size(1100, 400);
+		flowDA .BackColor = Color.Transparent;
+		flowDA .AutoScroll = true;
+		flowDA .FlowDirection = FlowDirection.LeftToRight;
+		flowDA .WrapContents = true;
+		flowDA .Padding = new Padding(20, 20, 20, 50);
+		MenucDA.Controls.Add(flowDA);
+		try {
+	        HttpClient client = new HttpClient();
+		    string url = "http://localhost/projeto_sa/mostrar_todos_animais.php"; 
+		    string response = await client.GetStringAsync(url);
+		    var listaAnimais = JsonConvert.DeserializeObject<List<Animal.AnimalGeral>>(response);
+
+		    if (listaAnimais != null) {
+		        foreach (var animal in listaAnimais) {
+		            Panel card = new Panel();
+		            card.Size = new Size(260, 220); // Aumentado para caber os novos campos
+		            card.BackColor = Color.FromArgb(255, 189, 89);
+		            card.Margin = new Padding(15);
+		            
+		            // Label da Tag (Brinco)
+		            Label lblTag = new Label {
+		                Text = "TAG: " + (animal.tag ?? "S/N"),
+		                Font = new Font("Segoe UI", 14, FontStyle.Bold),
+		                ForeColor = Color.White,
+		                Size = new Size(260, 30),
+		                Location = new Point(0, 10),
+		                TextAlign = ContentAlignment.MiddleCenter
+		            };
+
+		            // Informações Principais
+		            Label lblInfo = new Label {
+		                Text = $"Sexo: {animal.sexo}\nPeso: {animal.peso:N2} kg",
+		                Font = new Font("Segoe UI", 10, FontStyle.Regular),
+		                ForeColor = Color.White,
+		                Size = new Size(260, 50),
+		                Location = new Point(0, 50),
+		                TextAlign = ContentAlignment.MiddleCenter
+		            };
+
+		            // Status (Engorda, Matriz, etc) - Criando uma string resumida
+		            string statusTxt = "";
+		            if (animal.eh_matriz == "SIM") statusTxt += "• MATRIZ ";
+		            if (animal.em_engorda == "SIM") statusTxt += "• ENGORDA ";
+		            if (animal.na_maternidade == "SIM") statusTxt += "• MATERNIDADE ";
+		            if (animal.em_quarentena == "SIM") statusTxt += "• QUARENTENA ";
+
+		            Label lblStatus = new Label {
+		                Text = statusTxt != "" ? statusTxt : "• SEM STATUS",
+		                Font = new Font("Segoe UI", 9, FontStyle.Italic),
+		                ForeColor = animal.em_quarentena == "SIM" ? Color.White : Color.White,
+		                Size = new Size(240, 80),
+		                Location = new Point(10, 110),
+		                TextAlign = ContentAlignment.TopCenter
+		            };
+
+		            card.Controls.Add(lblTag);
+		            card.Controls.Add(lblInfo);
+		            card.Controls.Add(lblStatus);
+		            flowDA.Controls.Add(card);
+		        }
+		    }
+	    }
+	    catch (Exception ex) {
+	        // Exibe erro se o servidor estiver desligado ou a URL errada
+	        Label lblErro = new Label { 
+	            Text = "Erro ao carregar dados: " + ex.Message, 
+	            ForeColor = Color.Red, 
+	            AutoSize = true, 
+	            Location = new Point(20, 20) 
+	        };
+	        flowDA.Controls.Add(lblErro);
+	    }
 
 
 		Button botaoVoltar = new Button();
@@ -958,7 +1119,7 @@ public partial class Formprinciapl : Form {
 		Menufinanciamentos.BackgroundImageLayout = ImageLayout.Stretch;
 		Menufinanciamentos.Visible = false;
 
-
+		
 
 		Button botaoVoltar = new Button();
 		botaoVoltar.Text = "Voltar";
@@ -1440,6 +1601,7 @@ public partial class Formprinciapl : Form {
 		};
 		MenuLotequarentena.Controls.Add(botaoVoltar);
 	}
+	
 	
 }
 

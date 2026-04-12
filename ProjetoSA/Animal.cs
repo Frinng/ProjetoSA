@@ -19,4 +19,13 @@ public class Animal {
         public int idade_meses { get; set; }
         public string status { get; set; }
     }
+    public class AnimalGeral {
+        public string tag { get; set; }
+        public string sexo { get; set; }
+        public double peso { get; set; }
+        public string eh_matriz { get; set; }
+        public string em_engorda { get; set; }
+        public string na_maternidade { get; set; }
+        public string em_quarentena { get; set; }
+    }
 }
