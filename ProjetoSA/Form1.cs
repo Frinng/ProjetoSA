@@ -1777,7 +1777,7 @@ public partial class Formprinciapl : Form {
 	            foreach (var contrato in listaContratos) {
 	                // Criando o Card (Painel)
 	                Panel card = new Panel();
-	                card.Size = new Size(300, 200);
+	                card.Size = new Size(300, 220);
 	                card.BackColor = Color.White; // Card branco com borda amarela fica elegante
 	                card.BorderStyle = BorderStyle.FixedSingle;
 	                card.Margin = new Padding(15);
@@ -1816,14 +1816,14 @@ public partial class Formprinciapl : Form {
 	                
 	                Button btnPdf = new Button();
 	                btnPdf.Text = "EXPORTAR PDF";
-	                btnPdf.Size = new Size(150, 30);
+	                btnPdf.Size = new Size(150, 20);
 	                btnPdf.Location = new Point(75, 165); // Abaixo do botão de ver termos
 	                btnPdf.FlatStyle = FlatStyle.Flat;
 	                btnPdf.BackColor = Color.FromArgb(255, 189, 89);
 	                btnPdf.ForeColor = Color.White;
 
 	                btnPdf.Click += (s, e) => {
-		                GeraPDF.GerarPdfContrato(contrato);
+		                GeraPDF.GerarPdfContratoFormatoJuridico(contrato);
 	                };
 
 	                card.Controls.Add(btnPdf);

@@ -37,6 +37,8 @@ public class Animal {
     }
     public class ContratoDTO {
         public int id_contrato { get; set; }
+        public string contratado { get; set; } // Adicione esta linha
+        public string contratante { get; set; } // Adicione esta também para garantir
         public decimal valor_total { get; set; }
         public DateTime data_vencimento { get; set; }
         public string status_contrato { get; set; }
