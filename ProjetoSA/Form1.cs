@@ -1110,7 +1110,7 @@ public partial class Formprinciapl : Form {
 	
 	}
 	
-	public void MenuFinanciamentoa() {
+	public async void MenuFinanciamentoa() {
 		Menufinanciamentos = new Panel();
 		Menufinanciamentos.Name = "Temporario";
 		Menufinanciamentos.Size = this.ClientSize;
@@ -1119,8 +1119,95 @@ public partial class Formprinciapl : Form {
 		Menufinanciamentos.BackgroundImageLayout = ImageLayout.Stretch;
 		Menufinanciamentos.Visible = false;
 
-		
+		Label labelANM = new Label();
+		labelANM.Text = "Financeiro";
+		labelANM.Location = new Point(80, 100);
+		labelANM.Font = new Font("Arial", 28, FontStyle.Bold);
+		labelANM.AutoSize = true;
+		labelANM.BackColor = Color.Transparent;
+		labelANM.ForeColor = Color.FromArgb(255, 189, 89);
+		Menufinanciamentos.Controls.Add(labelANM);
 
+		FlowLayoutPanel flowFinanca = new FlowLayoutPanel();
+		flowFinanca.Location = new Point(50, 150);
+		flowFinanca.Size = new Size(1100, 400);
+		flowFinanca.BackColor = Color.Transparent;
+		flowFinanca.AutoScroll = true;
+		flowFinanca.FlowDirection = FlowDirection.LeftToRight;
+		flowFinanca.WrapContents = true;
+		flowFinanca.Padding = new Padding(20, 20, 20, 50);
+		Menufinanciamentos.Controls.Add(flowFinanca);
+		try {
+	        HttpClient client = new HttpClient();
+		    string url = "http://localhost/projeto_sa/mostrar_produtos.php"; 
+		    string response = await client.GetStringAsync(url);
+		    var listaProdutos = JsonConvert.DeserializeObject<List<Animal.Produto>>(response);
+
+		    if (listaProdutos != null) {
+		        foreach (var prod in listaProdutos) {
+			        Panel card = new Panel();
+			        card.Size = new Size(220, 280); 
+			        card.BackColor = Color.FromArgb(255, 189, 89);
+			        card.Margin = new Padding(15);
+
+
+			        PictureBox pbImagem = new PictureBox();
+			        pbImagem.Size = new Size(200, 120);
+			        pbImagem.Location = new Point(10, 10);
+			        pbImagem.SizeMode = PictureBoxSizeMode.Zoom;
+			        pbImagem.BackColor = Color.White;
+			        pbImagem.ImageLocation = $@"..\..\..\Recursos\{prod.id_produto}.jpg";
+
+
+			        Label lblNome = new Label();
+			        lblNome.Text = prod.nome_produto.ToUpper();
+			        lblNome.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+			        lblNome.ForeColor = Color.White;
+			        lblNome.TextAlign = ContentAlignment.MiddleCenter;
+			        lblNome.Size = new Size(200, 40);
+			        lblNome.Location = new Point(10, 140);
+
+
+			        Label lblInfo = new Label();
+			        lblInfo.Text = $"Estoque: {prod.Qnt_Produto}\nVal: {prod.dt_validade:dd/MM/yyyy}";
+			        lblInfo.Font = new Font("Segoe UI", 10, FontStyle.Regular);
+			        lblInfo.ForeColor = Color.White;
+			        lblInfo.TextAlign = ContentAlignment.MiddleCenter;
+			        lblInfo.Size = new Size(200, 50);
+			        lblInfo.Location = new Point(10, 185);
+
+
+			        Button btnVer = new Button();
+			        btnVer.Text = "DETALHES";
+			        btnVer.Size = new Size(180, 30);
+			        btnVer.Location = new Point(20, 240);
+			        btnVer.FlatStyle = FlatStyle.Flat;
+			        btnVer.ForeColor = Color.White;
+			        btnVer.BackColor = Color.FromArgb(255, 189, 89);
+			        
+			        card.Controls.Add(pbImagem);
+			        card.Controls.Add(lblNome);
+			        card.Controls.Add(lblInfo);
+			        card.Controls.Add(btnVer);
+
+
+			        flowFinanca.Controls.Add(card);
+		        }
+		    }
+	    }
+	    catch (Exception ex) {
+	        // Exibe erro se o servidor estiver desligado ou a URL errada
+	        Label lblErro = new Label { 
+	            Text = "Erro ao carregar dados: " + ex.Message, 
+	            ForeColor = Color.Red, 
+	            AutoSize = true, 
+	            Location = new Point(20, 20) 
+	        };
+	        flowFinanca.Controls.Add(lblErro);
+	    }
+		
+		
+		
 		Button botaoVoltar = new Button();
 		botaoVoltar.Text = "Voltar";
 		botaoVoltar.Location = new Point(20, 20);

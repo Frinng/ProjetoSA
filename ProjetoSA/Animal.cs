@@ -28,4 +28,11 @@ public class Animal {
         public string na_maternidade { get; set; }
         public string em_quarentena { get; set; }
     }
+    public class Produto {
+        public int id_produto { get; set; }
+        public string nome_produto { get; set; }
+        public int Qnt_Produto { get; set; }
+        public DateTime dt_fabricacao { get; set; }
+        public DateTime dt_validade { get; set; }
+    }
 }
